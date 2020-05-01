@@ -16,6 +16,8 @@ public class VMGame extends ApplicationAdapter {
     Enemy man1;
     double lastHit;
     int health;
+    Texture gameOver;
+    boolean lost;
 
     @Override
     public void create() {
@@ -29,6 +31,8 @@ public class VMGame extends ApplicationAdapter {
 	man1 = new Enemy(400, 300);
 	lastHit = System.nanoTime();
 	health = 100;
+	gameOver = new Texture("game_over.png");
+	lost = false;
 
     }
 
@@ -37,44 +41,56 @@ public class VMGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-	man1.tick();
-        batch.draw(img, badlogic.x, badlogic.y);
-	batch.draw(man1.img, man1.x, man1.y);
-        batch.end();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            badlogic.x -= 200 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            badlogic.x += 200 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            badlogic.y += 200 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            badlogic.y -= 200 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
-
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {// DASH
-
-        }
-
-	if (badlogic.overlaps(man1.hitbox))
-	{
-		double now = System.nanoTime();
-		if (now - lastHit > 1000000000)
+		man1.tick();
+		if (!lost)
 		{
-			health--;
-			lastHit = now;
-			System.out.println(health);
+			batch.draw(img, badlogic.x, badlogic.y);
+			batch.draw(man1.img, man1.x, man1.y);
+		}
+		else
+		{
+			batch.draw(gameOver, 0, 0);
+		}
+		batch.end();
+
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+		    badlogic.x -= 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+		    badlogic.x += 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+		    badlogic.y += 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+		    badlogic.y -= 200 * Gdx.graphics.getDeltaTime();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
+
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
+
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {// DASH
+
+		}
+
+		if (badlogic.overlaps(man1.hitbox))
+		{
+			double now = System.nanoTime();
+			if (now - lastHit > 1000000000)
+			{
+				//health--;
+				health -= 25; // quick death for testing
+				lastHit = now;
+				System.out.println(health);
+				if (health <= 0)
+				{
+					lost = true;
+				}
+			}
 		}
 	}
-    }
 
     @Override
     public void dispose() {
