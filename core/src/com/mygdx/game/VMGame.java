@@ -14,6 +14,8 @@ public class VMGame extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img;
     Enemy man1;
+    double lastHit;
+    int health;
 
     @Override
     public void create() {
@@ -25,6 +27,8 @@ public class VMGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
 	man1 = new Enemy(400, 300);
+	lastHit = System.nanoTime();
+	health = 100;
 
     }
 
@@ -33,6 +37,7 @@ public class VMGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+	man1.tick();
         batch.draw(img, badlogic.x, badlogic.y);
 	batch.draw(man1.img, man1.x, man1.y);
         batch.end();
@@ -58,6 +63,17 @@ public class VMGame extends ApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {// DASH
 
         }
+
+	if (badlogic.overlaps(man1.hitbox))
+	{
+		double now = System.nanoTime();
+		if (now - lastHit > 1000000000)
+		{
+			health--;
+			lastHit = now;
+			System.out.println(health);
+		}
+	}
     }
 
     @Override
