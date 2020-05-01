@@ -13,6 +13,7 @@ public class VMGame extends ApplicationAdapter {
     private Rectangle badlogic;
     SpriteBatch batch;
     Texture img;
+    Enemy man1;
 
     @Override
     public void create() {
@@ -23,6 +24,7 @@ public class VMGame extends ApplicationAdapter {
         badlogic.height = 64;
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
+	man1 = new Enemy(400, 300);
 
     }
 
@@ -32,6 +34,7 @@ public class VMGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(img, badlogic.x, badlogic.y);
+	batch.draw(man1.img, man1.x, man1.y);
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
