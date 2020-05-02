@@ -16,6 +16,9 @@ public class VMGame extends ApplicationAdapter {
     Enemy man1;
     double lastHit;
     int health;
+    double acceleration;
+    boolean isDashing;
+    long dashTime;
 
     @Override
     public void create() {
@@ -26,33 +29,38 @@ public class VMGame extends ApplicationAdapter {
         badlogic.height = 64;
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
-	man1 = new Enemy(400, 300);
-	lastHit = System.nanoTime();
-	health = 100;
+        man1 = new Enemy(400, 300);
+        lastHit = System.nanoTime();
+        health = 100;
+        acceleration = 0;
 
     }
 
     @Override
     public void render() {
+        if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
+            isDashing = false;
+            acceleration = 0;
+        }
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-	man1.tick();
+        man1.tick();
         batch.draw(img, badlogic.x, badlogic.y);
-	batch.draw(man1.img, man1.x, man1.y);
+        batch.draw(man1.img, man1.x, man1.y);
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            badlogic.x -= 200 * Gdx.graphics.getDeltaTime();
+            badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            badlogic.x += 200 * Gdx.graphics.getDeltaTime();
+            badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            badlogic.y += 200 * Gdx.graphics.getDeltaTime();
+            badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            badlogic.y -= 200 * Gdx.graphics.getDeltaTime();
+            badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
 
@@ -60,20 +68,20 @@ public class VMGame extends ApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
 
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {// DASH
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
+            dashTime = System.nanoTime();
+            isDashing = true;
+            acceleration = 200;
         }
 
-	if (badlogic.overlaps(man1.hitbox))
-	{
-		double now = System.nanoTime();
-		if (now - lastHit > 1000000000)
-		{
-			health--;
-			lastHit = now;
-			System.out.println(health);
-		}
-	}
+        if (badlogic.overlaps(man1.hitbox)) {
+            double now = System.nanoTime();
+            if (now - lastHit > 1000000000) {
+                health--;
+                lastHit = now;
+                System.out.println(health);
+            }
+        }
     }
 
     @Override
