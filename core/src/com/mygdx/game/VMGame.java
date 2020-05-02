@@ -17,12 +17,17 @@ public class VMGame extends ApplicationAdapter {
     Item item1 = null;
     double lastHit;
     int health;
+
     double acceleration;
     boolean isDashing;
     long dashTime;
     
     HUD hud;
     
+
+    Texture gameOver;
+    boolean lost;
+
     @Override
     public void create() {
         badlogic = new Rectangle();
@@ -32,11 +37,16 @@ public class VMGame extends ApplicationAdapter {
         badlogic.height = 64;
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
+
         man1 = new Enemy(400, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
+      	gameOver = new Texture("game_over.png");
         health = 100;
         acceleration = 0;
+      
+	      lost = false;
+
 
         hud = new HUD();
         hud.setTime(123);
@@ -54,6 +64,7 @@ public class VMGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+
 	    man1.tick();
         batch.draw(img, badlogic.x, badlogic.y);
 	    batch.draw(man1.img, man1.x, man1.y);
@@ -109,6 +120,7 @@ public class VMGame extends ApplicationAdapter {
 
         hud.setHealth(health);
     }
+
 
     @Override
     public void dispose() {
