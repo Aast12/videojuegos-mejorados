@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class VMGame extends ApplicationAdapter {
@@ -23,6 +26,8 @@ public class VMGame extends ApplicationAdapter {
     long dashTime;
 
     OrthographicCamera camera;
+    OrthogonalTiledMapRenderer renderer;
+    TiledMap map;
     
     HUD hud;
     
@@ -47,9 +52,11 @@ public class VMGame extends ApplicationAdapter {
         hud.setDash(2);
         hud.setGel(0);
 
+        map = new TmxMapLoader().load("mapa.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1);
+
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        // camera.setToOrtho(false, 30, 20);
         camera.update();
     }
 
@@ -59,20 +66,8 @@ public class VMGame extends ApplicationAdapter {
             isDashing = false;
             acceleration = 0;
         }
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-	    man1.tick();
-        batch.draw(img, badlogic.x, badlogic.y);
-	    batch.draw(man1.img, man1.x, man1.y);
-	    if(item1 != null) {
-            batch.draw(item1.img, item1.x, item1.y);
-        }
-        batch.end();
-
-        hud.stage.act(Gdx.graphics.getDeltaTime());
-	    hud.stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
@@ -119,6 +114,27 @@ public class VMGame extends ApplicationAdapter {
         camera.position.x = badlogic.x + badlogic.width / 2f; 
         camera.position.y = badlogic.y + badlogic.height / 2f; 
         camera.update();
+        
+        // Map Render
+        renderer.render();
+        renderer.setView(camera);
+
+        batch.setProjectionMatrix(camera.combined);
+
+        // Sprites Render
+        batch.begin();
+	    man1.tick();
+        batch.draw(img, badlogic.x, badlogic.y);
+	    batch.draw(man1.img, man1.x, man1.y);
+	    if(item1 != null) {
+            batch.draw(item1.img, item1.x, item1.y);
+        }
+        batch.end();
+
+        // HUD Render
+        hud.stage.act(Gdx.graphics.getDeltaTime());
+	    hud.stage.draw();
+
         hud.setHealth(health);
     }
 
@@ -126,6 +142,8 @@ public class VMGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         img.dispose();
+        map.dispose();
+        renderer.dispose();
         hud.stage.dispose();
     }
 }
