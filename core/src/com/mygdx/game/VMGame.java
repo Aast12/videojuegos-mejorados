@@ -66,6 +66,8 @@ public class VMGame extends ApplicationAdapter {
         batch.begin();
 
 	    man1.tick();
+	    if (!lost)
+	    {
         batch.draw(img, badlogic.x, badlogic.y);
 	    batch.draw(man1.img, man1.x, man1.y);
 	    if(item1 != null) {
@@ -112,13 +114,24 @@ public class VMGame extends ApplicationAdapter {
         if (badlogic.overlaps(man1.hitbox)) {
             double now = System.nanoTime();
             if (now - lastHit > 1000000000) {
-                health--;
+                //health--;
+		health -= 25; //quick death for testing
                 lastHit = now;
-                System.out.println(health);
+
+		if (health <= 0)
+		{
+			lost = true;
+		}
             }
         }
 
         hud.setHealth(health);
+	    }
+	    else
+	    {
+		    batch.draw(gameOver, 0, 0);
+		    batch.end();
+	    }
     }
 
 
