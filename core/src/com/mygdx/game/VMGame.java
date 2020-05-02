@@ -14,6 +14,7 @@ public class VMGame extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img;
     Enemy man1;
+    Item item1 = null;
     double lastHit;
     int health;
     double acceleration;
@@ -30,10 +31,10 @@ public class VMGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
         man1 = new Enemy(400, 300);
+        item1 = new Item(200, 300);
         lastHit = System.nanoTime();
         health = 100;
         acceleration = 0;
-
     }
 
     @Override
@@ -45,9 +46,12 @@ public class VMGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        man1.tick();
+	    man1.tick();
         batch.draw(img, badlogic.x, badlogic.y);
-        batch.draw(man1.img, man1.x, man1.y);
+	    batch.draw(man1.img, man1.x, man1.y);
+	    if(item1 != null) {
+            batch.draw(item1.img, item1.x, item1.y);
+        }
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -66,14 +70,23 @@ public class VMGame extends ApplicationAdapter {
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-
+            if(item1 != null) {
+                if (badlogic.overlaps(item1.hitbox))
+                {
+                    double now = System.nanoTime();
+                    if (now - lastHit > 1000000000)
+                    {
+                        item1 = null;
+                        lastHit = now;
+                    }
+                }
+            }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
             dashTime = System.nanoTime();
             isDashing = true;
             acceleration = 200;
         }
-
         if (badlogic.overlaps(man1.hitbox)) {
             double now = System.nanoTime();
             if (now - lastHit > 1000000000) {
