@@ -23,4 +23,8 @@ public class Item {
         hitbox.x = x + 3;
         hitbox.y = y + 3;
     }
+
+    public void pick() {
+        // todo: make generic pick
+    }
 }
