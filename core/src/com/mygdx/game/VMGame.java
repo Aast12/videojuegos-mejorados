@@ -19,7 +19,9 @@ public class VMGame extends ApplicationAdapter {
     double acceleration;
     boolean isDashing;
     long dashTime;
-
+    
+    HUD hud;
+    
     @Override
     public void create() {
         badlogic = new Rectangle();
@@ -34,6 +36,11 @@ public class VMGame extends ApplicationAdapter {
         health = 100;
         acceleration = 0;
 
+        hud = new HUD();
+        hud.setTime(123);
+        hud.setHealth(98);
+        hud.setDash(2);
+        hud.setGel(0);
     }
 
     @Override
@@ -49,6 +56,9 @@ public class VMGame extends ApplicationAdapter {
         batch.draw(img, badlogic.x, badlogic.y);
         batch.draw(man1.img, man1.x, man1.y);
         batch.end();
+
+        hud.stage.act(Gdx.graphics.getDeltaTime());
+	    hud.stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
@@ -82,11 +92,14 @@ public class VMGame extends ApplicationAdapter {
                 System.out.println(health);
             }
         }
+
+        hud.setHealth(health);
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         img.dispose();
+        hud.stage.dispose();
     }
 }
