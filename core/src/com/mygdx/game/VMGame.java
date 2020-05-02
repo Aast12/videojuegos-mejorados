@@ -17,6 +17,9 @@ public class VMGame extends ApplicationAdapter {
     Item item1 = null;
     double lastHit;
     int health;
+    double acceleration;
+    boolean isDashing;
+    long dashTime;
 
     @Override
     public void create() {
@@ -31,10 +34,15 @@ public class VMGame extends ApplicationAdapter {
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
         health = 100;
+        acceleration = 0;
     }
 
     @Override
     public void render() {
+        if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
+            isDashing = false;
+            acceleration = 0;
+        }
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -47,16 +55,16 @@ public class VMGame extends ApplicationAdapter {
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            badlogic.x -= 200 * Gdx.graphics.getDeltaTime();
+            badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            badlogic.x += 200 * Gdx.graphics.getDeltaTime();
+            badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            badlogic.y += 200 * Gdx.graphics.getDeltaTime();
+            badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            badlogic.y -= 200 * Gdx.graphics.getDeltaTime();
+            badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
 
@@ -74,20 +82,17 @@ public class VMGame extends ApplicationAdapter {
                 }
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {// DASH
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
+            dashTime = System.nanoTime();
+            isDashing = true;
+            acceleration = 200;
         }
-
-        if (badlogic.overlaps(man1.hitbox))
-        {
+        if (badlogic.overlaps(man1.hitbox)) {
             double now = System.nanoTime();
-            if (now - lastHit > 1000000000)
-            {
+            if (now - lastHit > 1000000000) {
                 health--;
                 lastHit = now;
                 System.out.println(health);
-                System.out.println(badlogic.x);
-                System.out.println(badlogic.y);
             }
         }
     }
