@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,6 +21,8 @@ public class VMGame extends ApplicationAdapter {
     double acceleration;
     boolean isDashing;
     long dashTime;
+
+    OrthographicCamera camera;
     
     HUD hud;
     
@@ -43,6 +46,11 @@ public class VMGame extends ApplicationAdapter {
         hud.setHealth(98);
         hud.setDash(2);
         hud.setGel(0);
+
+        camera = new OrthographicCamera(800, 600);
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        // camera.setToOrtho(false, 30, 20);
+        camera.update();
     }
 
     @Override
@@ -53,6 +61,7 @@ public class VMGame extends ApplicationAdapter {
         }
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
 	    man1.tick();
         batch.draw(img, badlogic.x, badlogic.y);
@@ -107,6 +116,9 @@ public class VMGame extends ApplicationAdapter {
             }
         }
 
+        camera.position.x = badlogic.x + badlogic.width / 2f; 
+        camera.position.y = badlogic.y + badlogic.height / 2f; 
+        camera.update();
         hud.setHealth(health);
     }
 
