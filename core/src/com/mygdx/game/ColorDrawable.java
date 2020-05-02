@@ -15,7 +15,7 @@ public class ColorDrawable extends TextureRegionDrawable {
         this.g = g;
         this.b = b;
         this.a = a;
-        Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGB565);
+        Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA4444);
         bgPixmap.setColor(new Color(r, g, b, a));
         bgPixmap.fill();
 
