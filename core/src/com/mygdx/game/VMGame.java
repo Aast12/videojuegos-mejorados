@@ -114,19 +114,17 @@ public class VMGame extends Game {
         Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
       
         super.render();
 
-	    man1.tick();
-	    if (!lost)
-	    {
-        //for (Button button : mainMenu.getOptions()) {
+        man1.tick();
         if (mainMenu.isVisible()) {
+            batch.begin();
             mainMenu.render(Gdx.graphics.getDeltaTime());
+            batch.end();
         }
-        //}
-
+	    else if (!lost)
+	    {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
@@ -163,13 +161,13 @@ public class VMGame extends Game {
             double now = System.nanoTime();
             if (now - lastHit > 1000000000) {
                 //health--;
-		health -= 25; //quick death for testing
-                lastHit = now;
+                health -= 25; //quick death for testing
+                        lastHit = now;
 
-		if (health <= 0)
-		{
-			lost = true;
-		}
+                if (health <= 0)
+                {
+                    lost = true;
+                }
             }
         }
 
@@ -180,7 +178,7 @@ public class VMGame extends Game {
         // Map Render
         renderer.render();
         renderer.setView(camera);
-
+        batch.begin();
         batch.setProjectionMatrix(camera.combined);
 
         // Sprites Render
@@ -201,6 +199,7 @@ public class VMGame extends Game {
 	    }
 	    else
 	    {
+            batch.begin();
 		    batch.draw(gameOver, 0, 0);
 		    batch.end();
 	    }
