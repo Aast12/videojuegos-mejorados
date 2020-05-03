@@ -5,10 +5,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-//import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.LinkedList;
 
@@ -27,6 +30,10 @@ public class VMGame extends Game {
     double acceleration;
     boolean isDashing;
     long dashTime;
+
+    OrthographicCamera camera;
+    OrthogonalTiledMapRenderer renderer;
+    TiledMap map;
     
     HUD hud;
     
@@ -85,6 +92,13 @@ public class VMGame extends Game {
         hud.setHealth(98);
         hud.setDash(2);
         hud.setGel(0);
+
+        map = new TmxMapLoader().load("mapa.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1);
+
+        camera = new OrthographicCamera(800, 600);
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
     }
 
     @Override
@@ -96,29 +110,21 @@ public class VMGame extends Game {
             isDashing = false;
             acceleration = 0;
         }
-        Gdx.gl.glClearColor(0, 1, 0, 1);
+
+        Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
+
       
         super.render();
 
-	    man1.tick();
-	    if (!lost)
-	    {
-        batch.draw(img, badlogic.x, badlogic.y);
-        batch.draw(man1.img, man1.x, man1.y);
-        if (item1 != null) {
-            batch.draw(item1.img, item1.x, item1.y);
-        }
-        //for (Button button : mainMenu.getOptions()) {
+        man1.tick();
         if (mainMenu.isVisible()) {
+            batch.begin();
             mainMenu.render(Gdx.graphics.getDeltaTime());
+            batch.end();
         }
-        //}
-        batch.end();
-
-        hud.stage.act(Gdx.graphics.getDeltaTime());
-	    hud.stage.draw();
+	    else if (!lost)
+	    {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
@@ -155,20 +161,45 @@ public class VMGame extends Game {
             double now = System.nanoTime();
             if (now - lastHit > 1000000000) {
                 //health--;
-		health -= 25; //quick death for testing
-                lastHit = now;
+                health -= 25; //quick death for testing
+                        lastHit = now;
 
-		if (health <= 0)
-		{
-			lost = true;
-		}
+                if (health <= 0)
+                {
+                    lost = true;
+                }
             }
         }
+
+        camera.position.x = badlogic.x + badlogic.width / 2f; 
+        camera.position.y = badlogic.y + badlogic.height / 2f; 
+        camera.update();
+        
+        // Map Render
+        renderer.render();
+        renderer.setView(camera);
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+
+        // Sprites Render
+        
+	    man1.tick();
+        batch.draw(img, badlogic.x, badlogic.y);
+	    batch.draw(man1.img, man1.x, man1.y);
+	    if(item1 != null) {
+            batch.draw(item1.img, item1.x, item1.y);
+        }
+        batch.end();
+
+        // HUD Render
+        hud.stage.act(Gdx.graphics.getDeltaTime());
+	    hud.stage.draw();
 
         hud.setHealth(health);
 	    }
 	    else
 	    {
+            batch.begin();
 		    batch.draw(gameOver, 0, 0);
 		    batch.end();
 	    }
@@ -179,6 +210,8 @@ public class VMGame extends Game {
     public void dispose() {
         batch.dispose();
         img.dispose();
+        map.dispose();
+        renderer.dispose();
         font.dispose();
         hud.stage.dispose();
     }
