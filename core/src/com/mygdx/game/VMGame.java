@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,6 +46,8 @@ public class VMGame extends Game {
     boolean lost;
     boolean win;
 
+    Music music;
+
     // for main menu
     private Menu mainMenu;
     private LinkedList<Button> mainMenuOptions;
@@ -57,13 +60,13 @@ public class VMGame extends Game {
 
         badlogic = new Rectangle();
         badlogic.x = 800 / 2 - 64 / 2;
-        badlogic.y = 20;
+        badlogic.y = 136;
         badlogic.width = 64;
         badlogic.height = 64;
         batch = new SpriteBatch();
-        img = new Texture("badlogic.png");
+        img = new Texture("player.png");
         end = new Texture("end.png");
-        man1 = new Enemy(400, 300);
+        man1 = new Enemy(656, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
       	gameOver = new Texture("game_over.png");
@@ -92,7 +95,9 @@ public class VMGame extends Game {
       
         lost = false;
         win = false;
-
+        
+        music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
+        
         hud = new HUD();
         hud.setTime(123);
         hud.setHealth(98);
@@ -105,10 +110,22 @@ public class VMGame extends Game {
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
+
+        music.setVolume(1f);   
+        music.setLooping(true); 
+        music.play();
+        
     }
 
     @Override
     public void render() {
+        // System.out.println(music.getPosition());
+        
+        
+        // if (music.isPlaying() == false) {
+        //     System.out.println("PLAY");
+            
+        // }
         if (Gdx.input.isTouched() && mainMenu.getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
             mainMenu.setVisible(false);
         }

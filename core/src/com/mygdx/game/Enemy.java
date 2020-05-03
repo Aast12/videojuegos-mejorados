@@ -21,8 +21,8 @@ public class Enemy {
 
 	Enemy(int x, int y)
 	{
-		this.x = 400;
-		this.y = 300;
+		this.x = x;
+		this.y = y;
 		this.img = new Texture("man.png");
 		this.hitbox = new Rectangle();
 		hitbox.width = 115;
