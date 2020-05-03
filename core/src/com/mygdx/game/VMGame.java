@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+//import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class VMGame extends Game {
 
     private Rectangle badlogic;
-    OrthographicCamera camera;
+    //OrthographicCamera camera;
     SpriteBatch batch;
     BitmapFont font;
     Texture img;
@@ -34,8 +34,8 @@ public class VMGame extends Game {
     @Override
 
     public void create() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600);
+        //camera = new OrthographicCamera();
+        //camera.setToOrtho(false, 800, 600);
 
         badlogic = new Rectangle();
         badlogic.x = 800 / 2 - 64 / 2;
@@ -71,6 +71,9 @@ public class VMGame extends Game {
 
     @Override
     public void render() {
+        if (Gdx.input.isTouched() && mainMenu.getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            mainMenu.setVisible(false);
+        }
         if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
             isDashing = false;
             acceleration = 0;
@@ -85,12 +88,11 @@ public class VMGame extends Game {
         if (item1 != null) {
             batch.draw(item1.img, item1.x, item1.y);
         }
-        for (Button button : mainMenu.getOptions()) {
-            if (!button.getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-                System.out.println(button.getMessage());
-                mainMenu.render(Gdx.graphics.getDeltaTime());
-            }
+        //for (Button button : mainMenu.getOptions()) {
+        if (mainMenu.isVisible()) {
+            mainMenu.render(Gdx.graphics.getDeltaTime());
         }
+        //}
         batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {

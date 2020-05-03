@@ -8,9 +8,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+//import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.LinkedList;
 
 /**
@@ -24,7 +23,7 @@ public class Menu implements Screen {
     private LinkedList<Button> options;
     private boolean visible;
     private Texture background;
-    OrthographicCamera camera;
+    //OrthographicCamera camera;
 
     public Menu(VMGame game, String title, LinkedList<Button> options, Texture background) {
         this.title = title;
@@ -32,8 +31,8 @@ public class Menu implements Screen {
         this.options = options;
         this.background = background;
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600);
+        //camera = new OrthographicCamera();
+        //camera.setToOrtho(false, 800, 600);
     }
 
     public LinkedList<Button> getOptions() {
@@ -57,15 +56,15 @@ public class Menu implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
+        //camera.update();
+        //game.batch.setProjectionMatrix(camera.combined);
         //game.batch.begin();
         game.batch.draw(background, 0, 0);
         for (Button button : options) {
             button.render(game.batch);
+            game.font.draw(game.batch, button.getMessage(), button.getBox().getX() + 20, 600 - button.getBox().getY() - 5);
         }
-        game.font.draw(game.batch, title, 400, 520);
+        game.font.draw(game.batch, title, 350, 520);
         //game.batch.end();
     }
 

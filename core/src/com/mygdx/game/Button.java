@@ -5,11 +5,10 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
+//import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import static com.brashmonkey.spriter.Spriter.dispose;
 
 /**
  *
@@ -53,8 +52,9 @@ public class Button {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(material, x, y);
+        batch.draw(material, box.getX(), 600 - (box.getY()) - 25);
 
+        /*
         if (Gdx.input.isTouched()) {
             if (box.contains(Gdx.input.getX(), Gdx.input.getY())) {
                 pressed = true;
@@ -63,7 +63,7 @@ public class Button {
                 //dispose();
             }
         }
-
+         */
     }
 
 }
