@@ -23,9 +23,16 @@ public class VMGame extends Game {
     Item item1 = null;
     double lastHit;
     int health;
+
     double acceleration;
     boolean isDashing;
     long dashTime;
+    
+    HUD hud;
+    
+
+    Texture gameOver;
+    boolean lost;
 
     // for main menu
     private Menu mainMenu;
@@ -44,9 +51,11 @@ public class VMGame extends Game {
         badlogic.height = 64;
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
+
         man1 = new Enemy(400, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
+      	gameOver = new Texture("game_over.png");
         health = 100;
         acceleration = 0;
 
@@ -67,6 +76,15 @@ public class VMGame extends Game {
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
+      
+	      lost = false;
+
+
+        hud = new HUD();
+        hud.setTime(123);
+        hud.setHealth(98);
+        hud.setDash(2);
+        hud.setGel(0);
     }
 
     @Override
@@ -81,8 +99,12 @@ public class VMGame extends Game {
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+      
         super.render();
-        man1.tick();
+
+	    man1.tick();
+	    if (!lost)
+	    {
         batch.draw(img, badlogic.x, badlogic.y);
         batch.draw(man1.img, man1.x, man1.y);
         if (item1 != null) {
@@ -94,6 +116,9 @@ public class VMGame extends Game {
         }
         //}
         batch.end();
+
+        hud.stage.act(Gdx.graphics.getDeltaTime());
+	    hud.stage.draw();
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
@@ -129,17 +154,32 @@ public class VMGame extends Game {
         if (badlogic.overlaps(man1.hitbox)) {
             double now = System.nanoTime();
             if (now - lastHit > 1000000000) {
-                health--;
+                //health--;
+		health -= 25; //quick death for testing
                 lastHit = now;
-                System.out.println(health);
+
+		if (health <= 0)
+		{
+			lost = true;
+		}
             }
         }
+
+        hud.setHealth(health);
+	    }
+	    else
+	    {
+		    batch.draw(gameOver, 0, 0);
+		    batch.end();
+	    }
     }
+
 
     @Override
     public void dispose() {
         batch.dispose();
         img.dispose();
         font.dispose();
+        hud.stage.dispose();
     }
 }
