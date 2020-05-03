@@ -13,10 +13,12 @@ public class VMGame extends ApplicationAdapter {
     private Rectangle badlogic;
     SpriteBatch batch;
     Texture img;
+    Texture end; // THIS WILL LATER BE AN ATTRIBUTE OF LEVEL CLASS
     Enemy man1;
     Item item1 = null;
     double lastHit;
     int health;
+    int pointsInLevel; //This will be used for checking win condition
 
     double acceleration;
     boolean isDashing;
@@ -26,7 +28,9 @@ public class VMGame extends ApplicationAdapter {
     
 
     Texture gameOver;
+    Texture winScreen;
     boolean lost;
+    boolean win;
 
     @Override
     public void create() {
@@ -37,16 +41,18 @@ public class VMGame extends ApplicationAdapter {
         badlogic.height = 64;
         batch = new SpriteBatch();
         img = new Texture("badlogic.png");
-
+        end = new Texture("end.png");
         man1 = new Enemy(400, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
       	gameOver = new Texture("game_over.png");
+      	winScreen = new Texture("win_screen.png");
         health = 100;
         acceleration = 0;
+        pointsInLevel = 0;
       
-	      lost = false;
-
+        lost = false;
+        win = false;
 
         hud = new HUD();
         hud.setTime(123);
@@ -66,13 +72,15 @@ public class VMGame extends ApplicationAdapter {
         batch.begin();
 
 	    man1.tick();
-	    if (!lost)
+	    if (!lost && !win)
 	    {
-        batch.draw(img, badlogic.x, badlogic.y);
-	    batch.draw(man1.img, man1.x, man1.y);
-	    if(item1 != null) {
+        batch.draw(end, 100, 200 );
+        if(item1 != null) {
             batch.draw(item1.img, item1.x, item1.y);
         }
+        batch.draw(img, badlogic.x, badlogic.y);
+	    batch.draw(man1.img, man1.x, man1.y);
+
         batch.end();
 
         hud.stage.act(Gdx.graphics.getDeltaTime());
@@ -94,7 +102,7 @@ public class VMGame extends ApplicationAdapter {
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-            if(item1 != null) {
+            if(item1 != null) { //Later implementation will be with each of the elements of the array of items
                 if (badlogic.overlaps(item1.hitbox))
                 {
                     double now = System.nanoTime();
@@ -102,6 +110,7 @@ public class VMGame extends ApplicationAdapter {
                     {
                         item1 = null;
                         lastHit = now;
+                        pointsInLevel = pointsInLevel + 1;
                     }
                 }
             }
@@ -115,18 +124,26 @@ public class VMGame extends ApplicationAdapter {
             double now = System.nanoTime();
             if (now - lastHit > 1000000000) {
                 //health--;
-		health -= 25; //quick death for testing
+		        health -= 25; //quick death for testing
                 lastHit = now;
-
-		if (health <= 0)
-		{
-			lost = true;
-		}
+		        if (health <= 0){
+			        lost = true;
+		        }
+            }
+        }
+        if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
+            if ((badlogic.x + badlogic.width) > 132 && badlogic.x < 132 &&
+                        (badlogic.y + badlogic.height) > 232 && badlogic.y < 232 ) {
+                win = true;
             }
         }
 
         hud.setHealth(health);
 	    }
+	    else if (win) {
+            batch.draw(winScreen, 0, 0);
+            batch.end();
+        }
 	    else
 	    {
 		    batch.draw(gameOver, 0, 0);
