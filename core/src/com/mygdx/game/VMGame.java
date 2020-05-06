@@ -97,7 +97,8 @@ public class VMGame extends Game {
         win = false;
         
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-        
+	music.setVolume((float) 0.05);    	
+
         hud = new HUD();
         hud.setTime(123);
         hud.setHealth(98);
@@ -111,7 +112,6 @@ public class VMGame extends Game {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        music.setVolume(1f);   
         music.setLooping(true); 
         music.play();
         
