@@ -3,6 +3,11 @@ package com.mygdx.game;
 import com.badlogic.gdx.Screen;
 
 public class GameOver implements Screen {
+
+    private VMGame game;
+    private Menu gameOver;
+
+
     @Override
     public void show() {
 

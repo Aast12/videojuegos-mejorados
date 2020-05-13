@@ -48,9 +48,7 @@ public class VMGame extends Game {
 
     Music music;
 
-    // for main menu
-    private Menu mainMenu;
-    private LinkedList<Button> mainMenuOptions;
+    MainMenu mainMenu;
 
     @Override
 
@@ -75,20 +73,8 @@ public class VMGame extends Game {
         acceleration = 0;
         pointsInLevel = 0;
 
-        // for main menu
-        mainMenuOptions = new LinkedList<Button>();
-        Texture mainMenuMaterial = new Texture("material1.png");
-        Button start = new Button(60, 450, 128, 32, "START", mainMenuMaterial);
-        Button load = new Button(60, 485, 128, 32, "LOAD", mainMenuMaterial);
-        Button options = new Button(60, 520, 128, 32, "OPTIONS", mainMenuMaterial);
-        Button exit = new Button(60, 555, 128, 32, "EXIT", mainMenuMaterial);
-        mainMenuOptions.add(start);
-        mainMenuOptions.add(load);
-        mainMenuOptions.add(options);
-        mainMenuOptions.add(exit);
-        Texture background = new Texture("main_menu_background.png");
-        mainMenu = new Menu(this, "THE GAME", mainMenuOptions, background);
-        mainMenu.setVisible(true);
+        mainMenu = new MainMenu(this);
+        mainMenu.getMenu().setVisible(true);
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
@@ -97,7 +83,7 @@ public class VMGame extends Game {
         win = false;
         
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-	music.setVolume((float) 0.05);    	
+	    music.setVolume((float) 0.05);
 
         hud = new HUD();
         hud.setTime(123);
@@ -126,9 +112,6 @@ public class VMGame extends Game {
         //     System.out.println("PLAY");
             
         // }
-        if (Gdx.input.isTouched() && mainMenu.getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            mainMenu.setVisible(false);
-        }
         if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
             isDashing = false;
             acceleration = 0;
@@ -139,12 +122,12 @@ public class VMGame extends Game {
       
         super.render();
 
-        if (mainMenu.isVisible()) {
+        if (mainMenu.getMenu().isVisible()) {
             batch.begin();
             mainMenu.render(Gdx.graphics.getDeltaTime());
             batch.end();
         }
-	    else if (!lost && !win)
+	    else if (!mainMenu.getMenu().isVisible() && !lost && !win)
 	    {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {

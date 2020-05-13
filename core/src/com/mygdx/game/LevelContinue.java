@@ -2,7 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Screen;
 
+import java.util.LinkedList;
+
 public class LevelContinue implements Screen {
+
+    private VMGame game;
+    private Menu levelContinue;
+    private LinkedList<Button> options;
+
     @Override
     public void show() {
 
