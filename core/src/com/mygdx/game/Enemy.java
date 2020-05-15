@@ -6,23 +6,22 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
  *
  * @author kaetahr
  */
-public class Enemy {
-	public int x;
-	public int y;
-	Rectangle hitbox;
-	Texture img;
-	
+public class Enemy extends Entity {
+	//Disease is the damage dealing circlu
+	//hitbox is just used for collision detection
+	Rectangle disease; //TODO: implement disease into main logic
 
-	Enemy(int x, int y)
+
+	public Enemy(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		this.img = new Texture("man.png");
 		this.hitbox = new Rectangle();
 		hitbox.width = 115;
@@ -36,6 +35,11 @@ public class Enemy {
 		hitbox.x = x + 40;
 		hitbox.y = y + 33;
 	}
+
+	@Override
+	public void render(SpriteBatch batch) {
+		batch.draw(img, x, y);
+}
 
 
 }

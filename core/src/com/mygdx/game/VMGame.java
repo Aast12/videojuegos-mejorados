@@ -194,7 +194,7 @@ public class VMGame extends Game {
         // Sprites Render
         
 	    man1.tick();
-        batch.draw(img, badlogic.x, badlogic.y);
+        batch.draw(img, badlogic.x, badlogic.y); //TODO:replace with render()
 	    batch.draw(man1.img, man1.x, man1.y);
 	    if(item1 != null) {
             batch.draw(item1.img, item1.x, item1.y);

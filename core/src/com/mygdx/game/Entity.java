@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Entity {
@@ -9,12 +10,10 @@ public abstract class Entity {
     Rectangle hitbox;
     Texture img;
 
-    Entity(int x, int y, Rectangle r, Texture i)
+    Entity(int x, int y)
     {
         this.x = x;
         this.y = y;
-        this.img = i;
-        this.hitbox = r;
     }
 
     public int getX() {
@@ -49,6 +48,6 @@ public abstract class Entity {
         this.img = img;
     }
 
-    public abstract void render();
+    public abstract void render(SpriteBatch batch);
 
 }
