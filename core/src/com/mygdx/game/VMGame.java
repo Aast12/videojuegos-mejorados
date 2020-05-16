@@ -52,9 +52,8 @@ public class VMGame extends Game {
     MapHandler mymap;
 
     Vector<RectangleMapObject> walls;
-    
+
     HUD hud;
-    
 
     Texture gameOver;
     Texture winScreen;
@@ -76,6 +75,7 @@ public class VMGame extends Game {
         player = new Player(800 / 2 - 64 / 2, 136, this);
         man1 = new Enemy(656, 300);
         item1 = new Item(200, 300);
+      
       	gameOver = new Texture("game_over.png");
       	winScreen = new Texture("win_screen.png");
 
@@ -87,12 +87,12 @@ public class VMGame extends Game {
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
-      
+
         lost = false;
         win = false;
-        
+
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-	    music.setVolume((float) 0.05);
+        music.setVolume((float) 0.05);
 
         hud = new HUD();
         hud.setTime(levelSeconds);
@@ -100,12 +100,11 @@ public class VMGame extends Game {
         hud.setDash(2);
         hud.setGel(0);
 
-
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        music.setLooping(true); 
+        music.setLooping(true);
         music.play();
 
         mymap = new MapHandler("mapa.tmx", camera);
@@ -113,20 +112,18 @@ public class VMGame extends Game {
 
     }
 
-
     @Override
     public void render() {
         // System.out.println(music.getPosition());
-        
-        
+
         // if (music.isPlaying() == false) {
         //     System.out.println("PLAY");
-            
         // }
+
 
         Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-      
+
         super.render();
 
         if (mainMenu.getMenu().isVisible()) {
@@ -164,7 +161,7 @@ public class VMGame extends Game {
             camera.position.x = player.x + player.getHitbox().width / 2f;
             camera.position.y = player.y + player.getHitbox().height / 2f;
             camera.update();
-            
+
             // Map Render
             // renderer.render();
             // renderer.setView(camera);
@@ -179,13 +176,12 @@ public class VMGame extends Game {
             player.render(batch);
 	        batch.draw(man1.img, man1.x, man1.y);
 	        if(item1 != null) {
+
                 batch.draw(item1.img, item1.x, item1.y);
             }
-	        batch.draw(end, 128, 596);
-
+            batch.draw(end, 128, 596);
 
             //batch.draw;
-
             batch.end();
 
             // HUD Render
@@ -194,20 +190,16 @@ public class VMGame extends Game {
 
             hud.setHealth(player.getHealth());
             hud.setTime(levelSeconds);
-	    }
-	    else if (win) {
-	        batch.begin();
+        } else if (win) {
+            batch.begin();
             batch.draw(winScreen, camera.position.x - 400, camera.position.y - 300);
             batch.end();
-        }
-	    else
-	    {
+        } else {
             batch.begin();
-		    batch.draw(gameOver, camera.position.x - 400, camera.position.y - 300);
-		    batch.end();
-	    }
+            batch.draw(gameOver, camera.position.x - 400, camera.position.y - 300);
+            batch.end();
+        }
     }
-
 
     @Override
     public void dispose() {
