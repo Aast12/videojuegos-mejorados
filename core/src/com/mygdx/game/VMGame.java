@@ -36,22 +36,15 @@ public class VMGame extends Game {
     //OrthographicCamera camera;
     SpriteBatch batch;
     BitmapFont font;
-    Texture img;
     Texture end; // THIS WILL LATER BE AN ATTRIBUTE OF LEVEL CLASS
     Enemy man1;
     Player player;
     Item item1 = null;
-    double lastHit;
-    int health;
     int pointsInLevel; //This will be used for checking win condition
 
     int levelSeconds;
     float timeSeconds = 0f;
     private float period = 1f;
-
-    double acceleration;
-    boolean isDashing;
-    long dashTime;
 
     OrthographicCamera camera;
     // OrthogonalTiledMapRenderer renderer;
@@ -78,22 +71,13 @@ public class VMGame extends Game {
         //camera = new OrthographicCamera();
         //camera.setToOrtho(false, 800, 600);
 
-        badlogic = new Rectangle();
-        badlogic.x = 800 / 2 - 64 / 2;
-        badlogic.y = 136;
-        badlogic.width = 64;
-        badlogic.height = 64;
         batch = new SpriteBatch();
-        img = new Texture("player.png");
         end = new Texture("end.png");
         player = new Player(800 / 2 - 64 / 2, 136, this);
         man1 = new Enemy(656, 300);
         item1 = new Item(200, 300);
-        lastHit = System.nanoTime();
       	gameOver = new Texture("game_over.png");
       	winScreen = new Texture("win_screen.png");
-        health = 100;
-        acceleration = 0;
 
         pointsInLevel = 0;
         levelSeconds = 10;
@@ -228,7 +212,6 @@ public class VMGame extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        img.dispose();
         // map.dispose();
         mymap.dispose();
         font.dispose();
