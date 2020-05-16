@@ -30,6 +30,7 @@ public class VMGame extends Game {
     int health;
     int pointsInLevel; //This will be used for checking win condition
 
+    long timeUnit = 1000000000;
     double acceleration;
     boolean isDashing;
     long dashTime;
@@ -37,9 +38,8 @@ public class VMGame extends Game {
     OrthographicCamera camera;
     OrthogonalTiledMapRenderer renderer;
     TiledMap map;
-    
+
     HUD hud;
-    
 
     Texture gameOver;
     Texture winScreen;
@@ -67,8 +67,8 @@ public class VMGame extends Game {
         man1 = new Enemy(656, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
-      	gameOver = new Texture("game_over.png");
-      	winScreen = new Texture("win_screen.png");
+        gameOver = new Texture("game_over.png");
+        winScreen = new Texture("win_screen.png");
         health = 100;
         acceleration = 0;
         pointsInLevel = 0;
@@ -78,12 +78,12 @@ public class VMGame extends Game {
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
-      
+
         lost = false;
         win = false;
-        
+
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-	    music.setVolume((float) 0.05);
+        music.setVolume((float) 0.05);
 
         hud = new HUD();
         hud.setTime(123);
@@ -98,132 +98,121 @@ public class VMGame extends Game {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        music.setLooping(true); 
+        music.setLooping(true);
         music.play();
-        
+
     }
 
     @Override
     public void render() {
         // System.out.println(music.getPosition());
-        
-        
+
         // if (music.isPlaying() == false) {
         //     System.out.println("PLAY");
-            
         // }
-        if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
+        if (isDashing && System.nanoTime() - dashTime > 0.2 * timeUnit) {
             isDashing = false;
             acceleration = 0;
         }
 
         Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-      
+
         super.render();
 
         if (mainMenu.getMenu().isVisible()) {
             batch.begin();
             mainMenu.render(Gdx.graphics.getDeltaTime());
             batch.end();
-        }
-	    else if (!mainMenu.getMenu().isVisible() && !lost && !win)
-	    {
+        } else if (!mainMenu.getMenu().isVisible() && !lost && !win) {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
 
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-            if(item1 != null) { //Later implementation will be with each of the elements of the array of items
-                if (badlogic.overlaps(item1.hitbox))
-                {
-                    double now = System.nanoTime();
-                    if (now - lastHit > 1000000000) {
-                        item1 = null;
-                        lastHit = now;
-                        pointsInLevel = pointsInLevel + 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
+                if (item1 != null) { //Later implementation will be with each of the elements of the array of items
+                    if (badlogic.overlaps(item1.hitbox)) {
+                        double now = System.nanoTime();
+                        if (now - lastHit > timeUnit) {
+                            item1 = null;
+                            lastHit = now;
+                            pointsInLevel = pointsInLevel + 1;
+                        }
                     }
                 }
             }
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
-            dashTime = System.nanoTime();
-            isDashing = true;
-            acceleration = 200;
-        }
-        if (badlogic.overlaps(man1.hitbox)) {
-            double now = System.nanoTime();
-            if (now - lastHit > 1000000000) {
-                //health--;
-		        health -= 25; //quick death for testing
-                lastHit = now;
-		        if (health <= 0){
-			        lost = true;
-		        }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
+                dashTime = System.nanoTime();
+                isDashing = true;
+                acceleration = 200;
             }
-        }
-        if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
-            if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160 &&
-                        (badlogic.y + badlogic.height) > 628 && badlogic.y < 628 ) {
-                win = true;
+            if (badlogic.overlaps(man1.hitbox)) {
+                double now = System.nanoTime();
+                if (now - lastHit > timeUnit) {
+                    //health--;
+                    health -= 25; //quick death for testing
+                    lastHit = now;
+                    if (health <= 0) {
+                        lost = true;
+                    }
+                }
             }
-        }
+            if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
+                if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160
+                        && (badlogic.y + badlogic.height) > 628 && badlogic.y < 628) {
+                    win = true;
+                }
+            }
 
-        camera.position.x = badlogic.x + badlogic.width / 2f;
-        camera.position.y = badlogic.y + badlogic.height / 2f; 
-        camera.update();
-        
-        // Map Render
-        renderer.render();
-        renderer.setView(camera);
-        batch.begin();
-        batch.setProjectionMatrix(camera.combined);
+            camera.position.x = badlogic.x + badlogic.width / 2f;
+            camera.position.y = badlogic.y + badlogic.height / 2f;
+            camera.update();
 
-        // Sprites Render
-        
-	    man1.tick();
-        batch.draw(img, badlogic.x, badlogic.y);
-	    batch.draw(man1.img, man1.x, man1.y);
-	    if(item1 != null) {
-            batch.draw(item1.img, item1.x, item1.y);
-        }
-	    batch.draw(end, 128, 596);
+            // Map Render
+            renderer.render();
+            renderer.setView(camera);
+            batch.begin();
+            batch.setProjectionMatrix(camera.combined);
 
-	    //batch.draw;
+            // Sprites Render
+            man1.tick();
+            batch.draw(img, badlogic.x, badlogic.y);
+            batch.draw(man1.img, man1.x, man1.y);
+            if (item1 != null) {
+                batch.draw(item1.img, item1.x, item1.y);
+            }
+            batch.draw(end, 128, 596);
 
-        batch.end();
+            //batch.draw;
+            batch.end();
 
-        // HUD Render
-        hud.stage.act(Gdx.graphics.getDeltaTime());
-	    hud.stage.draw();
+            // HUD Render
+            hud.stage.act(Gdx.graphics.getDeltaTime());
+            hud.stage.draw();
 
-        hud.setHealth(health);
-	    }
-	    else if (win) {
-	        batch.begin();
+            hud.setHealth(health);
+        } else if (win) {
+            batch.begin();
             batch.draw(winScreen, camera.position.x - 400, camera.position.y - 300);
             batch.end();
-        }
-	    else
-	    {
+        } else {
             batch.begin();
-		    batch.draw(gameOver, camera.position.x - 400, camera.position.y - 300);
-		    batch.end();
-	    }
+            batch.draw(gameOver, camera.position.x - 400, camera.position.y - 300);
+            batch.end();
+        }
     }
-
 
     @Override
     public void dispose() {
