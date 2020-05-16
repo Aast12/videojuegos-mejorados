@@ -5,16 +5,30 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Box2D;
+
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Vector;
 
 public class VMGame extends Game {
 
@@ -37,6 +51,8 @@ public class VMGame extends Game {
     OrthographicCamera camera;
     OrthogonalTiledMapRenderer renderer;
     TiledMap map;
+
+    Vector<RectangleMapObject> walls;
     
     HUD hud;
     
@@ -100,8 +116,46 @@ public class VMGame extends Game {
 
         music.setLooping(true); 
         music.play();
+
+        System.out.println(map.toString());
+        MapLayers ml = map.getLayers();
+        MapLayer walls = ml.get("Walls");
+        this.walls = new Vector<RectangleMapObject>();
+        // Iterator<MapObject> it = walls.getObjects().iterator();
+        for (RectangleMapObject mobj : walls.getObjects().getByType(RectangleMapObject.class)) {
+            this.walls.add(mobj);
+        }
         
+        // while (it.hasNext()) {
+        //     MapObject curr = it.next();
+        //     MapProperties cp = curr.getProperties();
+        //     Iterator<String> kys = cp.getKeys();
+        //     while (kys.hasNext()) {
+        //         System.out.println(kys.next());
+        //     }
+        //     // System.out.println();
+        //     curr.setVisible(true);
+        //     curr.setColor(new Color(1, 0, 0, 1));
+
+        //     System.out.println(curr.getName());
+        // }
+
+        // Iterator<MapLayer> it = ml.iterator();
+        // while (it.hasNext()) {
+        //     MapLayer curr = it.next();
+        //     curr.setOffsetX(300f);
+        //     MapObjects mo = curr.getObjects();
+
+        //     System.out.println(mo.getCount());
+        //     Iterator<MapObject> oit = mo.iterator();
+        //     // while (oit.hasNext()) {
+        //     //     MapObject currobj = oit.next();
+        //     //     System.out.println(currobj.getName());
+        //     // }
+
+        // }
     }
+
 
     @Override
     public void render() {
@@ -127,89 +181,106 @@ public class VMGame extends Game {
             mainMenu.render(Gdx.graphics.getDeltaTime());
             batch.end();
         }
-	    else if (!mainMenu.getMenu().isVisible() && !lost && !win)
-	    {
+	    else if (!mainMenu.getMenu().isVisible() && !lost && !win){
+            double dx = 0, dy = 0;
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                dx = -(200f + acceleration) * Gdx.graphics.getDeltaTime();
+                // badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                dx = (200 + acceleration) * Gdx.graphics.getDeltaTime();
+                // badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                dy = (200 + acceleration) * Gdx.graphics.getDeltaTime();
+                // badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                dy = -(200 + acceleration) * Gdx.graphics.getDeltaTime();
+                // badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            }
+            
+            Rectangle test = new Rectangle(badlogic);
+            test.x += dx;
+            test.y += dy;
+            boolean collision = false;
+            for (RectangleMapObject wall : this.walls) {
+                if (wall.getRectangle().overlaps(test)) {
+                    collision = true;
+                }
+            }
+            if (!collision) {
+                badlogic.x += dx;
+                badlogic.y += dy;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
-
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-            if(item1 != null) { //Later implementation will be with each of the elements of the array of items
-                if (badlogic.overlaps(item1.hitbox))
-                {
-                    double now = System.nanoTime();
-                    if (now - lastHit > 1000000000) {
-                        item1 = null;
-                        lastHit = now;
-                        pointsInLevel = pointsInLevel + 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
+                if(item1 != null) { //Later implementation will be with each of the elements of the array of items
+                    if (badlogic.overlaps(item1.hitbox))
+                    {
+                        double now = System.nanoTime();
+                        if (now - lastHit > 1000000000) {
+                            item1 = null;
+                            lastHit = now;
+                            pointsInLevel = pointsInLevel + 1;
+                        }
                     }
                 }
             }
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
-            dashTime = System.nanoTime();
-            isDashing = true;
-            acceleration = 200;
-        }
-        if (badlogic.overlaps(man1.hitbox)) {
-            double now = System.nanoTime();
-            if (now - lastHit > 1000000000) {
-                //health--;
-		        health -= 25; //quick death for testing
-                lastHit = now;
-		        if (health <= 0){
-			        lost = true;
-		        }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
+                dashTime = System.nanoTime();
+                isDashing = true;
+                acceleration = 200;
             }
-        }
-        if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
-            if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160 &&
-                        (badlogic.y + badlogic.height) > 628 && badlogic.y < 628 ) {
-                win = true;
+            if (badlogic.overlaps(man1.hitbox)) {
+                double now = System.nanoTime();
+                if (now - lastHit > 1000000000) {
+                    //health--;
+                    health -= 25; //quick death for testing
+                    lastHit = now;
+                    if (health <= 0){
+                        lost = true;
+                    }
+                }
             }
-        }
+            if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
+                if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160 &&
+                            (badlogic.y + badlogic.height) > 628 && badlogic.y < 628 ) {
+                    win = true;
+                }
+            }
 
-        camera.position.x = badlogic.x + badlogic.width / 2f;
-        camera.position.y = badlogic.y + badlogic.height / 2f; 
-        camera.update();
-        
-        // Map Render
-        renderer.render();
-        renderer.setView(camera);
-        batch.begin();
-        batch.setProjectionMatrix(camera.combined);
+            camera.position.x = badlogic.x + badlogic.width / 2f;
+            camera.position.y = badlogic.y + badlogic.height / 2f; 
+            camera.update();
+            
+            // Map Render
+            renderer.render();
+            renderer.setView(camera);
+            batch.begin();
+            batch.setProjectionMatrix(camera.combined);
 
-        // Sprites Render
-        
-	    man1.tick();
-        batch.draw(img, badlogic.x, badlogic.y);
-	    batch.draw(man1.img, man1.x, man1.y);
-	    if(item1 != null) {
-            batch.draw(item1.img, item1.x, item1.y);
-        }
-	    batch.draw(end, 128, 596);
+            // Sprites Render
+            
+            man1.tick();
+            batch.draw(img, badlogic.x, badlogic.y);
+            batch.draw(man1.img, man1.x, man1.y);
+            if(item1 != null) {
+                batch.draw(item1.img, item1.x, item1.y);
+            }
+            batch.draw(end, 128, 596);
 
-	    //batch.draw;
+            //batch.draw;
 
-        batch.end();
+            batch.end();
 
-        // HUD Render
-        hud.stage.act(Gdx.graphics.getDeltaTime());
-	    hud.stage.draw();
+            // HUD Render
+            hud.stage.act(Gdx.graphics.getDeltaTime());
+            hud.stage.draw();
 
-        hud.setHealth(health);
+            hud.setHealth(health);
 	    }
 	    else if (win) {
 	        batch.begin();
