@@ -39,6 +39,7 @@ public class VMGame extends Game {
     Texture img;
     Texture end; // THIS WILL LATER BE AN ATTRIBUTE OF LEVEL CLASS
     Enemy man1;
+    Player player;
     Item item1 = null;
     double lastHit;
     int health;
@@ -85,6 +86,7 @@ public class VMGame extends Game {
         batch = new SpriteBatch();
         img = new Texture("player.png");
         end = new Texture("end.png");
+        player = new Player(800 / 2 - 64 / 2, 136, this);
         man1 = new Enemy(656, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
@@ -137,10 +139,6 @@ public class VMGame extends Game {
         //     System.out.println("PLAY");
             
         // }
-        if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
-            isDashing = false;
-            acceleration = 0;
-        }
 
         Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -153,72 +151,23 @@ public class VMGame extends Game {
             batch.end();
         }
 	    else if (!mainMenu.getMenu().isVisible() && !lost && !win){
-            double dx = 0, dy = 0;
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                dx = -(200f + acceleration) * Gdx.graphics.getDeltaTime();
-                // badlogic.x -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                dx = (200 + acceleration) * Gdx.graphics.getDeltaTime();
-                // badlogic.x += (200 + acceleration) * Gdx.graphics.getDeltaTime();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                dy = (200 + acceleration) * Gdx.graphics.getDeltaTime();
-                // badlogic.y += (200 + acceleration) * Gdx.graphics.getDeltaTime();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                dy = -(200 + acceleration) * Gdx.graphics.getDeltaTime();
-                // badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
-            }
-            
-            Rectangle test = new Rectangle(badlogic);
-            test.x += dx;
-            test.y += dy;
-            boolean collision = mymap.collidesOnLayer("Walls", test);
-            
-            if (!collision) {
-                badlogic.x += dx;
-                badlogic.y += dy;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
 
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-                if(item1 != null) { //Later implementation will be with each of the elements of the array of items
-                    if (badlogic.overlaps(item1.hitbox))
-                    {
-                        double now = System.nanoTime();
-                        if (now - lastHit > 1000000000) {
-                            item1 = null;
-                            lastHit = now;
-                            pointsInLevel = pointsInLevel + 1;
-                        }
-                    }
-                }
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
-                dashTime = System.nanoTime();
-                isDashing = true;
-                acceleration = 200;
-            }
-            if (badlogic.overlaps(man1.hitbox)) {
-                double now = System.nanoTime();
-                if (now - lastHit > 1000000000) {
-                    //health--;
-                    health -= 25; //quick death for testing
-                    lastHit = now;
-                    if (health <= 0){
-                        lost = true;
-                    }
-                }
-            }
+	        // Se gana teniendo el item y yendo al final
             if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
-                if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160 &&
-                            (badlogic.y + badlogic.height) > 628 && badlogic.y < 628 ) {
+                if ((player.x + player.getHitbox().width) > 160 && player.x < 160 &&
+                            (player.y + player.getHitbox().height) > 628 && player.y < 628 ) {
                     win = true;
                 }
             }
 
+            // Se puede perder por baja vida, implementar en level
+            if (player.getHealth() <= 0){
+                lost = true;
+            }
+
+            /**
+             * Se hace el contrarreloj y permite perder por tiempo
+             */
             timeSeconds +=Gdx.graphics.getRawDeltaTime();
             if(timeSeconds > period){
                 timeSeconds-=period;
@@ -228,8 +177,8 @@ public class VMGame extends Game {
                 }
             }
 
-            camera.position.x = badlogic.x + badlogic.width / 2f;
-            camera.position.y = badlogic.y + badlogic.height / 2f; 
+            camera.position.x = player.x + player.getHitbox().width / 2f;
+            camera.position.y = player.y + player.getHitbox().height / 2f;
             camera.update();
             
             // Map Render
@@ -240,10 +189,10 @@ public class VMGame extends Game {
             batch.begin();
 
 
-            // Sprites Render
-        
+            // Sprites Render y tick
+            player.tick();
 	        man1.tick();
-            batch.draw(img, badlogic.x, badlogic.y); //TODO:replace with render()
+            player.render(batch);
 	        batch.draw(man1.img, man1.x, man1.y);
 	        if(item1 != null) {
                 batch.draw(item1.img, item1.x, item1.y);
@@ -259,7 +208,7 @@ public class VMGame extends Game {
             hud.stage.act(Gdx.graphics.getDeltaTime());
             hud.stage.draw();
 
-            hud.setHealth(health);
+            hud.setHealth(player.getHealth());
             hud.setTime(levelSeconds);
 	    }
 	    else if (win) {
