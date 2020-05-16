@@ -45,9 +45,13 @@ public class VMGame extends Game {
     boolean lost;
     boolean win;
 
+    private int day; // para la pantalla previa a nivel (puede servir de nivel)
+
     Music music;
 
     MainMenu mainMenu;
+    LevelContinue levelContinue;
+    Settings settings;
 
     @Override
 
@@ -74,6 +78,12 @@ public class VMGame extends Game {
 
         mainMenu = new MainMenu(this);
         mainMenu.getMenu().setVisible(true);
+
+        levelContinue = new LevelContinue(this);
+        levelContinue.getLevelContinue().setVisible(true);
+
+        settings = new Settings(this);
+        settings.getSettings().setVisible(true);
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
@@ -109,8 +119,6 @@ public class VMGame extends Game {
         // if (music.isPlaying() == false) {
         //     System.out.println("PLAY");
         // }
-        System.out.print(System.nanoTime() - dashTime);
-        System.out.print('\n');
         if (isDashing && System.nanoTime() - dashTime > 0.2 * 1000000000) {
             isDashing = false;
             acceleration = 0;
@@ -124,6 +132,7 @@ public class VMGame extends Game {
         if (mainMenu.getMenu().isVisible()) {
             batch.begin();
             mainMenu.render(Gdx.graphics.getDeltaTime());
+            //mainMenu.render(Gdx.graphics.getDeltaTime());
             batch.end();
         } else if (!mainMenu.getMenu().isVisible() && !lost && !win) {
 
