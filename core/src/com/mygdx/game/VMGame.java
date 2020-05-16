@@ -49,6 +49,7 @@ public class VMGame extends Game {
     private float period = 1f;
 
     double acceleration;
+    long timeUnit = 1000000000;
     boolean isDashing;
     long dashTime;
 
@@ -58,9 +59,8 @@ public class VMGame extends Game {
     MapHandler mymap;
 
     Vector<RectangleMapObject> walls;
-    
+
     HUD hud;
-    
 
     Texture gameOver;
     Texture winScreen;
@@ -88,8 +88,8 @@ public class VMGame extends Game {
         man1 = new Enemy(656, 300);
         item1 = new Item(200, 300);
         lastHit = System.nanoTime();
-      	gameOver = new Texture("game_over.png");
-      	winScreen = new Texture("win_screen.png");
+        gameOver = new Texture("game_over.png");
+        winScreen = new Texture("win_screen.png");
         health = 100;
         acceleration = 0;
 
@@ -101,12 +101,12 @@ public class VMGame extends Game {
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
-      
+
         lost = false;
         win = false;
-        
+
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-	    music.setVolume((float) 0.05);
+        music.setVolume((float) 0.05);
 
         hud = new HUD();
         hud.setTime(levelSeconds);
@@ -114,12 +114,11 @@ public class VMGame extends Game {
         hud.setDash(2);
         hud.setGel(0);
 
-
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        music.setLooping(true); 
+        music.setLooping(true);
         music.play();
 
         mymap = new MapHandler("mapa.tmx", camera);
@@ -127,32 +126,28 @@ public class VMGame extends Game {
 
     }
 
-
     @Override
     public void render() {
         // System.out.println(music.getPosition());
-        
-        
+
         // if (music.isPlaying() == false) {
         //     System.out.println("PLAY");
-            
         // }
-        if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
+        if (isDashing && System.nanoTime() - dashTime > 0.2 * timeUnit) {
             isDashing = false;
             acceleration = 0;
         }
 
         Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-      
+
         super.render();
 
         if (mainMenu.getMenu().isVisible()) {
             batch.begin();
             mainMenu.render(Gdx.graphics.getDeltaTime());
             batch.end();
-        }
-	    else if (!mainMenu.getMenu().isVisible() && !lost && !win){
+        } else if (!mainMenu.getMenu().isVisible() && !lost && !win) {
             double dx = 0, dy = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 dx = -(200f + acceleration) * Gdx.graphics.getDeltaTime();
@@ -170,12 +165,12 @@ public class VMGame extends Game {
                 dy = -(200 + acceleration) * Gdx.graphics.getDeltaTime();
                 // badlogic.y -= (200 + acceleration) * Gdx.graphics.getDeltaTime();
             }
-            
+
             Rectangle test = new Rectangle(badlogic);
             test.x += dx;
             test.y += dy;
             boolean collision = mymap.collidesOnLayer("Walls", test);
-            
+
             if (!collision) {
                 badlogic.x += dx;
                 badlogic.y += dy;
@@ -184,11 +179,10 @@ public class VMGame extends Game {
 
             }
             if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-                if(item1 != null) { //Later implementation will be with each of the elements of the array of items
-                    if (badlogic.overlaps(item1.hitbox))
-                    {
+                if (item1 != null) { //Later implementation will be with each of the elements of the array of items
+                    if (badlogic.overlaps(item1.hitbox)) {
                         double now = System.nanoTime();
-                        if (now - lastHit > 1000000000) {
+                        if (now - lastHit > timeUnit) {
                             item1 = null;
                             lastHit = now;
                             pointsInLevel = pointsInLevel + 1;
@@ -203,25 +197,25 @@ public class VMGame extends Game {
             }
             if (badlogic.overlaps(man1.hitbox)) {
                 double now = System.nanoTime();
-                if (now - lastHit > 1000000000) {
+                if (now - lastHit > timeUnit) {
                     //health--;
                     health -= 25; //quick death for testing
                     lastHit = now;
-                    if (health <= 0){
+                    if (health <= 0) {
                         lost = true;
                     }
                 }
             }
             if (pointsInLevel == 1) { //The 1 will later be an attribute for needed points to win in that level
-                if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160 &&
-                            (badlogic.y + badlogic.height) > 628 && badlogic.y < 628 ) {
+                if ((badlogic.x + badlogic.width) > 160 && badlogic.x < 160
+                        && (badlogic.y + badlogic.height) > 628 && badlogic.y < 628) {
                     win = true;
                 }
             }
 
-            timeSeconds +=Gdx.graphics.getRawDeltaTime();
-            if(timeSeconds > period){
-                timeSeconds-=period;
+            timeSeconds += Gdx.graphics.getRawDeltaTime();
+            if (timeSeconds > period) {
+                timeSeconds -= period;
                 levelSeconds--;
                 if (levelSeconds <= 0) {
                     lost = true;
@@ -229,9 +223,9 @@ public class VMGame extends Game {
             }
 
             camera.position.x = badlogic.x + badlogic.width / 2f;
-            camera.position.y = badlogic.y + badlogic.height / 2f; 
+            camera.position.y = badlogic.y + badlogic.height / 2f;
             camera.update();
-            
+
             // Map Render
             // renderer.render();
             // renderer.setView(camera);
@@ -239,20 +233,16 @@ public class VMGame extends Game {
             mymap.render(batch);
             batch.begin();
 
-
             // Sprites Render
-        
-	        man1.tick();
+            man1.tick();
             batch.draw(img, badlogic.x, badlogic.y); //TODO:replace with render()
-	        batch.draw(man1.img, man1.x, man1.y);
-	        if(item1 != null) {
+            batch.draw(man1.img, man1.x, man1.y);
+            if (item1 != null) {
                 batch.draw(item1.img, item1.x, item1.y);
             }
-	        batch.draw(end, 128, 596);
-
+            batch.draw(end, 128, 596);
 
             //batch.draw;
-
             batch.end();
 
             // HUD Render
@@ -261,20 +251,16 @@ public class VMGame extends Game {
 
             hud.setHealth(health);
             hud.setTime(levelSeconds);
-	    }
-	    else if (win) {
-	        batch.begin();
+        } else if (win) {
+            batch.begin();
             batch.draw(winScreen, camera.position.x - 400, camera.position.y - 300);
             batch.end();
-        }
-	    else
-	    {
+        } else {
             batch.begin();
-		    batch.draw(gameOver, camera.position.x - 400, camera.position.y - 300);
-		    batch.end();
-	    }
+            batch.draw(gameOver, camera.position.x - 400, camera.position.y - 300);
+            batch.end();
+        }
     }
-
 
     @Override
     public void dispose() {
