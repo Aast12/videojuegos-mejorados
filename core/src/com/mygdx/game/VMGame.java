@@ -31,6 +31,7 @@ public class VMGame extends Game {
     int pointsInLevel; //This will be used for checking win condition
 
     double acceleration;
+    long timeUnit = 1000000000; // Un segundo
     boolean isDashing;
     long dashTime;
 
@@ -109,9 +110,7 @@ public class VMGame extends Game {
         // if (music.isPlaying() == false) {
         //     System.out.println("PLAY");
         // }
-        System.out.print(System.nanoTime() - dashTime);
-        System.out.print('\n');
-        if (isDashing && System.nanoTime() - dashTime > 0.2 * 1000000000) {
+        if (isDashing && System.nanoTime() - dashTime > 0.2 * timeUnit) {
             isDashing = false;
             acceleration = 0;
         }
@@ -146,7 +145,7 @@ public class VMGame extends Game {
                 if (item1 != null) { //Later implementation will be with each of the elements of the array of items
                     if (badlogic.overlaps(item1.hitbox)) {
                         double now = System.nanoTime();
-                        if (now - lastHit > 1000000000) {
+                        if (now - lastHit > timeUnit) {
                             item1 = null;
                             lastHit = now;
                             pointsInLevel = pointsInLevel + 1;
@@ -161,7 +160,7 @@ public class VMGame extends Game {
             }
             if (badlogic.overlaps(man1.hitbox)) {
                 double now = System.nanoTime();
-                if (now - lastHit > 1000000000) {
+                if (now - lastHit > timeUnit) {
                     //health--;
                     health -= 25; //quick death for testing
                     lastHit = now;
