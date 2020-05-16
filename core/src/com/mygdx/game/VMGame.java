@@ -44,6 +44,10 @@ public class VMGame extends Game {
     int health;
     int pointsInLevel; //This will be used for checking win condition
 
+    int levelSeconds;
+    float timeSeconds = 0f;
+    private float period = 1f;
+
     double acceleration;
     boolean isDashing;
     long dashTime;
@@ -88,7 +92,9 @@ public class VMGame extends Game {
       	winScreen = new Texture("win_screen.png");
         health = 100;
         acceleration = 0;
+
         pointsInLevel = 0;
+        levelSeconds = 10;
 
         mainMenu = new MainMenu(this);
         mainMenu.getMenu().setVisible(true);
@@ -103,7 +109,7 @@ public class VMGame extends Game {
 	    music.setVolume((float) 0.05);
 
         hud = new HUD();
-        hud.setTime(123);
+        hud.setTime(levelSeconds);
         hud.setHealth(98);
         hud.setDash(2);
         hud.setGel(0);
@@ -213,6 +219,15 @@ public class VMGame extends Game {
                 }
             }
 
+            timeSeconds +=Gdx.graphics.getRawDeltaTime();
+            if(timeSeconds > period){
+                timeSeconds-=period;
+                levelSeconds--;
+                if (levelSeconds <= 0) {
+                    lost = true;
+                }
+            }
+
             camera.position.x = badlogic.x + badlogic.width / 2f;
             camera.position.y = badlogic.y + badlogic.height / 2f; 
             camera.update();
@@ -225,15 +240,15 @@ public class VMGame extends Game {
             batch.begin();
 
 
-        // Sprites Render
+            // Sprites Render
         
-	    man1.tick();
-        batch.draw(img, badlogic.x, badlogic.y); //TODO:replace with render()
-	    batch.draw(man1.img, man1.x, man1.y);
-	    if(item1 != null) {
-            batch.draw(item1.img, item1.x, item1.y);
-        }
-	    batch.draw(end, 128, 596);
+	        man1.tick();
+            batch.draw(img, badlogic.x, badlogic.y); //TODO:replace with render()
+	        batch.draw(man1.img, man1.x, man1.y);
+	        if(item1 != null) {
+                batch.draw(item1.img, item1.x, item1.y);
+            }
+	        batch.draw(end, 128, 596);
 
 
             //batch.draw;
@@ -245,6 +260,7 @@ public class VMGame extends Game {
             hud.stage.draw();
 
             hud.setHealth(health);
+            hud.setTime(levelSeconds);
 	    }
 	    else if (win) {
 	        batch.begin();
