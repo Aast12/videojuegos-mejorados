@@ -4,10 +4,13 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Clase auxiliar para renderizar mapas en pantalla y manejar las interacciones
@@ -42,6 +45,24 @@ public class MapHandler {
      */
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
+    }
+
+    /**
+     * Indica si un rectángulo colisiona con alguno de los objetos 
+     * rectangulares de una capa del mapa.
+     * 
+     * @param layerName nombre de la capa de la colision
+     * @param rect objecto Rectangle de la colisión
+     * @return booleano que representa si hay o no una colisión
+     */
+    public boolean collidesOnLayer(String layerName, Rectangle rect) {
+        MapLayer layer = map.getLayers().get(layerName);
+        for (RectangleMapObject wall : layer.getObjects().getByType(RectangleMapObject.class)) {
+            if (wall.getRectangle().overlaps(rect)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

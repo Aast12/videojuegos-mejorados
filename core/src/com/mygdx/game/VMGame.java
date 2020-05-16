@@ -49,8 +49,9 @@ public class VMGame extends Game {
     long dashTime;
 
     OrthographicCamera camera;
-    OrthogonalTiledMapRenderer renderer;
+    // OrthogonalTiledMapRenderer renderer;
     TiledMap map;
+    MapHandler mymap;
 
     Vector<RectangleMapObject> walls;
     
@@ -107,8 +108,6 @@ public class VMGame extends Game {
         hud.setDash(2);
         hud.setGel(0);
 
-        map = new TmxMapLoader().load("mapa.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1);
 
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
@@ -117,43 +116,9 @@ public class VMGame extends Game {
         music.setLooping(true); 
         music.play();
 
-        System.out.println(map.toString());
-        MapLayers ml = map.getLayers();
-        MapLayer walls = ml.get("Walls");
-        this.walls = new Vector<RectangleMapObject>();
-        // Iterator<MapObject> it = walls.getObjects().iterator();
-        for (RectangleMapObject mobj : walls.getObjects().getByType(RectangleMapObject.class)) {
-            this.walls.add(mobj);
-        }
-        
-        // while (it.hasNext()) {
-        //     MapObject curr = it.next();
-        //     MapProperties cp = curr.getProperties();
-        //     Iterator<String> kys = cp.getKeys();
-        //     while (kys.hasNext()) {
-        //         System.out.println(kys.next());
-        //     }
-        //     // System.out.println();
-        //     curr.setVisible(true);
-        //     curr.setColor(new Color(1, 0, 0, 1));
+        mymap = new MapHandler("mapa.tmx", camera);
+        map = mymap.map;
 
-        //     System.out.println(curr.getName());
-        // }
-
-        // Iterator<MapLayer> it = ml.iterator();
-        // while (it.hasNext()) {
-        //     MapLayer curr = it.next();
-        //     curr.setOffsetX(300f);
-        //     MapObjects mo = curr.getObjects();
-
-        //     System.out.println(mo.getCount());
-        //     Iterator<MapObject> oit = mo.iterator();
-        //     // while (oit.hasNext()) {
-        //     //     MapObject currobj = oit.next();
-        //     //     System.out.println(currobj.getName());
-        //     // }
-
-        // }
     }
 
 
@@ -203,12 +168,8 @@ public class VMGame extends Game {
             Rectangle test = new Rectangle(badlogic);
             test.x += dx;
             test.y += dy;
-            boolean collision = false;
-            for (RectangleMapObject wall : this.walls) {
-                if (wall.getRectangle().overlaps(test)) {
-                    collision = true;
-                }
-            }
+            boolean collision = mymap.collidesOnLayer("Walls", test);
+            
             if (!collision) {
                 badlogic.x += dx;
                 badlogic.y += dy;
@@ -257,10 +218,11 @@ public class VMGame extends Game {
             camera.update();
             
             // Map Render
-            renderer.render();
-            renderer.setView(camera);
+            // renderer.render();
+            // renderer.setView(camera);
+            // batch.setProjectionMatrix(camera.combined);
+            mymap.render(batch);
             batch.begin();
-            batch.setProjectionMatrix(camera.combined);
 
             // Sprites Render
             
@@ -300,8 +262,8 @@ public class VMGame extends Game {
     public void dispose() {
         batch.dispose();
         img.dispose();
-        map.dispose();
-        renderer.dispose();
+        // map.dispose();
+        mymap.dispose();
         font.dispose();
         hud.stage.dispose();
     }
