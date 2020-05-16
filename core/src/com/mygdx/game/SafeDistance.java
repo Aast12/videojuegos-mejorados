@@ -1,0 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+
+/**
+ *
+ * @author kaetahr
+ */
+public class SafeDistance extends Entity {
+
+	public SafeDistance(int x, int y) {
+		super(x, y);
+		hitbox = new Rectangle();
+		hitbox.width = 128;
+		hitbox.height = 128;
+		img = new Texture("covid_radius.png");
+	}
+
+	public void tick(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+
+		hitbox.x = x;
+		hitbox.y = y;
+		
+	}
+
+
+	@Override
+	public void render(SpriteBatch batch) {
+		System.out.println(x);
+		System.out.println(y);
+		System.out.println("-");
+		batch.draw(img, x, y);
+	}
+	
+}
