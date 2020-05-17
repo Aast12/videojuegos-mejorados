@@ -27,7 +27,7 @@ public class MainMenu implements Screen {
         this.options = new LinkedList<Button>();
         this.buttonMaterial = new Texture("material1.png");
         Button start = new Button(80, 450, 128, 32, "START", buttonMaterial);
-        Button load = new Button(80, 485, 128, 32, "LOAD", buttonMaterial);
+        Button load = new Button(80, 485, 128, 32, "LOAD (under development)", buttonMaterial);
         Button options = new Button(80, 520, 128, 32, "OPTIONS", buttonMaterial);
         Button exit = new Button(80, 555, 128, 32, "EXIT", buttonMaterial);
         this.options.add(start);

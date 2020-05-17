@@ -25,6 +25,7 @@ public class Settings implements Screen {
     private int currentMusicVol;
     private int currentFxVol;
     private String[] difficulties = {"easy", "normal", "hard"};
+    private int index = 1;
     private String currentDifficulty;
 
     // para el slider de volumen
@@ -34,9 +35,15 @@ public class Settings implements Screen {
     private Button slider;
 
     // para la seleccion de dificultad
+    private Texture difficultyButton;
     private Button easier;
     private Button harder;
 
+    /**
+     * El constructor para el menú de opciones.
+     *
+     * @param game
+     */
     public Settings(VMGame game) {
         this.game = game;
 
@@ -48,9 +55,9 @@ public class Settings implements Screen {
         this.options = new LinkedList<Button>();
         this.buttonMaterial = new Texture("material1.png");
         this.backButtonMaterial = new Texture("back.png");
-        Button musicVolume = new Button(200, 276, 128, 32, "MUSIC", buttonMaterial);
-        Button fxVolume = new Button(200, 338, 128, 32, "FX", buttonMaterial);
-        Button difficulty = new Button(200, 400, 128, 32, "DIFFICULTY", buttonMaterial);
+        Button musicVolume = new Button(200, 276, 128, 32, "MUSIC (buggy)", buttonMaterial);
+        Button fxVolume = new Button(200, 338, 128, 32, "FX (buggy)", buttonMaterial);
+        Button difficulty = new Button(200, 400, 128, 32, "DIFFICULTY (buggy)", buttonMaterial);
         Button back = new Button(6, 568, 70, 32, "BACK", backButtonMaterial);
         this.options.add(musicVolume);
         this.options.add(fxVolume);
@@ -67,7 +74,7 @@ public class Settings implements Screen {
         // las configuraciones del juego por default
         currentMusicVol = 100;
         currentFxVol = 100;
-        currentDifficulty = difficulties[1];
+        currentDifficulty = difficulties[index];
 
         // slider configurations
         barMaterial = new Texture("bar.png");
@@ -78,12 +85,18 @@ public class Settings implements Screen {
         this.options.add(slider);
 
         // difficulty selector configs
-        easier = new Button(340, 400, 128, 32, "Easier", sliderMaterial);
-        harder = new Button(692, 400, 128, 32, "Harder!", sliderMaterial);
+        difficultyButton = new Texture("difficultyButton.png");
+        easier = new Button(340, 400, 128, 32, "Easier", difficultyButton);
+        harder = new Button(654, 400, 128, 32, "Harder!", difficultyButton);
         this.options.add(easier);
         this.options.add(harder);
     }
 
+    /**
+     * Regresa el menú que usa para construirse.
+     *
+     * @return settings
+     */
     public Menu getSettings() {
         return settings;
     }
@@ -93,15 +106,36 @@ public class Settings implements Screen {
 
     }
 
+    /**
+     * Dibuja el menú de opciones y checa el estado de cada botón.
+     *
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         settings.render(delta); // dibujar materiales y botones
+        game.font.draw(game.batch, currentDifficulty, 500, 195);
+        if (index > 2) {
+            index = 0;
+        } else if (index < 0) {
+            index = 2;
+        }
+
+        if (slider.getX() >= 690) {
+            slider.getBox().setPosition(692, 276);
+        } else if (slider.getX() <= 340) {
+            slider.getBox().setPosition(330, 276);
+        }
 
         /*
         Boton 0: volumen de la música
         Boton 1: volumen de los efectos
         Boton 2: dificultad del juego
         Boton 3: regresar al menu principal
+        Boton 4: -
+        Boton 5: SLIDER
+        Boton 6: +dificil
+        Boton 7: -dificil
          */
         // para music
         if (Gdx.input.isTouched() && this.getSettings().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
@@ -118,6 +152,18 @@ public class Settings implements Screen {
         if (Gdx.input.isTouched() && this.getSettings().getOptions().get(3).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
             settings.setVisible(false);
             game.mainMenu.getMenu().setVisible(true);
+        }
+        if (Gdx.input.isTouched() && this.getSettings().getOptions().get(4).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            // NO HACERLE NADA
+        }
+        if (Gdx.input.isTouched() && this.getSettings().getOptions().get(5).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            slider.getBox().setPosition(Gdx.input.getX(), 276);
+        }
+        if (Gdx.input.isTouched() && this.getSettings().getOptions().get(6).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            currentDifficulty = difficulties[index++];
+        }
+        if (Gdx.input.isTouched() && this.getSettings().getOptions().get(7).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            currentDifficulty = difficulties[index--];
         }
     }
 
