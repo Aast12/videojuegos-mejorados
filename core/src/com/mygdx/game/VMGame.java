@@ -56,6 +56,7 @@ public class VMGame extends Game {
     Texture winScreen;
 
     Music music;
+    Music levelMusic;
 
     MainMenu mainMenu;
     Settings settings;
@@ -96,11 +97,13 @@ public class VMGame extends Game {
 
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
         music.setVolume((float) 0.05);
+        levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
+        levelMusic.setVolume((float) 0.5);
 
         hud = new HUD();
         hud.setTime(level1.getLevelSeconds());
         hud.setHealth(98);
-        hud.setDash(2);
+        hud.setDash(player.getDashes());
         hud.setGel(0);
 
         camera = new OrthographicCamera(800, 600);
@@ -137,6 +140,10 @@ public class VMGame extends Game {
             settings.render(Gdx.graphics.getDeltaTime());
             batch.end();
         } else if (!mainMenu.getMenu().isVisible() && !level1.getLost() && !level1.getWin()) {
+            if (music.isPlaying()) {
+                music.stop();
+                levelMusic.play();
+            }
 
             camera.position.x = player.x + player.getHitbox().width / 2f;
             camera.position.y = player.y + player.getHitbox().height / 2f;
@@ -155,7 +162,7 @@ public class VMGame extends Game {
 	        player.tick();
 
             player.render(batch);
-	    man1.render(batch);
+	        man1.render(batch);
 	        level1.render(batch);
             batch.draw(end, 128, 596);
 
@@ -167,6 +174,7 @@ public class VMGame extends Game {
             hud.stage.draw();
 
             hud.setHealth(player.getHealth());
+            hud.setDash(player.getDashes());
             hud.setTime(level1.getLevelSeconds());
         } else if (level1.getWin()) {
             batch.begin();
