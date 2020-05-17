@@ -52,8 +52,24 @@ public class MainMenu implements Screen {
     @Override
     public void render(float delta) {
         menu.render(delta);
+        /*
+        Boton 0: start
+        Boton 1: load
+        Boton 2: options
+        Boton 3: quit
+         */
         if (Gdx.input.isTouched() && this.getMenu().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
             this.getMenu().setVisible(false);
+        }
+        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+
+        }
+        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(2).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            game.settings.getSettings().setVisible(true);
+            getMenu().setVisible(false);
+        }
+        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(3).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
+            Gdx.app.exit();
         }
     }
 

@@ -90,18 +90,19 @@ public class Settings implements Screen {
          */
         // para music
         if (Gdx.input.isTouched() && this.getSettings().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // guardar partida
+            // TODO
         }
         // para fx
         if (Gdx.input.isTouched() && this.getSettings().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // cambiar pantalla a MainMenu
+            // TODO
         }
         // para difficulty
         if (Gdx.input.isTouched() && this.getSettings().getOptions().get(2).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // cambiar pantalla a MainMenu
+            // TODO
         }
         if (Gdx.input.isTouched() && this.getSettings().getOptions().get(3).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
             settings.setVisible(false);
+            game.mainMenu.getMenu().setVisible(true);
         }
     }
 
