@@ -88,11 +88,12 @@ public class Player extends Entity {
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-            for (int i = 0; i <= level.getItems().size(); i++ ) {
+            for (int i = 0; i < level.getItems().size(); i++ ) {
                 if (hitbox.overlaps(level.getItems().get(i).hitbox))
                 {
                     double now = System.nanoTime();
                     if (now - lastHit > 1000000000) {
+                        System.out.println(2);
                         lastHit = now;
                         level.getItems().remove(i);
                     }
