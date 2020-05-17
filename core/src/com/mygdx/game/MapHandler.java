@@ -18,7 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
  * 
  * Usa tilemaps en formato .tmx </p> 
  * 
- * @author Alam Sánchez
+ * @author Alam Sanchez
  */
 public class MapHandler {
     public OrthographicCamera camera;
@@ -48,12 +48,12 @@ public class MapHandler {
     }
 
     /**
-     * Indica si un rectángulo colisiona con alguno de los objetos 
+     * Indica si un rectangulo colisiona con alguno de los objetos 
      * rectangulares de una capa del mapa.
      * 
      * @param layerName nombre de la capa de la colision
-     * @param rect objecto Rectangle de la colisión
-     * @return booleano que representa si hay o no una colisión
+     * @param rect objecto Rectangle de la colision
+     * @return booleano que representa si hay o no una colision
      */
     public boolean collidesOnLayer(String layerName, Rectangle rect) {
         MapLayer layer = map.getLayers().get(layerName);

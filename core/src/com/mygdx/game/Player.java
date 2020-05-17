@@ -27,14 +27,14 @@ public class Player extends Entity {
 
     Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
     int animationState = -1;
-    // Estático
+    // Estatico
     // 0 frontal
     // 1 derecha
     // 2 izquierda
     // 3 atras
     
-    Texture walkSheet; // Spritesheet de animación
-    float stateTime; // Tiempo de animación
+    Texture walkSheet; // Spritesheet de animacion
+    float stateTime; // Tiempo de animacion
 
     /**
      * constructor de player
@@ -68,7 +68,7 @@ public class Player extends Entity {
         hitbox.width = walkSheet.getWidth() / 4;
         hitbox.height = walkSheet.getHeight() / 4;
 
-        // Asignación de animaciones
+        // Asignacion de animaciones
         walkAnimation = new Vector<Animation<TextureRegion>>();
         for (int i = 0; i < 4; i++) {
             TextureRegion[] walkFrames = new TextureRegion[4];
@@ -106,7 +106,7 @@ public class Player extends Entity {
 
         hitbox.x = x + 12;
         hitbox.y = y;
-        // Reinicia la animación a posición estática
+        // Reinicia la animacion a posicion estatica
         animationState = -1;
         //Deja el dash despues de cierto tiempo
         if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
@@ -196,10 +196,10 @@ public class Player extends Entity {
     @Override
     public void render(SpriteBatch batch) {
         if (animationState == -1) {
-            // El frame 0 es una posición estática
+            // El frame 0 es una posicion estatica
             batch.draw(walkAnimation.get(0).getKeyFrame(0), x, y);
         } else {
-            // Dibuja el frame correspondiente a la animación
+            // Dibuja el frame correspondiente a la animacion
             batch.draw(walkAnimation.get(animationState).getKeyFrame(stateTime, true), x, y);
         }
     }

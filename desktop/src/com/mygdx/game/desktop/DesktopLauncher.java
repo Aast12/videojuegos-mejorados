@@ -7,7 +7,7 @@ import com.mygdx.game.VMGame;
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
-        if (System.getProperty("user.name").equals("Alam Sánchez")) {
+        if (System.getProperty("user.name").equals("Alam Sanchez")) {
             System.setProperty("user.name", "aast");
         }
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
