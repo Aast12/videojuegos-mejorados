@@ -44,7 +44,6 @@ public class RandomEnemy extends Enemy {
 				boolean willMove;
 
 				targetX = targetY = 0;
-				System.out.println("new chosen:");
 				willMove = Math.random() >.5;
 				if (willMove)
 					targetX = (int)(Math.random() * ((1600 - 10) + 1 ) + 10) - 500;
@@ -53,9 +52,6 @@ public class RandomEnemy extends Enemy {
 				if (willMove)
 					targetY = (int)(Math.random() * ((1000 - 10) + 1 ) + 10) - 500;
 				targetY += y;
-				System.out.println(targetX);
-				System.out.println(targetY);
-				
 				isMoving = true;
 			}
 		}

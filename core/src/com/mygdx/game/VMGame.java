@@ -72,7 +72,6 @@ public class VMGame extends Game {
         batch = new SpriteBatch();
         end = new Texture("end.png");
 
-        man1 = new Enemy(656, 300);
         item1 = new Item(200, 300, 26, 26);
         items = new ArrayList<Item>();
         items.add(item1);
@@ -110,6 +109,7 @@ public class VMGame extends Game {
 
         mymap = new MapHandler("mapa.tmx", camera);
         map = mymap.map;
+        man1 = new RandomEnemy(700, 600, mymap);
 
         music.setLooping(true);
         music.play();
@@ -155,7 +155,7 @@ public class VMGame extends Game {
 	        player.tick();
 
             player.render(batch);
-            batch.draw(man1.img, man1.x, man1.y);
+	    man1.render(batch);
 	        level1.render(batch);
             batch.draw(end, 128, 596);
 
