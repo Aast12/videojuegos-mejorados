@@ -23,6 +23,7 @@ public class Player extends Entity {
     long dashTime; // checa el tiempo del dash
     double lastHit;
     private VMGame game;
+    private int dashes;
 
     Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
     int animationState = -1;
@@ -51,6 +52,7 @@ public class Player extends Entity {
         isDashing = false;
         lastHit = System.nanoTime();
 
+
         walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
 				walkSheet.getWidth() / 4,
@@ -70,6 +72,9 @@ public class Player extends Entity {
         }
         
         stateTime = 0f;
+
+        dashes = 3;
+
     }
 
     /**
@@ -77,6 +82,12 @@ public class Player extends Entity {
      * @return la vida del jugador
      */
     public int getHealth() {return health;}
+
+    /**
+     * getter de los dashes
+     * @return
+     */
+    public int getDashes() {return dashes;}
 
     /**
      * Aqui se hace el movimiento del jugador
@@ -144,9 +155,12 @@ public class Player extends Entity {
 
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
-            dashTime = System.nanoTime();
-            isDashing = true;
-            acceleration = 200;
+            if (dashes > 0) {
+                dashes--;
+                dashTime = System.nanoTime();
+                isDashing = true;
+                acceleration = 200;
+            }
         }
         if (getHitbox().overlaps(game.man1.hitbox)) {
             double now = System.nanoTime();

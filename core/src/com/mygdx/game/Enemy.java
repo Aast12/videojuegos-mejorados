@@ -45,6 +45,15 @@ public class Enemy extends Entity {
 	}
 
 	/**
+	 * Regresa area no segura
+	 * @return 
+	 */
+	public Rectangle getCovidZone()
+	{
+		return covidBox.getHitbox();
+	}
+
+	/**
 	 * Revisa si un enemigo va a chocar con una pared.
 	 * @param x Diferencia en X (0) es no se mueve en X
 	 * @param y Diferencia en Y (0)es no se mueve en Y
