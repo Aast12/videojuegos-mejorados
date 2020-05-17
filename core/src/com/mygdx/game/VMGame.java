@@ -16,6 +16,7 @@ import java.util.Vector;
 
 public class VMGame extends Game {
 
+
     SpriteBatch batch; // servira para hacer render de los objetos
     BitmapFont font; // el font que utilizaremos para los botones
     Texture end; // luego sera un atributo de la clase Level
@@ -27,6 +28,7 @@ public class VMGame extends Game {
 
     OrthographicCamera camera; // es la camara que seguira al jugador
     // Los siguientes dos manejaran el mapa, la imagen y los tiles
+
     TiledMap map;
     MapHandler mymap;
 
@@ -44,6 +46,7 @@ public class VMGame extends Game {
     MainMenu mainMenu;
     Settings settings;
     LevelContinue levelContinue;
+    ArrayList<Enemy> enemies;
 
     /**
      * aqui se crean los assets necesarios para jugar al juego
@@ -97,7 +100,15 @@ public class VMGame extends Game {
 
         mymap = new MapHandler("mapa.tmx", camera);
         map = mymap.map;
-        man1 = new RandomEnemy(700, 600, mymap);
+	//create enemies
+	enemies = new ArrayList<Enemy>();
+	Enemy man1 = new RandomEnemy(700, 600, mymap);
+	Enemy man2 = new RandomEnemy(600, 600, mymap);
+	Enemy man3 = new RandomEnemy(600, 500, mymap);
+	enemies.add(man1);
+	enemies.add(man2);
+	enemies.add(man3);
+
 
         music.setLooping(true);
         music.play();
@@ -144,13 +155,19 @@ public class VMGame extends Game {
             mymap.render(batch);
             batch.begin();
             
-            // Sprites Render y tick
-	        man1.tick();
+		// Sprites Render y tick
+		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
+			Enemy e = it.next();
+			e.tick();
+		}
 	        level1.tick();
 	        player.tick();
 
             player.render(batch);
-	        man1.render(batch);
+		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
+			Enemy e = it.next();
+			e.render(batch);
+		}
 	        level1.render(batch);
             batch.draw(end, 128, 596);
 
