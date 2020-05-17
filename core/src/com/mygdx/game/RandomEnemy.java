@@ -5,8 +5,6 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Rectangle;
-
 /**
  *
  * @author kaetahr
@@ -17,6 +15,12 @@ public class RandomEnemy extends Enemy {
 	int targetX;
 	int targetY;
 	
+	/**
+	 * Inicializa un enemigo con movimiento al azar
+	 * @param x
+	 * @param y
+	 * @param map
+	 */
 	public RandomEnemy(int x, int y, MapHandler map) {
 		super(x, y, map);
 
@@ -24,6 +28,11 @@ public class RandomEnemy extends Enemy {
 		isMoving = false;
 	}
 
+	/**
+	 * AI para mover enemigos al azar
+	 * Se mueven cada dos segundos.
+	 * Prefieren moverse en direcciones cardinales que las diagonales
+	 */
 	private void moveRandom()
 	{
 		if (!isMoving)
@@ -98,6 +107,9 @@ public class RandomEnemy extends Enemy {
 		}
 	}
 
+	/**
+	 * Se corre cada frame
+	 */
 	public void tick()
 	{
 		moveRandom();	

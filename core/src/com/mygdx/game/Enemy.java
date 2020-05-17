@@ -22,6 +22,12 @@ public class Enemy extends Entity {
 	MapHandler map;
 
 
+	/**
+	 * Inicializa un enemigo
+	 * @param x Posicion inicial
+	 * @param y Posicion inicial
+	 * @param map Mapa donde esta el enemigo
+	 */
 	public Enemy(int x, int y, MapHandler map)
 	{
 		super(x, y);
@@ -38,6 +44,12 @@ public class Enemy extends Entity {
 
 	}
 
+	/**
+	 * Revisa si un enemigo va a chocar con una pared.
+	 * @param x Diferencia en X (0) es no se mueve en X
+	 * @param y Diferencia en Y (0)es no se mueve en Y
+	 * @return 
+	 */
 	public boolean checkCollision(int x, int y)
 	{
 		Rectangle test = new Rectangle(hitbox);
@@ -47,6 +59,9 @@ public class Enemy extends Entity {
 	}
 	
 
+	/**
+	 * Define moviemiento de en Y hasta chochar con una pared
+	 */
 	private void moveUpDown()
 	{
 		boolean collision = checkCollision(0, speed *direction);
@@ -58,6 +73,9 @@ public class Enemy extends Entity {
 		y += speed * direction;
 	}
 
+	/**
+	 * Define movimiento en X hasta chocar con una pared
+	 */
 	private void moveLeftRight()
 	{
 		boolean collision = checkCollision(speed*direction, 0);
@@ -70,6 +88,9 @@ public class Enemy extends Entity {
 	}
 
 
+	/**
+	 * Se corre cada frame. 
+	 */
 	public void tick()
 	{
 		moveLeftRight();
@@ -82,7 +103,5 @@ public class Enemy extends Entity {
 	public void render(SpriteBatch batch) {
 		covidBox.render(batch);
 		batch.draw(img, x, y);
-}
-
-
+	}
 }

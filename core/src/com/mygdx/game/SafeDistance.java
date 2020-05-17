@@ -15,6 +15,12 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class SafeDistance extends Entity {
 
+	/**
+	 * Inicializa un área de sana distancea para colocar alrededor de 
+	 * enemigos
+	 * @param x
+	 * @param y 
+	 */
 	public SafeDistance(int x, int y) {
 		super(x, y);
 		hitbox = new Rectangle();
@@ -23,6 +29,11 @@ public class SafeDistance extends Entity {
 		img = new Texture("covid_radius.png");
 	}
 
+	/**
+	 * Corrige la posicion del circulo 
+	 * @param x 
+	 * @param y 
+	 */
 	public void tick(int x, int y)
 	{
 		this.x = x;
