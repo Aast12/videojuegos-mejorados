@@ -14,16 +14,18 @@ public class Player extends Entity {
 
     private double acceleration; // velocidad aumentada por el dash
     private int health; // la vida del jugador
-    private VMGame game; // cambar a futuro por Level
+    private Level level; // cambar a futuro por Level
     private boolean isDashing; // checa si esta haciendo dash
     long dashTime; // checa el tiempo del dash
     double lastHit;
+    private VMGame game;
 
-    public Player(int x, int y, VMGame game)
+    public Player(int x, int y, Level level, VMGame game)
     {
         super(x, y);
-        this.game = game;
+        this.level = level;
         this.img = new Texture("player.png");
+        this.game = game;
         this.hitbox = new Rectangle();
         hitbox.width = 40;
         hitbox.height = 64;
@@ -86,17 +88,18 @@ public class Player extends Entity {
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-            if(game.item1 != null) { //Later implementation will be with each of the elements of the array of items
-                if (getHitbox().overlaps(game.item1.hitbox))
+            for (int i = 0; i < level.getItems().size(); i++ ) {
+                if (hitbox.overlaps(level.getItems().get(i).hitbox))
                 {
                     double now = System.nanoTime();
                     if (now - lastHit > 1000000000) {
-                        game.item1 = null;
+                        System.out.println(2);
                         lastHit = now;
-                        game.pointsInLevel = game.pointsInLevel + 1; // Implementar obtencion de items en nivel
+                        level.getItems().remove(i);
                     }
                 }
             }
+
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
             dashTime = System.nanoTime();
@@ -108,6 +111,17 @@ public class Player extends Entity {
             if (now - lastHit > 1000000000) {
                 health -= 25; //quick death for testing
                 lastHit = now;
+            }
+        }
+        // Se puede perder por baja vida, implementar en level
+        if (health <= 0){
+            level.setLost(true);
+        }
+
+        // Se gana teniendo el item y yendo al final
+        if (level.getItems().size() == 0) { //The 1 will later be an attribute for needed points to win in that level
+            if ((x + hitbox.width) > 160 && x < 160 && (y + hitbox.height) > 628 && y < 628 ) {
+                level.setWin(true);
             }
         }
     }

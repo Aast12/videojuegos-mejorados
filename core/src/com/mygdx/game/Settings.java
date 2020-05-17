@@ -14,7 +14,7 @@ public class Settings implements Screen {
     private Menu settings; // para implementar la interfaz
     private LinkedList<Button> options; // para accesar a los botones de esta pantalla
     private Texture buttonMaterial; // el material para los botones de esta pantalla
-    private boolean visible; // to control screen visibility *REEMPLAZARLA POR EL HANDLER DE LA CÁMARA*
+    private boolean visible; // to control screen visibility *REEMPLAZARLA POR EL HANDLER DE LA CAMARA*
     private Texture background; // el fondo de esta pantalla
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
@@ -83,7 +83,7 @@ public class Settings implements Screen {
         settings.render(delta); // dibujar materiales y botones
 
         /*
-        Boton 0: volumen de la música
+        Boton 0: volumen de la mï¿½sica
         Boton 1: volumen de los efectos
         Boton 2: dificultad del juego
         Boton 3: regresar al menu principal
