@@ -58,6 +58,8 @@ public class VMGame extends Game {
     Music music;
 
     MainMenu mainMenu;
+    Settings settings;
+    LevelContinue levelContinue;
 
     @Override
 
@@ -83,6 +85,12 @@ public class VMGame extends Game {
 
         mainMenu = new MainMenu(this);
         mainMenu.getMenu().setVisible(true);
+
+        settings = new Settings(this);
+        settings.getSettings().setVisible(false);
+
+        levelContinue = new LevelContinue(this);
+        levelContinue.getLevelContinue().setVisible(false);
 
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
@@ -111,8 +119,6 @@ public class VMGame extends Game {
         // if (music.isPlaying() == false) {
         //     System.out.println("PLAY");
         // }
-
-
         Gdx.gl.glClearColor(26 / 256f, 28 / 256f, 44 / 256f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -124,6 +130,11 @@ public class VMGame extends Game {
             batch.end();
         }
 	    else if (!mainMenu.getMenu().isVisible() && !level1.getLost() && !level1.getWin()){
+        } else if (settings.getSettings().isVisible()) {
+            batch.begin();
+            settings.render(Gdx.graphics.getDeltaTime());
+            batch.end();
+        } else if (!mainMenu.getMenu().isVisible() && !level1.getLost() && !level1.getWin()) {
 
             camera.position.x = player.x + player.getHitbox().width / 2f;
             camera.position.y = player.y + player.getHitbox().height / 2f;
@@ -136,15 +147,14 @@ public class VMGame extends Game {
             mymap.render(batch);
             batch.begin();
 
-
             // Sprites Render y tick
 	        man1.tick();
 	        level1.tick();
 	        player.tick();
 
-	        level1.render(batch);
+            player.render(batch);
             batch.draw(man1.img, man1.x, man1.y);
-	        player.render(batch);
+	        level1.render(batch);
 
             //batch.draw;
             batch.end();
