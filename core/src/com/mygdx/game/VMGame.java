@@ -176,8 +176,7 @@ public class VMGame extends Game {
             player.render(batch);
 	        batch.draw(man1.img, man1.x, man1.y);
 	        if(item1 != null) {
-
-                batch.draw(item1.img, item1.x, item1.y);
+                item1.render(batch);
             }
             batch.draw(end, 128, 596);
 
