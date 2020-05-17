@@ -103,7 +103,7 @@ public class VMGame extends Game {
         hud = new HUD();
         hud.setTime(level1.getLevelSeconds());
         hud.setHealth(98);
-        hud.setDash(2);
+        hud.setDash(player.getDashes());
         hud.setGel(0);
 
         camera = new OrthographicCamera(800, 600);
@@ -174,6 +174,7 @@ public class VMGame extends Game {
             hud.stage.draw();
 
             hud.setHealth(player.getHealth());
+            hud.setDash(player.getDashes());
             hud.setTime(level1.getLevelSeconds());
         } else if (level1.getWin()) {
             batch.begin();
