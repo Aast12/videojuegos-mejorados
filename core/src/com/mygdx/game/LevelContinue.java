@@ -19,6 +19,11 @@ public class LevelContinue implements Screen {
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
 
+    /**
+     * Constructor para el menú del level overlay.
+     *
+     * @param game
+     */
     public LevelContinue(VMGame game) {
         this.game = game;
         camera = new OrthographicCamera();
@@ -26,7 +31,7 @@ public class LevelContinue implements Screen {
 
         this.options = new LinkedList<Button>();
         this.buttonMaterial = new Texture("material1.png");
-        Button save = new Button(334, 500, 128, 32, "SAVE", buttonMaterial);
+        Button save = new Button(334, 500, 128, 32, "SAVE (under development)", buttonMaterial);
         Button quit = new Button(334, 542, 128, 32, "QUIT", buttonMaterial);
         this.options.add(save);
         this.options.add(quit);
@@ -45,6 +50,11 @@ public class LevelContinue implements Screen {
 
     }
 
+    /**
+     * Para dibujar el menú de level overlay.
+     *
+     * @param delta
+     */
     @Override
     public void render(float delta) { // aquï¿½ va la lï¿½gica de los botones
         levelContinue.render(delta); // dibujar materiales y botones
