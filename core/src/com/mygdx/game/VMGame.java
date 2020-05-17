@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class VMGame extends Game {
@@ -20,7 +21,6 @@ public class VMGame extends Game {
     SpriteBatch batch; // servira para hacer render de los objetos
     BitmapFont font; // el font que utilizaremos para los botones
     Texture end; // luego sera un atributo de la clase Level
-    Enemy man1; // aqui estara el enemigo
     Level level1; // variable en la que se almacena el nivel
     Player player; // entidad que controlara el usuario
     Item item1; // aqui se guarda un item
