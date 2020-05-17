@@ -20,7 +20,7 @@ public class LevelContinue implements Screen {
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
 
     /**
-     * Constructor para el menú del level overlay.
+     * Constructor para el menï¿½ del level overlay.
      *
      * @param game
      */
@@ -41,6 +41,10 @@ public class LevelContinue implements Screen {
         this.font = new BitmapFont();
     }
 
+    /**
+     * getter de el menu
+     * @return el menu
+     */
     public Menu getLevelContinue() {
         return levelContinue;
     }
@@ -51,7 +55,7 @@ public class LevelContinue implements Screen {
     }
 
     /**
-     * Para dibujar el menú de level overlay.
+     * Para dibujar el menï¿½ de level overlay.
      *
      * @param delta
      */

@@ -36,6 +36,13 @@ public class Player extends Entity {
     Texture walkSheet; // Spritesheet de animación
     float stateTime; // Tiempo de animación
 
+    /**
+     * constructor de player
+     * @param x coordenada en x
+     * @param y coordenada en y
+     * @param level nivel en el que esta jugando
+     * @param game juego al que pertenece
+     */
     public Player(int x, int y, Level level, VMGame game)
     {
         super(x, y);
