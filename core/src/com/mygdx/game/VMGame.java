@@ -37,7 +37,6 @@ public class VMGame extends Game {
     SpriteBatch batch;
     BitmapFont font;
     Texture end; // THIS WILL LATER BE AN ATTRIBUTE OF LEVEL CLASS
-    Enemy man1;
     Level level1;
     Player player;
     Item item1;
@@ -61,6 +60,7 @@ public class VMGame extends Game {
     MainMenu mainMenu;
     Settings settings;
     LevelContinue levelContinue;
+    ArrayList<Enemy> enemies;
 
     @Override
 
@@ -112,7 +112,15 @@ public class VMGame extends Game {
 
         mymap = new MapHandler("mapa.tmx", camera);
         map = mymap.map;
-        man1 = new RandomEnemy(700, 600, mymap);
+	//create enemies
+	enemies = new ArrayList<Enemy>();
+	Enemy man1 = new RandomEnemy(700, 600, mymap);
+	Enemy man2 = new RandomEnemy(600, 600, mymap);
+	Enemy man3 = new RandomEnemy(600, 500, mymap);
+	enemies.add(man1);
+	enemies.add(man2);
+	enemies.add(man3);
+
 
         music.setLooping(true);
         music.play();
@@ -156,13 +164,19 @@ public class VMGame extends Game {
             mymap.render(batch);
             batch.begin();
             
-            // Sprites Render y tick
-	        man1.tick();
+		// Sprites Render y tick
+		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
+			Enemy e = it.next();
+			e.tick();
+		}
 	        level1.tick();
 	        player.tick();
 
             player.render(batch);
-	        man1.render(batch);
+		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
+			Enemy e = it.next();
+			e.render(batch);
+		}
 	        level1.render(batch);
             batch.draw(end, 128, 596);
 
