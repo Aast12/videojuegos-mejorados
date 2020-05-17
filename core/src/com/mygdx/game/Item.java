@@ -9,13 +9,13 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Item extends Entity{
 
-    public Item(int x, int y)
+    public Item(int x, int y, int width, int height)
     {
         super(x, y);
         this.img = new Texture("item.png");
         this.hitbox = new Rectangle();
-        hitbox.width = 26;
-        hitbox.height = 26;
+        hitbox.width = width;
+        hitbox.height = height;
         hitbox.x = x + 3;
         hitbox.y = y + 3;
     }
