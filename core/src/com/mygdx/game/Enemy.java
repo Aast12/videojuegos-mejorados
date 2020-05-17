@@ -38,12 +38,18 @@ public class Enemy extends Entity {
 
 	}
 
+	public boolean checkCollision(int x, int y)
+	{
+		Rectangle test = new Rectangle(hitbox);
+		test.y += y; 
+		test.x += x;
+		return  map.collidesOnLayer("Walls", test);
+	}
+	
+
 	private void moveUpDown()
 	{
-		boolean collision;
-		Rectangle test = new Rectangle(hitbox);
-		test.y += speed * direction;
-		collision = map.collidesOnLayer("Walls", test);
+		boolean collision = checkCollision(0, speed *direction);
 		if (collision)
 		{
 			direction *= -1;
@@ -54,10 +60,7 @@ public class Enemy extends Entity {
 
 	private void moveLeftRight()
 	{
-		boolean collision;
-		Rectangle test = new Rectangle(hitbox);
-		test.x += speed * direction;
-		collision = map.collidesOnLayer("Walls", test);
+		boolean collision = checkCollision(speed*direction, 0);
 		if (collision)
 		{
 			direction *= -1;
@@ -65,6 +68,7 @@ public class Enemy extends Entity {
 		}
 		x += speed * direction;
 	}
+
 
 	public void tick()
 	{

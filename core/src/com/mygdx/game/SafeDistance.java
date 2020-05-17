@@ -36,9 +36,6 @@ public class SafeDistance extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		System.out.println(x);
-		System.out.println(y);
-		System.out.println("-");
 		batch.draw(img, x, y);
 	}
 	
