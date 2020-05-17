@@ -64,10 +64,10 @@ public class VMGame extends Game {
     @Override
 
     public void create() {
-        //camera = new OrthographicCamera();
-        //camera.setToOrtho(false, 800, 600);
-        mymap = new MapHandler("mapa.tmx", camera);
-        map = mymap.map;
+        // camera = new OrthographicCamera();
+        // camera.setToOrtho(false, 800, 600);
+        // mymap = new MapHandler("mapa.tmx", camera);
+        // map = mymap.map;
 
         batch = new SpriteBatch();
         end = new Texture("end.png");
@@ -108,6 +108,9 @@ public class VMGame extends Game {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
+        mymap = new MapHandler("mapa.tmx", camera);
+        map = mymap.map;
+
         music.setLooping(true);
         music.play();
     }
@@ -145,7 +148,7 @@ public class VMGame extends Game {
             // batch.setProjectionMatrix(camera.combined);
             mymap.render(batch);
             batch.begin();
-
+            
             // Sprites Render y tick
 	        man1.tick();
 	        level1.tick();

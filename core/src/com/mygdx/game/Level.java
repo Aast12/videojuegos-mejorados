@@ -19,7 +19,7 @@ public class Level {
         this.lost = false;
         this.map = map;
         this.levelSeconds = seconds;
-        this.items.addAll(items);
+        // this.items.addAll(items);
         this.items= new ArrayList<Item>(items);
     }
 
@@ -58,7 +58,7 @@ public class Level {
     }
 
     public void render(SpriteBatch batch) {
-        for (int i = 0; i <= items.size(); i++ ) {
+        for (int i = 0; i < items.size(); i++ ) {
             items.get(i).render(batch);
         }
     }
