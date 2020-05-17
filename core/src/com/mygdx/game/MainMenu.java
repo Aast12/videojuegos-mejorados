@@ -53,8 +53,7 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         menu.render(delta);
         if (Gdx.input.isTouched() && this.getMenu().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-               this.getMenu().setVisible(false);
-
+            this.getMenu().setVisible(false);
         }
     }
 
