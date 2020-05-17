@@ -68,6 +68,8 @@ public class LevelContinue implements Screen {
         // para quit
         if (Gdx.input.isTouched() && this.getLevelContinue().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
             // cambiar pantalla a MainMenu
+            getLevelContinue().setVisible(false);
+            game.mainMenu.getMenu().setVisible(true);
         }
     }
 
