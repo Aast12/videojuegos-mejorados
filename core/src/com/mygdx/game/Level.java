@@ -11,13 +11,13 @@ public class Level {
     private int levelSeconds;
     float timeSeconds = 0f;
     float period = 1f;
-    //private MapHandler map;
+    private MapHandler map;
     private ArrayList<Item> items = new ArrayList<Item>();
 
-    public Level (int seconds, ArrayList<Item> items) {
+    public Level (int seconds, MapHandler map, ArrayList<Item> items) {
         this.win = false;
         this.lost = false;
-        //this.map = map;
+        this.map = map;
         this.levelSeconds = seconds;
         this.items.addAll(items);
         this.items= new ArrayList<Item>(items);
@@ -29,7 +29,7 @@ public class Level {
 
     public boolean getLost() {return lost;}
 
-    //public MapHandler getMap() {return map;}
+    public MapHandler getMap() {return map;}
 
     public ArrayList<Item> getItems() {return items;}
 

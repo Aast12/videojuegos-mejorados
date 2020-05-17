@@ -75,7 +75,7 @@ public class VMGame extends Game {
         items = new ArrayList<Item>();
         items.add(item1);
 
-        level1 = new Level(10, items);
+        level1 = new Level(10, mymap, items);
         player = new Player(800 / 2 - 64 / 2, 136, level1, this);
       
       	gameOver = new Texture("game_over.png");
