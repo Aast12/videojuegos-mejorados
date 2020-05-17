@@ -40,7 +40,6 @@ public class RandomEnemy extends Enemy {
 			double now = System.nanoTime();
 			if (now - lastMove > 2000000000) 
 			{
-				System.out.println("new random");
 				boolean willMove;
 
 				targetX = targetY = 0;
