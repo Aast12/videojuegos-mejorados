@@ -5,10 +5,14 @@
  */
 package com.mygdx.game;
 
+import java.util.Vector;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 public class Player extends Entity {
 
@@ -20,6 +24,17 @@ public class Player extends Entity {
     double lastHit;
     private VMGame game;
 
+    Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
+    int animationState = -1;
+    // Estático
+    // 0 frontal
+    // 1 derecha
+    // 2 izquierda
+    // 3 atras
+    
+    Texture walkSheet; // Spritesheet de animación
+    float stateTime; // Tiempo de animación
+
     public Player(int x, int y, Level level, VMGame game)
     {
         super(x, y);
@@ -27,14 +42,34 @@ public class Player extends Entity {
         this.img = new Texture("player.png");
         this.game = game;
         this.hitbox = new Rectangle();
-        hitbox.width = 40;
-        hitbox.height = 64;
+        // hitbox.width = 40;
+        // hitbox.height = 64;
         hitbox.x = x + 12;
         hitbox.y = y;
         acceleration = 0;
         health = 100;
         isDashing = false;
         lastHit = System.nanoTime();
+
+        walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
+				walkSheet.getWidth() / 4,
+                walkSheet.getHeight() / 4);
+
+        hitbox.width = walkSheet.getWidth() / 4;
+        hitbox.height = walkSheet.getHeight() / 4;
+
+        // Asignación de animaciones
+        walkAnimation = new Vector<Animation<TextureRegion>>();
+        for (int i = 0; i < 4; i++) {
+            TextureRegion[] walkFrames = new TextureRegion[4];
+            for (int j = 0; j < 4; j++) {
+                walkFrames[j] = tmp[i][j];
+            }
+            walkAnimation.add(new Animation<TextureRegion>(0.25f, walkFrames));
+        }
+        
+        stateTime = 0f;
     }
 
     /**
@@ -48,10 +83,13 @@ public class Player extends Entity {
      */
     public void tick()
     {
+        stateTime += Gdx.graphics.getDeltaTime();
         double dx = 0, dy = 0;
 
         hitbox.x = x + 12;
         hitbox.y = y;
+        // Reinicia la animación a posición estática
+        animationState = -1;
         //Deja el dash despues de cierto tiempo
         if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
             isDashing = false;
@@ -60,18 +98,22 @@ public class Player extends Entity {
         // Se mueve a la izquierda
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             dx = -(200f + acceleration) * Gdx.graphics.getDeltaTime();
+            animationState = 1;
         }
         //Se mueve a la derecha
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             dx = (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            animationState = 2;
         }
         // Se mueve hacia arriba
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             dy = (200 + acceleration) * Gdx.graphics.getDeltaTime();
+            animationState = 3;
         }
         // Se mueve hacia abajo
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             dy = -(200 + acceleration) * Gdx.graphics.getDeltaTime();
+            animationState = 0;
         }
         // Checa que no haya chocado con alguna pared del nivel
         Rectangle test = new Rectangle(getHitbox());
@@ -128,6 +170,12 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(img, x, y);
+        if (animationState == -1) {
+            // El frame 0 es una posición estática
+            batch.draw(walkAnimation.get(0).getKeyFrame(0), x, y);
+        } else {
+            // Dibuja el frame correspondiente a la animación
+            batch.draw(walkAnimation.get(animationState).getKeyFrame(stateTime, true), x, y);
+        }
     }
 }
