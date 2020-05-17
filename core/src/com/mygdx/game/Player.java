@@ -117,13 +117,17 @@ public class Player extends Entity {
                 acceleration = 200;
             }
         }
-        if (getHitbox().overlaps(game.man1.hitbox)) {
-            double now = System.nanoTime();
-            if (now - lastHit > 1000000000) {
-                health -= 25; //quick death for testing
-                lastHit = now;
-            }
+	for (Enemy e : game.enemies)
+	{
+		if (getHitbox().overlaps(e.getCovidZone())) {
+		    double now = System.nanoTime();
+		    if (now - lastHit > 1000000000) {
+			health -= 25; //quick death for testing
+			lastHit = now;
+		    }
         }
+
+	}
         // Se puede perder por baja vida, implementar en level
         if (health <= 0){
             level.setLost(true);
