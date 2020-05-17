@@ -44,7 +44,7 @@ public class Level {
         timeSeconds += Gdx.graphics.getRawDeltaTime();
         if(timeSeconds > period){
             timeSeconds-=period;
-            //levelSeconds--;
+            levelSeconds--;
             if (levelSeconds <= 0) {
                 return true;
             }
