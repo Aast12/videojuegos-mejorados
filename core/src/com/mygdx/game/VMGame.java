@@ -129,8 +129,7 @@ public class VMGame extends Game {
             mainMenu.render(Gdx.graphics.getDeltaTime());
             batch.end();
         }
-	    else if (!mainMenu.getMenu().isVisible() && !level1.getLost() && !level1.getWin()){
-        } else if (settings.getSettings().isVisible()) {
+        else if (settings.getSettings().isVisible()) {
             batch.begin();
             settings.render(Gdx.graphics.getDeltaTime());
             batch.end();
