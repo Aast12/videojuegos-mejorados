@@ -19,6 +19,8 @@ public class Settings implements Screen {
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
 
+    private Texture backButtonMaterial;
+
     // variables de configuracion
     private int currentMusicVol;
     private int currentFxVol;
@@ -26,6 +28,8 @@ public class Settings implements Screen {
     private String currentDifficulty;
 
     // para el slider de volumen
+    private Texture barMaterial;
+    private Texture sliderMaterial;
     private Button bar;
     private Button slider;
 
@@ -43,10 +47,11 @@ public class Settings implements Screen {
         // configurando botones de la pantalla
         this.options = new LinkedList<Button>();
         this.buttonMaterial = new Texture("material1.png");
+        this.backButtonMaterial = new Texture("back.png");
         Button musicVolume = new Button(200, 276, 128, 32, "MUSIC", buttonMaterial);
         Button fxVolume = new Button(200, 338, 128, 32, "FX", buttonMaterial);
         Button difficulty = new Button(200, 400, 128, 32, "DIFFICULTY", buttonMaterial);
-        Button back = new Button(6, 568, 128, 32, "BACK", buttonMaterial);
+        Button back = new Button(6, 568, 70, 32, "BACK", backButtonMaterial);
         this.options.add(musicVolume);
         this.options.add(fxVolume);
         this.options.add(difficulty);
@@ -64,9 +69,19 @@ public class Settings implements Screen {
         currentFxVol = 100;
         currentDifficulty = difficulties[1];
 
-        bar = new Button(340, 276, 384, 32, "", buttonMaterial);
-        slider = new Button(340, 276, 32, 32, "", buttonMaterial);
+        // slider configurations
+        barMaterial = new Texture("bar.png");
+        sliderMaterial = new Texture("slider.png");
+        bar = new Button(340, 276, 384, 32, " ", barMaterial);
+        slider = new Button(340, 276, 32, 32, " ", sliderMaterial);
+        this.options.add(bar);
+        this.options.add(slider);
 
+        // difficulty selector configs
+        easier = new Button(340, 400, 128, 32, "Easier", sliderMaterial);
+        harder = new Button(692, 400, 128, 32, "Harder!", sliderMaterial);
+        this.options.add(easier);
+        this.options.add(harder);
     }
 
     public Menu getSettings() {
