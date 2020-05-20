@@ -1,9 +1,15 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import java.util.LinkedList;
 
 public class GameOver implements Screen {
@@ -15,6 +21,11 @@ public class GameOver implements Screen {
 	private Texture background; // el fondo de esta pantalla
 	private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
 	private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
+	TextButton button;
+	Stage stage;
+	TextButtonStyle textButtonStyle;
+	Skin skin;
+	TextureAtlas buttonAtlas;
 	private boolean gameWon;
 
 	/**
@@ -26,21 +37,32 @@ public class GameOver implements Screen {
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
-
-		this.options = new LinkedList<>();
-		this.buttonMaterial = new Texture("material1.png");
-		Button save = new Button(334, 500, 128, 32, "SAVE", buttonMaterial);
-		Button quit = new Button(334, 542, 128, 32, "QUIT", buttonMaterial);
-		this.options.add(save);
-		this.options.add(quit);
 		gameWon = won;
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+		skin = new Skin();
+		buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
+		skin.addRegions(buttonAtlas);
+		textButtonStyle = new TextButtonStyle();
+		textButtonStyle.font = font;
+		textButtonStyle.up = skin.getDrawable("up-button");
+		textButtonStyle.down = skin.getDrawable("down-button");
+		textButtonStyle.checked = skin.getDrawable("checked-button");
+
 		if (gameWon)
+		{
 			this.background = new Texture("win_game.png");
+			button = new TextButton("Button1", textButtonStyle);
+		}
 		else
+		{
 			this.background = new Texture("game_over.png");
+			button = new TextButton("Button1", textButtonStyle);
+		}
 		this.levelContinue = new Menu(game, "LEVEL START", this.options, background);
 
 		this.font = new BitmapFont();
+		stage.addActor(button);
 	}
     
 	@Override
@@ -49,6 +71,7 @@ public class GameOver implements Screen {
 
 	@Override
 	public void render(float f) {
+		stage.draw();
 		
 	}
 
