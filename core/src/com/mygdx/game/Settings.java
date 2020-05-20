@@ -40,7 +40,7 @@ public class Settings implements Screen {
     private Button harder;
 
     /**
-     * El constructor para el menú de opciones.
+     * El constructor para el menï¿½ de opciones.
      *
      * @param game
      */
@@ -93,7 +93,7 @@ public class Settings implements Screen {
     }
 
     /**
-     * Regresa el menú que usa para construirse.
+     * Regresa el menï¿½ que usa para construirse.
      *
      * @return settings
      */
@@ -107,7 +107,7 @@ public class Settings implements Screen {
     }
 
     /**
-     * Dibuja el menú de opciones y checa el estado de cada botón.
+     * Dibuja el menï¿½ de opciones y checa el estado de cada boton.
      *
      * @param delta
      */

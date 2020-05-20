@@ -26,14 +26,14 @@ public class Button {
     private Rectangle box;
 
     /**
-     * Constructor de un botón
+     * Constructor de un botï¿½n
      *
-     * @param x: posición x
-     * @param y: posición y
-     * @param width: ancho del botón
-     * @param height: alto del botón
-     * @param message: texto del botón
-     * @param material: textura del botón
+     * @param x: posicion x
+     * @param y: posicion y
+     * @param width: ancho del boton
+     * @param height: alto del boton
+     * @param message: texto del boton
+     * @param material: textura del boton
      */
     public Button(int x, int y, int width, int height, String message, Texture material) {
         this.x = x;
