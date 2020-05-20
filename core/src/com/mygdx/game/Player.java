@@ -157,7 +157,7 @@ public class Player extends Entity {
                             //System.out.println(2);
                             lastHit = now;
                             level.getItems().get(i).get(j).setPickable(0);
-                            for (int k = 0; k < 3; k++) {
+                            for (int k = 0; k < level.getGroup().size(); k++) {
                                 if (level.getGroup().get(k).getIndexList() == i) {
                                     level.getGroup().get(k).setCounter(level.getGroup().get(k).getCounter() - 1);
                                 }
@@ -193,8 +193,12 @@ public class Player extends Entity {
         }
 
         // Se gana teniendo el item y yendo al final
-        if (level.getItems().size() == 0) { //The 1 will later be an attribute for needed points to win in that level
-            if ((x + hitbox.width) > 160 && x < 160 && (y + hitbox.height) > 628 && y < 628 ) {
+        if ((x + hitbox.width) > 160 && x < 160 && (y + hitbox.height) > 628 && y < 628 ) { // goes to ending point
+            int itemsRemaining = 0;
+            for (int i = 0; i < level.getGroup().size(); i++) {
+                itemsRemaining += level.getGroup().get(i).getCounter();
+            }
+            if (itemsRemaining == 0) {
                 level.setWin(true);
             }
         }

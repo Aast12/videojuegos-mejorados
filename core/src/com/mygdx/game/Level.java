@@ -119,7 +119,9 @@ public class Level {
      */
     public void render(SpriteBatch batch) {
         for (int i = 0; i < items.size(); i++ ) {
-            for (int j = 0; i < items.get(i).size(); j++) {
+            for (int j = 0; j < items.get(i).size(); j++) {
+                System.out.println(items.size());
+                System.out.println((items.get(i).size()));
                 if (items.get(i).get(j).getPickable() != 0) {
                     items.get(i).get(j).render(batch);
                 }
