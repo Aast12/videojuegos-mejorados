@@ -24,6 +24,7 @@ public class Player extends Entity {
     double lastHit;
     private VMGame game;
     private int dashes;
+    private long timeUnit = 1000000000;
 
     Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
     int animationState = -1;
@@ -109,7 +110,7 @@ public class Player extends Entity {
         // Reinicia la animacion a posicion estatica
         animationState = -1;
         //Deja el dash despues de cierto tiempo
-        if (isDashing && dashTime - System.nanoTime() < 3 * 1000000000) {
+        if (isDashing && System.nanoTime() - dashTime > 0.2 * timeUnit) {
             isDashing = false;
             acceleration = 0;
         }
@@ -152,7 +153,7 @@ public class Player extends Entity {
                 if (hitbox.overlaps(level.getItems().get(i).hitbox))
                 {
                     double now = System.nanoTime();
-                    if (now - lastHit > 1000000000) {
+                    if (now - lastHit > timeUnit) {
                         System.out.println(2);
                         lastHit = now;
                         level.getItems().remove(i);
@@ -173,7 +174,7 @@ public class Player extends Entity {
 	{
 		if (getHitbox().overlaps(e.getCovidZone())) {
 		    double now = System.nanoTime();
-		    if (now - lastHit > 1000000000) {
+		    if (now - lastHit > timeUnit) {
 			health -= 25; //quick death for testing
 			lastHit = now;
 		    }
