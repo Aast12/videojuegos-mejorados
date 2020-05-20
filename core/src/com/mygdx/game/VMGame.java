@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
@@ -102,14 +104,24 @@ public class VMGame extends Game {
 
         mymap = new MapHandler("mapa.tmx", camera);
         map = mymap.map;
-	    //create enemies
-	    enemies = new ArrayList<Enemy>();
-	    Enemy man1 = new RandomEnemy(700, 600, mymap);
-	    Enemy man2 = new RandomEnemy(600, 600, mymap);
-	    Enemy man3 = new RandomEnemy(600, 500, mymap);
-	    enemies.add(man1);
-	    enemies.add(man2);
-	    enemies.add(man3);
+        //create enemies
+        enemies = new ArrayList<Enemy>();
+        // Enemy man1 = new RandomEnemy(700, 600, mymap);
+        // Enemy man2 = new RandomEnemy(600, 600, mymap);
+        // Enemy man3 = new RandomEnemy(600, 500, mymap);
+        Iterator<MapObject> it =  map.getLayers().get("Enemies").getObjects().iterator();
+        while (it.hasNext()) {
+            MapObject curr = it.next();
+            int x = (int) Float.parseFloat(curr.getProperties().get("x").toString());
+            int y = (int) Float.parseFloat(curr.getProperties().get("y").toString());
+            
+            Enemy man = new RandomEnemy(x, y, mymap);
+            enemies.add(man);
+        }
+        
+	// enemies.add(man1);
+	// enemies.add(man2);
+	// enemies.add(man3);
 
 
         music.setLooping(true);

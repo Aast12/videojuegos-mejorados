@@ -7,9 +7,7 @@ import com.mygdx.game.VMGame;
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
-        if (System.getProperty("user.name").equals("Alam Sanchez")) {
-            System.setProperty("user.name", "aast");
-        }
+        System.setProperty("user.name", "Public");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Game";
         config.resizable = false;
