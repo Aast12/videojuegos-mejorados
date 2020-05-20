@@ -11,6 +11,10 @@ public class DesktopLauncher {
             System.setProperty("user.name", "aast");
         }
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        new LwjglApplication(new VMGame(), "Game", 800, 600);
+        config.title = "Game";
+        config.resizable = false;
+        config.width = 800;
+        config.height = 600;
+        new LwjglApplication(new VMGame(), config);
     }
 }
