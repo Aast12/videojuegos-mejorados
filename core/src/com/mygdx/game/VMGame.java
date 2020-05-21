@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
-interface Apply<T> {
+interface Lambda {
     public void apply(Object mp);
 }
 
@@ -55,24 +55,44 @@ public class VMGame extends Game {
     LevelContinue levelContinue;
     ArrayList<Enemy> enemies;
 
+    int endX;
+    int endY;
+
     /**
      * aqui se crean los assets necesarios para jugar al juego
      */
     @Override
     public void create() {
-        // camera = new OrthographicCamera();
-        // camera.setToOrtho(false, 800, 600);
-        // mymap = new MapHandler("mapa.tmx", camera);
-        // map = mymap.map;
+        camera = new OrthographicCamera(800, 600);
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
 
         batch = new SpriteBatch();
         end = new Texture("end.png");
 
-        item1 = new Item(200, 300, 26, 26, 1);
-        ArrayList<Item> itemsfirst = new ArrayList<Item>();
-        itemsfirst.add(item1);
+        //Inicialización de mapa
+        mymap = new MapHandler("mapa.tmx", camera);
+        map = mymap.map;
+
+        endX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("x").toString());
+        endY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("y").toString());
+
+        // item1 = new Item(200, 300, 26, 26, 1);
+        // ArrayList<Item> itemsfirst = new ArrayList<Item>();
+        // itemsfirst.add(item1);
         items = new ArrayList<ArrayList<Item>>();
-        items.add(itemsfirst);
+        // items.add(itemsfirst);
+
+        //Incialización de items desde los datos del mapa
+        Lambda genItems = (mp) -> {
+            MapProperties curr = (MapProperties) mp;
+            int x = (int) Float.parseFloat(curr.get("x").toString());
+            int y = (int) Float.parseFloat(curr.get("y").toString());
+            ArrayList<Item> itemsfirst = new ArrayList<Item>();
+            itemsfirst.add(new Item(x, y, 26, 26, curr.get("filename").toString(), 1));
+            items.add(itemsfirst);
+        };
+        mymap.applyOnLayerObjects("Items", genItems, true);
 
         level1 = new Level(40, mymap, items);
         player = new Player(800 / 2 - 64 / 2, 136, level1, this);
@@ -90,7 +110,6 @@ public class VMGame extends Game {
         levelContinue.getLevelContinue().setVisible(false);
 
         font = new BitmapFont();
-        //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
         music.setVolume((float) 0.05);
@@ -102,25 +121,17 @@ public class VMGame extends Game {
         hud.setHealth(98);
         hud.setDash(player.getDashes());
         hud.setGel(0);
-
-        camera = new OrthographicCamera(800, 600);
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
-
-        mymap = new MapHandler("mapa.tmx", camera);
-        map = mymap.map;
-        //create enemies
+        
+        //Incialización de enemigos desde los datos del
         enemies = new ArrayList<Enemy>();
-
-        Apply<Enemy> myfn = (mp) -> {
+        Lambda genEnemies = (mp) -> {
             MapProperties curr = (MapProperties) mp;
             int x = (int) Float.parseFloat(curr.get("x").toString());
             int y = (int) Float.parseFloat(curr.get("y").toString());
             enemies.add(new RandomEnemy(x, y, mymap));
         };
 
-        mymap.applyOnLayerObjects("Enemies", myfn, true);
-
+        mymap.applyOnLayerObjects("Enemies", genEnemies, true);
 
         music.setLooping(true);
         music.play();
@@ -181,7 +192,7 @@ public class VMGame extends Game {
 			e.render(batch);
 		}
 	        level1.render(batch);
-            batch.draw(end, 128, 596);
+            batch.draw(end, endX, endY);
 
             //batch.draw;
             batch.end();

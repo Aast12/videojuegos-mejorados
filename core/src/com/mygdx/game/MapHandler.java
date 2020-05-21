@@ -49,17 +49,35 @@ public class MapHandler {
         this.camera = camera;
     }
 
-    public < T > void applyOnLayerObjects(String layerName, Apply<T> fn, boolean onProperties) {
+    /**
+     * Aplica una función en todos los objetos de una capa del mapa.
+     * 
+     * @param layerName nombre de la capa de objetos
+     * @param fn objeto Lambda con la función a aplicar
+     * @param onProperties bandera determina si se mandan las propiedades el objeto del mapa a la lambda o el mismo objeto
+     */
+    public void applyOnLayerObjects(String layerName, Lambda fn, boolean onProperties) {
+        //Se genera un iterador para recorrer todos los objetos
         Iterator<MapObject> it =  map.getLayers().get(layerName).getObjects().iterator();
-
         while (it.hasNext()) {
             MapObject curr = it.next();
+            // Se aplica la función sobre el objeto o las propiedades
             if (onProperties) {
                 fn.apply(curr.getProperties());
             } else {
                 fn.apply(curr);
             }
         }
+    }
+
+    /**
+     * Regresa un objeto del mapa dado su nombre y la capa en la que se encuentra.
+     * 
+     * @param layerName nombre de la capa para buscar
+     * @param objectName nombre del objeto dentro de la capa
+     */
+    public MapObject getObjectFromLayer(String layerName, String objectName) {
+        return map.getLayers().get(layerName).getObjects().get(objectName);
     }
 
 

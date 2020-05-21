@@ -14,10 +14,10 @@ public class Item extends Entity{
     // 1: is able to be picked
     // 2: only available to render
 
-    public Item(int x, int y, int width, int height, int pickable)
+    public Item(int x, int y, int width, int height, String textureFile, int pickable)
     {
         super(x, y);
-        this.img = new Texture("item.png");
+        this.img = new Texture(textureFile);
         this.pickable = pickable;
         this.hitbox = new Rectangle();
         hitbox.width = width;
