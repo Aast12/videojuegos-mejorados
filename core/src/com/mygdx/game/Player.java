@@ -25,6 +25,7 @@ public class Player extends Entity {
     private VMGame game;
     private int dashes;
     private long timeUnit = 1000000000;
+    private double dashTimeProportion = 0.2;
 
     Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
     int animationState = -1;
@@ -110,7 +111,7 @@ public class Player extends Entity {
         // Reinicia la animacion a posicion estatica
         animationState = -1;
         //Deja el dash despues de cierto tiempo
-        if (isDashing && System.nanoTime() - dashTime > 0.2 * timeUnit) {
+        if (isDashing && System.nanoTime() - dashTime > dashTimeProportion * timeUnit) {
             isDashing = false;
             acceleration = 0;
         }
