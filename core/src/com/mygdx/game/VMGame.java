@@ -24,7 +24,7 @@ public class VMGame extends Game {
     Level level1; // variable en la que se almacena el nivel
     Player player; // entidad que controlara el usuario
     Item item1; // aqui se guarda un item
-    ArrayList<Item> items; // aqui se guarda la lista de los items
+    ArrayList<ArrayList<Item>> items; // aqui se guarda la lista de los items
 
     OrthographicCamera camera; // es la camara que seguira al jugador
     // Los siguientes dos manejaran el mapa, la imagen y los tiles
@@ -61,9 +61,11 @@ public class VMGame extends Game {
         batch = new SpriteBatch();
         end = new Texture("end.png");
 
-        item1 = new Item(200, 300, 26, 26);
-        items = new ArrayList<Item>();
-        items.add(item1);
+        item1 = new Item(200, 300, 26, 26, 1);
+        ArrayList<Item> itemsfirst = new ArrayList<Item>();
+        itemsfirst.add(item1);
+        items = new ArrayList<ArrayList<Item>>();
+        items.add(itemsfirst);
 
         level1 = new Level(40, mymap, items);
         player = new Player(800 / 2 - 64 / 2, 136, level1, this);
@@ -100,14 +102,14 @@ public class VMGame extends Game {
 
         mymap = new MapHandler("mapa.tmx", camera);
         map = mymap.map;
-	//create enemies
-	enemies = new ArrayList<Enemy>();
-	Enemy man1 = new RandomEnemy(700, 600, mymap);
-	Enemy man2 = new RandomEnemy(600, 600, mymap);
-	Enemy man3 = new RandomEnemy(600, 500, mymap);
-	enemies.add(man1);
-	enemies.add(man2);
-	enemies.add(man3);
+	    //create enemies
+	    enemies = new ArrayList<Enemy>();
+	    Enemy man1 = new RandomEnemy(700, 600, mymap);
+	    Enemy man2 = new RandomEnemy(600, 600, mymap);
+	    Enemy man3 = new RandomEnemy(600, 500, mymap);
+	    enemies.add(man1);
+	    enemies.add(man2);
+	    enemies.add(man3);
 
 
         music.setLooping(true);

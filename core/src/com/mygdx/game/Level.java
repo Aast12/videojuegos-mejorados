@@ -12,7 +12,8 @@ public class Level {
     float timeSeconds = 0f;
     float period = 1f;
     private MapHandler map;
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private ArrayList<ArrayList<Item>> items = new ArrayList<ArrayList<Item>>();
+    private ArrayList<ItemGroup> group = new ArrayList<ItemGroup>();
 
     /**
      * Constructor de nivel
@@ -20,14 +21,29 @@ public class Level {
      * @param map mapa que pertenece al nivel
      * @param items items que pertenecen el nivel
      */
-    public Level (int seconds, MapHandler map, ArrayList<Item> items) {
+    public Level (int seconds, MapHandler map, ArrayList<ArrayList<Item>> items) {
         this.win = false;
         this.lost = false;
         this.map = map;
         this.levelSeconds = seconds;
         // this.items.addAll(items);
-        this.items= new ArrayList<Item>(items);
+        this.items= new ArrayList<ArrayList<Item>>(items);
+        constructGroup(this.items);
     }
+
+    public void constructGroup(ArrayList<ArrayList<Item>> list) {
+
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).get(0).getPickable() == 1) {
+                group.add(new ItemGroup(list.get(i).get(0).getImg(), 1, i));
+                for (int j = 1; j < list.get(i).size(); j++) {
+                    group.get(i).setCounter(j+1);
+                }
+            }
+        }
+    }
+
+    public ArrayList<ItemGroup> getGroup() {return group;}
 
     /**
      * getter de los segundos
@@ -57,7 +73,7 @@ public class Level {
      * getter la lista de objetos
      * @return la lista de objetos
      */
-    public ArrayList<Item> getItems() {return items;}
+    public ArrayList<ArrayList<Item>> getItems() {return items;}
 
     /**
      * setter de win
@@ -103,7 +119,11 @@ public class Level {
      */
     public void render(SpriteBatch batch) {
         for (int i = 0; i < items.size(); i++ ) {
-            items.get(i).render(batch);
+            for (int j = 0; j < items.get(i).size(); j++) {
+                if (items.get(i).get(j).getPickable() != 0) {
+                    items.get(i).get(j).render(batch);
+                }
+            }
         }
     }
 }
