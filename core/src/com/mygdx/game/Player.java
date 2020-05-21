@@ -149,14 +149,13 @@ public class Player extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
             for (int i = 0; i < level.getItems().size(); i++ ) {
-                for (int j = 0; j < level.getItems().get(i).size(); j++) {
-                    if (hitbox.overlaps(level.getItems().get(i).get(j).hitbox)
-                            && level.getItems().get(i).get(j).getPickable() == 1) {
+                for (Item item : level.getItems().get(i)) {
+                    if (hitbox.overlaps(item.hitbox)
+                            && item.getPickable() == 1) {
                         double now = System.nanoTime();
                         if (now - lastHit > 1000000000) {
-                            //System.out.println(2);
                             lastHit = now;
-                            level.getItems().get(i).get(j).setPickable(0);
+                            item.setPickable(0);
                             for (int k = 0; k < level.getGroup().size(); k++) {
                                 if (level.getGroup().get(k).getIndexList() == i) {
                                     level.getGroup().get(k).setCounter(level.getGroup().get(k).getCounter() - 1);

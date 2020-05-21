@@ -26,8 +26,16 @@ public class Item extends Entity{
         hitbox.y = y + 3;
     }
 
+    /**
+     * getter de pickable
+     * @return el valor del pickable
+     */
     public int getPickable() {return pickable;}
 
+    /**
+     * setter de pickable
+     * @param p numero indicando el estado pickable del item
+     */
     public void setPickable(int p) {pickable = p;}
 
     @Override
