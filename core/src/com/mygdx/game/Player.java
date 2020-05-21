@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
@@ -27,7 +28,7 @@ public class Player extends Entity {
     private long timeUnit = 1000000000;
     private double dashTimeProportion = 0.2;
 
-    Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
+    ArrayList<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
     int animationState = -1;
     // Estatico
     // 0 frontal
@@ -71,7 +72,7 @@ public class Player extends Entity {
         hitbox.height = walkSheet.getHeight() / 4;
 
         // Asignacion de animaciones
-        walkAnimation = new Vector<Animation<TextureRegion>>();
+        walkAnimation = new ArrayList<Animation<TextureRegion>>();
         for (int i = 0; i < 4; i++) {
             TextureRegion[] walkFrames = new TextureRegion[4];
             for (int j = 0; j < 4; j++) {

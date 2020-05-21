@@ -10,12 +10,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
+
+interface Apply<T> {
+    public void apply(Object mp);
+}
 
 public class VMGame extends Game {
 
@@ -34,7 +39,7 @@ public class VMGame extends Game {
     TiledMap map;
     MapHandler mymap;
 
-    Vector<RectangleMapObject> walls; // Los tiles de las paredes
+    ArrayList<RectangleMapObject> walls; // Los tiles de las paredes
 
     HUD hud; // aqui se hace el rendering del layout dle HUD
 
@@ -106,22 +111,15 @@ public class VMGame extends Game {
         map = mymap.map;
         //create enemies
         enemies = new ArrayList<Enemy>();
-        // Enemy man1 = new RandomEnemy(700, 600, mymap);
-        // Enemy man2 = new RandomEnemy(600, 600, mymap);
-        // Enemy man3 = new RandomEnemy(600, 500, mymap);
-        Iterator<MapObject> it =  map.getLayers().get("Enemies").getObjects().iterator();
-        while (it.hasNext()) {
-            MapObject curr = it.next();
-            int x = (int) Float.parseFloat(curr.getProperties().get("x").toString());
-            int y = (int) Float.parseFloat(curr.getProperties().get("y").toString());
-            
-            Enemy man = new RandomEnemy(x, y, mymap);
-            enemies.add(man);
-        }
-        
-	// enemies.add(man1);
-	// enemies.add(man2);
-	// enemies.add(man3);
+
+        Apply<Enemy> myfn = (mp) -> {
+            MapProperties curr = (MapProperties) mp;
+            int x = (int) Float.parseFloat(curr.get("x").toString());
+            int y = (int) Float.parseFloat(curr.get("y").toString());
+            enemies.add(new RandomEnemy(x, y, mymap));
+        };
+
+        mymap.applyOnLayerObjects("Enemies", myfn, true);
 
 
         music.setLooping(true);

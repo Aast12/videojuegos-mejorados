@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,7 +26,7 @@ public class MapHandler {
     public OrthographicCamera camera;
     public OrthogonalTiledMapRenderer renderer;
     public TiledMap map;
-    public Vector<MapObject> solidObjects;
+    public ArrayList<MapObject> solidObjects;
     
     /**
      * Crea un objeto MapHandler para manejar un tilemap.
@@ -46,6 +48,20 @@ public class MapHandler {
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
     }
+
+    public < T > void applyOnLayerObjects(String layerName, Apply<T> fn, boolean onProperties) {
+        Iterator<MapObject> it =  map.getLayers().get(layerName).getObjects().iterator();
+
+        while (it.hasNext()) {
+            MapObject curr = it.next();
+            if (onProperties) {
+                fn.apply(curr.getProperties());
+            } else {
+                fn.apply(curr);
+            }
+        }
+    }
+
 
     /**
      * Indica si un rectangulo colisiona con alguno de los objetos 

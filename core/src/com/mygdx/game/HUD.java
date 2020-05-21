@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
@@ -28,15 +29,15 @@ public class HUD {
     Table bottomBar;
     Label healthLabel;
     Table itemSection;
-    Vector<Table> items;
+    ArrayList<Table> items;
     Container<Label> timerField;
     Label timerLabel;    
     Container<Label> dayField;
     Label dayLabel;
 
     Container<Image> statusContainer;
-    Vector<Container<Image>> dashes;
-    Vector<Container<Image>> gel;
+    ArrayList<Container<Image>> dashes;
+    ArrayList<Container<Image>> gel;
 
     String format;
     DecimalFormat decimalFormat;
@@ -64,7 +65,7 @@ public class HUD {
         itemSection.align(Align.bottomLeft);
         itemSection.pad(4);
         itemSection.row().fill();
-        items = new Vector<Table>();
+        items = new ArrayList<Table>();
         for (int i = 0; i < 3; i++) {
             items.add(new Table(skin));
             items.get(i).setBackground(darkUIColor);
@@ -109,7 +110,7 @@ public class HUD {
         statusContainer.setBackground(lightUIColor);
         bottomBar.add(statusContainer).height(80).width(80).padLeft(16).padRight(48);
 
-        dashes = new Vector<Container<Image>>();
+        dashes = new ArrayList<Container<Image>>();
 
         for (int i = 0; i < 3; i++) {
             dashes.add(new Container<Image>());
@@ -117,7 +118,7 @@ public class HUD {
             bottomBar.add(dashes.get(i)).height(21).width(21).pad(16);
         }
 
-        gel = new Vector<Container<Image>>();
+        gel = new ArrayList<Container<Image>>();
 
         for (int i = 0; i < 3; i++) {
             gel.add(new Container<Image>());
