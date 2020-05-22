@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.LinkedList;
 
@@ -18,6 +19,7 @@ public class LevelContinue implements Screen {
     private Texture background; // el fondo de esta pantalla
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
+    private SpriteBatch batch;
 
     /**
      * Constructor para el men� del level overlay.
@@ -64,12 +66,12 @@ public class LevelContinue implements Screen {
         levelContinue.render(delta); // dibujar materiales y botones
 
         // dibujar instrucciones sobre los controles
-        game.font.draw(game.batch, "W: Move up", 334, 460);
-        game.font.draw(game.batch, "S: Move down", 334, 430);
-        game.font.draw(game.batch, "A: Move left", 334, 400);
-        game.font.draw(game.batch, "D: Move right", 334, 370);
-        game.font.draw(game.batch, "E: Pick object", 334, 340);
-        game.font.draw(game.batch, "SPACE BAR: Dash", 334, 310);
+        game.font.draw(batch, "W: Move up", 334, 460);
+        game.font.draw(batch, "S: Move down", 334, 430);
+        game.font.draw(batch, "A: Move left", 334, 400);
+        game.font.draw(batch, "D: Move right", 334, 370);
+        game.font.draw(batch, "E: Pick object", 334, 340);
+        game.font.draw(batch, "SPACE BAR: Dash", 334, 310);
 
         /*
         Boton 0: save

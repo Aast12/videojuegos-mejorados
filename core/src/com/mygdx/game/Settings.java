@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.LinkedList;
 
@@ -38,6 +39,8 @@ public class Settings implements Screen {
     private Texture difficultyButton;
     private Button easier;
     private Button harder;
+
+    private SpriteBatch batch;
 
     /**
      * El constructor para el men� de opciones.
@@ -114,7 +117,7 @@ public class Settings implements Screen {
     @Override
     public void render(float delta) {
         settings.render(delta); // dibujar materiales y botones
-        game.font.draw(game.batch, currentDifficulty, 500, 195);
+        game.font.draw(batch, currentDifficulty, 500, 195);
         if (index > 2) {
             index = 0;
         } else if (index < 0) {
