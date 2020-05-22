@@ -42,10 +42,6 @@ public class VMGame extends Game {
      */
     @Override
     public void create() {
-        // camera = new OrthographicCamera();
-        // camera.setToOrtho(false, 800, 600);
-        // mymap = new MapHandler("mapa.tmx", camera);
-        // map = mymap.map;
       	gameOver = new GameOver(this);
       	winScreen = new Texture("win_screen.png");
 
@@ -57,7 +53,6 @@ public class VMGame extends Game {
         levelContinue.getLevelContinue().setVisible(false);
 
         font = new BitmapFont();
-        //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
 
 
 
@@ -82,75 +77,6 @@ public class VMGame extends Game {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         super.render();
-/*
-        if (mainMenu.getMenu().isVisible()) {
-            batch.begin();
-            mainMenu.render(Gdx.graphics.getDeltaTime());
-            batch.end();
-        }
-        else if (settings.getSettings().isVisible()) {
-            batch.begin();
-            settings.render(Gdx.graphics.getDeltaTime());
-            batch.end();
-	}
-	else if (gameOver.isVisible()) {
-		batch.begin();
-		gameOver.render(Gdx.graphics.getDeltaTime());
-		batch.end();
-	}
-        else if (!mainMenu.getMenu().isVisible() && !level1.getLost() && !level1.getWin()) { // pantalla de juego
-		
-            if (music.isPlaying()) {
-                music.stop();
-                levelMusic.play();
-            }
-
-            camera.position.x = player.x + player.getHitbox().width / 2f;
-            camera.position.y = player.y + player.getHitbox().height / 2f;
-            camera.update();
-
-            mymap.render(batch);
-            batch.begin();
-            
-		// Sprites Render y tick
-		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
-			Enemy e = it.next();
-			e.tick();
-		}
-	        level1.tick();
-	        player.tick();
-
-            player.render(batch);
-		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
-			Enemy e = it.next();
-			e.render(batch);
-		}
-	        level1.render(batch);
-            batch.draw(end, 128, 596);
-
-            //batch.draw;
-            batch.end();
-
-            // HUD Render
-            hud.stage.act(Gdx.graphics.getDeltaTime());
-            hud.stage.draw();
-
-            hud.setHealth(player.getHealth());
-            hud.setDash(player.getDashes());
-            hud.setTime(level1.getLevelSeconds());
-		
-        } else if (level1.getWin()) { // pantalla de game won
-            batch.begin();
-            batch.draw(winScreen, camera.position.x - 400, camera.position.y - 300);
-            batch.end();
-        } 
-	else if (level1.getLost())
-	{
-		gameOver.setVisible(true);
-		camera.setToOrtho(false, 800, 600);
-		camera.update();
-	}
-	*/
     }
 
     /**
@@ -158,10 +84,6 @@ public class VMGame extends Game {
      */
     @Override
 	    public void dispose() {
-		//batch.dispose();
-		// map.dispose();
-		//mymap.dispose();
 		font.dispose();
-        //hud.stage.dispose();
     }
 }
