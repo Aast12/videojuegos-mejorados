@@ -38,10 +38,19 @@ public class Enemy extends Entity {
 		hitbox.x = x;
 		hitbox.y = y;
 		covidBox = new SafeDistance(x-32, y-32);
-		speed =1;
+		speed = 1;
 		direction = -1;
 		this.map = map;
 
+	}
+
+	/**
+	 * Regresa area no segura
+	 * @return 
+	 */
+	public Rectangle getCovidZone()
+	{
+		return covidBox.getHitbox();
 	}
 
 	/**

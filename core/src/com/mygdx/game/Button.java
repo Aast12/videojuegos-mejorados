@@ -25,6 +25,16 @@ public class Button {
     private boolean pressed;
     private Rectangle box;
 
+    /**
+     * Constructor de un bot�n
+     *
+     * @param x: posicion x
+     * @param y: posicion y
+     * @param width: ancho del boton
+     * @param height: alto del boton
+     * @param message: texto del boton
+     * @param material: textura del boton
+     */
     public Button(int x, int y, int width, int height, String message, Texture material) {
         this.x = x;
         this.y = y;
@@ -33,6 +43,14 @@ public class Button {
         this.message = message;
         this.material = material;
         box = new Rectangle(x, y, width, height);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public boolean isPressed() {
