@@ -222,6 +222,11 @@ public class Level implements Screen {
             hud.setHealth(player.getHealth());
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
+
+	    if (getLost())
+	    {
+		    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game);
+	    }
 	}
 
 	@Override
@@ -247,5 +252,6 @@ public class Level implements Screen {
 		mymap.dispose();
 		//font.dispose();
 		hud.stage.dispose();
+		levelMusic.stop();
 	}
 }

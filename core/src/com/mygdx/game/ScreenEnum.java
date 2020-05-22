@@ -25,7 +25,14 @@ public enum ScreenEnum {
 			return new Level(40, game);
 		}
 		
+	},
+	GAME_OVER {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new GameOver(game);
+		}
 	};
+			
 	/**
 	 * Permite acceder a una screen por nombre
 	 * @param game
