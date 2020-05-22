@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import java.util.LinkedList;
 
 public class GameOver implements Screen {
 	private VMGame game; // para dibujar la pantalla
-	private Menu levelContinue; // para implementar la interfaz
-	private LinkedList<Button> options; // para accesar a los botones de esta pantalla
-	private Texture buttonMaterial; // el material para los botones de esta pantalla
 	private boolean visible; // to control screen visibility *REEMPLAZARLA POR EL HANDLER DE LA CAMARA*
 	private Texture background; // el fondo de esta pantalla
 	private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
@@ -26,18 +24,15 @@ public class GameOver implements Screen {
 	TextButtonStyle textButtonStyle;
 	Skin skin;
 	TextureAtlas buttonAtlas;
-	private boolean gameWon;
 
 	/**
 	 * Inicaliza la pantalla de terminar el juego
 	 * @param game 
-	 * @param won 
 	 */
-        public GameOver(VMGame game, boolean won) {
+        public GameOver(final VMGame game) {
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
-		gameWon = won;
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin();
@@ -50,19 +45,25 @@ public class GameOver implements Screen {
 		textButtonStyle.down = skin.getDrawable("button-down");
 		textButtonStyle.checked = skin.getDrawable("button-checked");
 
-		if (gameWon)
-		{
-			this.background = new Texture("win_game.png");
-			button = new TextButton("Continue", textButtonStyle);
-		}
-		else
-		{
-			this.background = new Texture("game_over.png");
-			button = new TextButton("Restart", textButtonStyle);
-		}
-		this.levelContinue = new Menu(game, "LEVEL START", this.options, background);
+		this.background = new Texture("game_over.png");
+		button = new TextButton("Restart", textButtonStyle);
+		button.addListener(new InputListener() 
+		{ 
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+			{
+					
+			}
 
-		this.font = new BitmapFont();
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				setVisible(false);
+				game.mainMenu.getMenu().setVisible(true);
+				return true;	
+			}
+		});
+
 		stage.addActor(button);
 	}
 
@@ -76,7 +77,6 @@ public class GameOver implements Screen {
 		visible = vis;
 	}
 
-    
 	@Override
 	public void show() {
 	}
