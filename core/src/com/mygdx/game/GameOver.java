@@ -43,27 +43,39 @@ public class GameOver implements Screen {
 		skin = new Skin();
 		buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
 		skin.addRegions(buttonAtlas);
+		font = new BitmapFont();
 		textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
-		textButtonStyle.up = skin.getDrawable("up-button");
-		textButtonStyle.down = skin.getDrawable("down-button");
-		textButtonStyle.checked = skin.getDrawable("checked-button");
+		textButtonStyle.up = skin.getDrawable("button-up");
+		textButtonStyle.down = skin.getDrawable("button-down");
+		textButtonStyle.checked = skin.getDrawable("button-checked");
 
 		if (gameWon)
 		{
 			this.background = new Texture("win_game.png");
-			button = new TextButton("Button1", textButtonStyle);
+			button = new TextButton("Continue", textButtonStyle);
 		}
 		else
 		{
 			this.background = new Texture("game_over.png");
-			button = new TextButton("Button1", textButtonStyle);
+			button = new TextButton("Restart", textButtonStyle);
 		}
 		this.levelContinue = new Menu(game, "LEVEL START", this.options, background);
 
 		this.font = new BitmapFont();
 		stage.addActor(button);
 	}
+
+	public boolean isVisible()
+	{
+		return visible;
+	}
+
+	public void setVisible(boolean vis)
+	{
+		visible = vis;
+	}
+
     
 	@Override
 	public void show() {
