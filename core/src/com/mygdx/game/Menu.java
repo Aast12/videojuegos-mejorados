@@ -32,6 +32,7 @@ public class Menu implements Screen {
         this.game = game;
         this.options = options;
         this.background = background;
+	batch = new SpriteBatch();
 
         //camera = new OrthographicCamera();
         //camera.setToOrtho(false, 800, 600);
