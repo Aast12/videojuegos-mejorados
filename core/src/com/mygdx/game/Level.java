@@ -53,11 +53,6 @@ public class Level implements Screen {
 	this.game = g;
         batch = new SpriteBatch();
 
-        hud = new HUD();
-        hud.setTime(getLevelSeconds());
-        hud.setHealth(98);
-        hud.setDash(player.getDashes());
-        hud.setGel(0);
 	//Empezando aqui todo debe ser por nivel
 	//TOOD: la inicializacion de player deberia depender del nivel
         player = new Player(800 / 2 - 64 / 2, 136, this, game);
@@ -79,6 +74,12 @@ public class Level implements Screen {
 	    enemies.add(man3);
 
         end = new Texture("end.png");
+
+        hud = new HUD();
+        hud.setTime(levelSeconds);
+        hud.setHealth(98);
+        hud.setDash(player.getDashes());
+        hud.setGel(0);
 
 
     }

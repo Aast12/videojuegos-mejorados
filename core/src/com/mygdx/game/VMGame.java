@@ -30,7 +30,6 @@ public class VMGame extends Game {
     GameOver gameOver; // imagen de game over
     Texture winScreen; // imagen de game won
 
-    Music music; // musica de menu
 
     //Son las pantallas disponibles
     MainMenu mainMenu;
@@ -60,8 +59,6 @@ public class VMGame extends Game {
         font = new BitmapFont();
         //this.setScreen(new Menu(this, "THE GAME", mainMenuOptions, background));
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-        music.setVolume((float) 0.05);
 
 
         camera = new OrthographicCamera(800, 600);
@@ -70,8 +67,6 @@ public class VMGame extends Game {
 
 
 
-        music.setLooping(true);
-        music.play();
 	
 	ScreenHandler.getInstance().init(this);
 	ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, this);
