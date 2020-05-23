@@ -46,7 +46,7 @@ public class MainMenu implements Screen {
      * @param game 
      */
     public MainMenu(final VMGame g) {
-        this.game = game;
+        this.game = g;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
         

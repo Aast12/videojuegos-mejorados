@@ -123,6 +123,7 @@ public class Settings implements Screen {
                         index = 2;
                     }
                     System.out.print(difficulties[index]);
+                    System.out.print('\n');
                     return true;
                 }
             }
@@ -147,6 +148,7 @@ public class Settings implements Screen {
                         index = 0;
                     }
                     System.out.print(difficulties[index]);
+                    System.out.print('\n');
                     return true;
                 }
             }
