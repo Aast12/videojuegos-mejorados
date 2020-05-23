@@ -46,11 +46,11 @@ public class VMGame extends Game {
       	winScreen = new Texture("win_screen.png");
 
 
-        settings = new Settings(this);
-        settings.getSettings().setVisible(false);
+        //settings = new Settings(this);
+        //settings.getSettings().setVisible(false);
 
-        levelContinue = new LevelContinue(this);
-        levelContinue.getLevelContinue().setVisible(false);
+        //levelContinue = new LevelContinue(this);
+        //levelContinue.getLevelContinue().setVisible(false);
 
         font = new BitmapFont();
 
@@ -64,7 +64,7 @@ public class VMGame extends Game {
 
 	
 	ScreenHandler.getInstance().init(this);
-	ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, this);
+	ScreenHandler.getInstance().showScreen(ScreenEnum.OPTIONS_MENU, this);
 	
     }
 
