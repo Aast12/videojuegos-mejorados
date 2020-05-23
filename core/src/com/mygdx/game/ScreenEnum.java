@@ -19,6 +19,20 @@ public enum ScreenEnum {
 		}
 
 	},
+        OPTIONS_MENU {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Settings(game);
+		}
+
+	},
+        LEVEL_OVERLAY {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new LevelContinue(game);
+		}
+
+	},
 	LEVEL {
 		@Override
 		public Screen getScreen(VMGame game, Object... params) {

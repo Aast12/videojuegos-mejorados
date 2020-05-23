@@ -45,11 +45,11 @@ public class VMGame extends Game {
       	gameWon = new GameWon(this);
 
 
-        settings = new Settings(this);
-        settings.getSettings().setVisible(false);
+        //settings = new Settings(this);
+        //settings.getSettings().setVisible(false);
 
-        levelContinue = new LevelContinue(this);
-        levelContinue.getLevelContinue().setVisible(false);
+        //levelContinue = new LevelContinue(this);
+        //levelContinue.getLevelContinue().setVisible(false);
 
         font = new BitmapFont();
 

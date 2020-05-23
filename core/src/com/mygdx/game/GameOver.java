@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GameOver implements Screen {
-	private VMGame game; // para dibujar la pantalla
+	private VMGame game; 
 	private Texture background; // el fondo de esta pantalla
 	private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
 	private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
@@ -24,7 +24,7 @@ public class GameOver implements Screen {
 	TextButtonStyle textButtonStyle;
 	Skin skin;
 	TextureAtlas buttonAtlas;
-	SpriteBatch batch;
+	SpriteBatch batch; // para dibujar la pantalla
 
 	/**
 	 * Inicaliza la pantalla de terminar el juego
@@ -54,14 +54,14 @@ public class GameOver implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
 			{
-					
+                            
 			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game);
-				return true;	
+                            ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game);
+                            return true;	
 			}
 		});
 
