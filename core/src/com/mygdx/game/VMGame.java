@@ -26,9 +26,8 @@ public class VMGame extends Game {
 
     Vector<RectangleMapObject> walls; // Los tiles de las paredes
 
-
+    GameWon gameWon; // imagen de game won
     GameOver gameOver; // imagen de game over
-    Texture winScreen; // imagen de game won
 
 
     //Son las pantallas disponibles
@@ -43,7 +42,7 @@ public class VMGame extends Game {
     @Override
     public void create() {
       	gameOver = new GameOver(this);
-      	winScreen = new Texture("win_screen.png");
+      	gameWon = new GameWon(this);
 
 
         settings = new Settings(this);

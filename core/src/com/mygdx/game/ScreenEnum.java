@@ -26,6 +26,12 @@ public enum ScreenEnum {
 		}
 		
 	},
+	GAME_WON {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new GameWon(game);
+		}
+	},
 	GAME_OVER {
 		@Override
 		public Screen getScreen(VMGame game, Object... params) {

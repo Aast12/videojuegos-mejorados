@@ -225,6 +225,11 @@ public class Level implements Screen {
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
 
+        if (getWin()) 
+        {
+            ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
+        }
+
 	    if (getLost())
 	    {
 		    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game);
