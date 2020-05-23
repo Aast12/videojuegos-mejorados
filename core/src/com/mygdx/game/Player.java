@@ -198,7 +198,6 @@ public class Player extends Entity {
             for (int i = 0; i < level.getGroup().size(); i++) {
                 itemsRemaining += level.getGroup().get(i).getCounter();
             }
-            System.out.println(itemsRemaining);
             if (itemsRemaining == 0) {
                 level.setWin(true);
             }
