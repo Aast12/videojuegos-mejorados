@@ -63,7 +63,9 @@ public class Level implements Screen {
         items = new ArrayList<ArrayList<Item>>();
         items.add(itemsfirst);
 
-
+        group = new ArrayList<ItemGroup>();
+        constructGroup(items);
+        
 	    //create enemies
 	    enemies = new ArrayList<Enemy>();
 	    Enemy man1 = new RandomEnemy(700, 600, mymap);
