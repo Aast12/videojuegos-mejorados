@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,6 +19,7 @@ public class MainMenu implements Screen {
     private Texture background;
     private OrthographicCamera camera;
     private BitmapFont font;
+    Music music; // musica de menu
 
     public MainMenu(VMGame game) {
         this.game = game;
@@ -36,7 +38,11 @@ public class MainMenu implements Screen {
         this.options.add(exit);
         this.background = new Texture("main_menu_background.png");
         this.menu = new Menu(game, "THE GAME", this.options, background);
+        music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
+        music.setVolume((float) 0.25);
 
+        music.setLooping(true);
+        music.play();
         this.font = new BitmapFont();
     }
 
@@ -59,7 +65,7 @@ public class MainMenu implements Screen {
         Boton 3: quit
          */
         if (Gdx.input.isTouched() && this.getMenu().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            this.getMenu().setVisible(false);
+		ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game);
         }
         if (Gdx.input.isTouched() && this.getMenu().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
 
@@ -95,6 +101,6 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-
+	music.stop();
     }
 }

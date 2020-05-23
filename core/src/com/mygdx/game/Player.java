@@ -50,7 +50,6 @@ public class Player extends Entity {
         super(x, y);
         this.level = level;
         this.img = new Texture("player.png");
-        this.game = game;
         this.hitbox = new Rectangle();
         // hitbox.width = 40;
         // hitbox.height = 64;
@@ -139,7 +138,7 @@ public class Player extends Entity {
         Rectangle test = new Rectangle(getHitbox());
         test.x += dx;
         test.y += dy;
-        boolean collision = game.mymap.collidesOnLayer("Walls", test);
+        boolean collision = level.mymap.collidesOnLayer("Walls", test);
         // Avanza si no ha chocado con alguna pared
         if (!collision) {
             x += dx;
@@ -177,7 +176,7 @@ public class Player extends Entity {
                 acceleration = 200;
             }
         }
-	for (Enemy e : game.enemies)
+	for (Enemy e : level.enemies)
 	{
 		if (getHitbox().overlaps(e.getCovidZone())) {
 		    double now = System.nanoTime();
@@ -199,6 +198,7 @@ public class Player extends Entity {
             for (int i = 0; i < level.getGroup().size(); i++) {
                 itemsRemaining += level.getGroup().get(i).getCounter();
             }
+            System.out.println(itemsRemaining);
             if (itemsRemaining == 0) {
                 level.setWin(true);
             }

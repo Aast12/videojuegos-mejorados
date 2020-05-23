@@ -1,80 +1,104 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import java.util.LinkedList;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GameOver implements Screen {
 	private VMGame game; // para dibujar la pantalla
-	private Menu levelContinue; // para implementar la interfaz
-	private LinkedList<Button> options; // para accesar a los botones de esta pantalla
-	private Texture buttonMaterial; // el material para los botones de esta pantalla
-	private boolean visible; // to control screen visibility *REEMPLAZARLA POR EL HANDLER DE LA CAMARA*
 	private Texture background; // el fondo de esta pantalla
 	private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
 	private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
-	private boolean gameWon;
+	TextButton button;
+	Stage stage;
+	TextButtonStyle textButtonStyle;
+	Skin skin;
+	TextureAtlas buttonAtlas;
+	SpriteBatch batch;
 
 	/**
 	 * Inicaliza la pantalla de terminar el juego
 	 * @param game 
-	 * @param won 
 	 */
-        public GameOver(VMGame game, boolean won) {
+        public GameOver(final VMGame game) {
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+		skin = new Skin();
+		buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
+		skin.addRegions(buttonAtlas);
+		font = new BitmapFont();
+		textButtonStyle = new TextButtonStyle();
+		textButtonStyle.font = font;
+		textButtonStyle.up = skin.getDrawable("button-up");
+		textButtonStyle.down = skin.getDrawable("button-down");
+		textButtonStyle.checked = skin.getDrawable("button-checked");
+		batch = new SpriteBatch();
 
-		this.options = new LinkedList<>();
-		this.buttonMaterial = new Texture("material1.png");
-		Button save = new Button(334, 500, 128, 32, "SAVE", buttonMaterial);
-		Button quit = new Button(334, 542, 128, 32, "QUIT", buttonMaterial);
-		this.options.add(save);
-		this.options.add(quit);
-		gameWon = won;
-		if (gameWon)
-			this.background = new Texture("win_game.png");
-		else
-			this.background = new Texture("game_over.png");
-		this.levelContinue = new Menu(game, "LEVEL START", this.options, background);
+		this.background = new Texture("game_over.png");
+		button = new TextButton("Restart", textButtonStyle);
+		button.addListener(new InputListener() 
+		{ 
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+			{
+					
+			}
 
-		this.font = new BitmapFont();
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game);
+				return true;	
+			}
+		});
+
+		stage.addActor(button);
 	}
-    
+
 	@Override
 	public void show() {
 	}
 
 	@Override
 	public void render(float f) {
+		batch.begin();
+		batch.draw(background, 0, 0);
+		batch.end();
+		stage.draw();
 		
 	}
 
 	@Override
 	public void resize(int i, int i1) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void pause() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void resume() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void hide() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void dispose() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }
