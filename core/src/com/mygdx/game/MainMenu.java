@@ -133,7 +133,7 @@ public class MainMenu implements Screen {
             }
         );
 	stage.addActor(exitButton);
-
+        
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
         music.setVolume((float) 0.25);
 
