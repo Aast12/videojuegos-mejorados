@@ -7,7 +7,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,6 +35,8 @@ public class Level implements Screen {
     Item item1; // aqui se guarda un item
     Texture end; // luego sera un atributo de la clase Level
 
+    Rectangle endpoint;
+
     /**
      * Constructor de nivel
      * @param seconds segundos para que se acabe el contrarreloj
@@ -50,30 +54,44 @@ public class Level implements Screen {
         camera.update();
         mymap = new MapHandler("mapa.tmx", camera);
         map = mymap.map;
-	this.game = g;
+	    this.game = g;
         batch = new SpriteBatch();
 
-	//Empezando aqui todo debe ser por nivel
-	//TOOD: la inicializacion de player deberia depender del nivel
+	    //Empezando aqui todo debe ser por nivel
+	    //TOOD: la inicializacion de player deberia depender del nivel
         player = new Player(800 / 2 - 64 / 2, 136, this, game);
-	//Items tambien se deberian crear por nivel
-        item1 = new Item(200, 300, 26, 26, 1);
-        ArrayList<Item> itemsfirst = new ArrayList<Item>();
-        itemsfirst.add(item1);
+        
+        
+        // Inicialización del punto de salida
+        float endX = Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("x").toString());
+        float endY = Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("y").toString());
+        endpoint = new Rectangle(endX, endY, 64, 64);
+        
         items = new ArrayList<ArrayList<Item>>();
-        items.add(itemsfirst);
+        //Incialización de items desde los datos del mapa
+        Lambda genItems = (mp) -> {
+            MapProperties curr = (MapProperties) mp;
+            int x = (int) Float.parseFloat(curr.get("x").toString());
+            int y = (int) Float.parseFloat(curr.get("y").toString());
+            ArrayList<Item> itemsfirst = new ArrayList<Item>();
+            itemsfirst.add(new Item(x, y, 26, 26, curr.get("filename").toString(), 1));
+            items.add(itemsfirst);
+        };
+        mymap.applyOnLayerObjects("Items", genItems, true);
 
         group = new ArrayList<ItemGroup>();
         constructGroup(items);
         
-	    //create enemies
-	    enemies = new ArrayList<Enemy>();
-	    Enemy man1 = new RandomEnemy(700, 600, mymap);
-	    Enemy man2 = new RandomEnemy(600, 600, mymap);
-	    Enemy man3 = new RandomEnemy(600, 500, mymap);
-	    enemies.add(man1);
-	    enemies.add(man2);
-	    enemies.add(man3);
+        //Incialización de enemigos desde los datos del mapa
+        enemies = new ArrayList<Enemy>();
+        Lambda genEnemies = (mp) -> {
+            MapProperties curr = (MapProperties) mp;
+            int x = (int) Float.parseFloat(curr.get("x").toString());
+            int y = (int) Float.parseFloat(curr.get("y").toString());
+            enemies.add(new RandomEnemy(x, y, mymap));
+        };
+
+        mymap.applyOnLayerObjects("Enemies", genEnemies, true);
 
         end = new Texture("end.png");
 
@@ -212,7 +230,7 @@ public class Level implements Screen {
 			e.render(batch);
 		}
 	        render(batch);
-            batch.draw(end, 128, 596);
+            batch.draw(end, endpoint.x, endpoint.y);
 
             //batch.draw;
             batch.end();
