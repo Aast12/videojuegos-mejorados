@@ -37,7 +37,7 @@
   <object id="24" x="192" y="576" width="64" height="64"/>
   <object id="25" x="384" y="128" width="64" height="64"/>
   <object id="26" x="640" y="512" width="64" height="64"/>
-  <object id="30" x="384" y="768" width="64" height="64"/>
+  <object id="30" x="638" y="768" width="64" height="64"/>
   <object id="31" x="576" y="192" width="64" height="64"/>
  </objectgroup>
  <objectgroup color="#00ff00" id="5" name="Items">
