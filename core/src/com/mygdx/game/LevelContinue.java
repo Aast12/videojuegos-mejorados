@@ -130,12 +130,10 @@ public class LevelContinue implements Screen {
         // dibujar instrucciones sobre los controles
         batch.begin();
         batch.draw(background, 0, 0);
-        font.draw(batch, "W: Move up", 334, 460);
-        font.draw(batch, "S: Move down", 334, 430);
-        font.draw(batch, "A: Move left", 334, 400);
-        font.draw(batch, "D: Move right", 334, 370);
-        font.draw(batch, "E: Pick object", 334, 340);
-        font.draw(batch, "SPACE BAR: Dash", 334, 310);
+        font.draw(batch, "LEVEL START:\n "
+ + "                      ¡Recoge todos los artículos de primera necesidad antes de que se te termine el tiempo!\n"
+ + "                      No olvides respetar la sana distancia de los demás clientes.", 60, 500);
+        font.draw(batch, "W: Move up\n S: Move down\n A: Move left\n D: Move right\n E: Pick object\n E: Pick object\n SPACE BAR: Dash", 300, 420);
         batch.end();
         stage.draw();
     }
