@@ -13,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import java.util.LinkedList;
-
+/**
+ * Una clase para el Overlay de la primera pantalla de juego, incluye insturcciones de controles
+ * @author jeg99
+ */
 public class LevelContinue implements Screen {
 
     private VMGame game; // para dibujar la pantalla
@@ -26,11 +28,6 @@ public class LevelContinue implements Screen {
     private TextButton.TextButtonStyle textButtonStyle;
     private Skin skin;
     private TextureAtlas buttonAtlas;
-
-    private Menu levelContinue; // para implementar la interfaz
-    private LinkedList<Button> options; // para accesar a los botones de esta pantalla
-    private Texture buttonMaterial; // el material para los botones de esta pantalla
-    private boolean visible; // to control screen visibility *REEMPLAZARLA POR EL HANDLER DE LA CAMARA*
     private Texture background; // el fondo de esta pantalla
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
@@ -58,15 +55,6 @@ public class LevelContinue implements Screen {
         textButtonStyle.down = skin.getDrawable("button-down");
         textButtonStyle.checked = skin.getDrawable("button-checked");
         
-        /*
-        this.options = new LinkedList<Button>();
-        this.buttonMaterial = new Texture("material1.png");
-        Button save = new Button(334, 500, 128, 32, "SAVE (under development)", buttonMaterial);
-        Button quit = new Button(334, 542, 128, 32, "QUIT", buttonMaterial);
-        this.options.add(save);
-        this.options.add(quit);
-        this.levelContinue = new Menu(game, "LEVEL START", this.options, background);
-        */
         this.background = new Texture("main_menu_background.png");
         
         this.continueButton = new TextButton("Continue", textButtonStyle);
@@ -127,14 +115,6 @@ public class LevelContinue implements Screen {
         
     }
 
-    /**
-     * getter de el menu
-     * @return el menu
-     */
-    public Menu getLevelContinue() {
-        return levelContinue;
-    }
-
     @Override
     public void show() {
 
@@ -147,34 +127,17 @@ public class LevelContinue implements Screen {
      */
     @Override
     public void render(float delta) { // aqu� va la l�gica de los botones
-        //levelContinue.render(delta); // dibujar materiales y botones
-
         // dibujar instrucciones sobre los controles
         batch.begin();
+        batch.draw(background, 0, 0);
         font.draw(batch, "W: Move up", 334, 460);
         font.draw(batch, "S: Move down", 334, 430);
         font.draw(batch, "A: Move left", 334, 400);
         font.draw(batch, "D: Move right", 334, 370);
         font.draw(batch, "E: Pick object", 334, 340);
         font.draw(batch, "SPACE BAR: Dash", 334, 310);
-        batch.draw(background, 0, 0);
         batch.end();
         stage.draw();
-        /*
-        Boton 0: save
-        Boton 1: quit
-        
-        // para save
-        if (Gdx.input.isTouched() && this.getLevelContinue().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // guardar partida
-        }
-        // para quit
-        if (Gdx.input.isTouched() && this.getLevelContinue().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // cambiar pantalla a MainMenu
-            getLevelContinue().setVisible(false);
-            //game.mainMenu.getMenu().setVisible(true);
-        }
-         */
     }
 
     @Override
