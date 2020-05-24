@@ -193,7 +193,7 @@ public class Player extends Entity {
         }
 
         // Se gana teniendo el item y yendo al final
-        if ((x + hitbox.width) > 160 && x < 160 && (y + hitbox.height) > 628 && y < 628 ) { // goes to ending point
+        if (level.endpoint.overlaps(hitbox)) { // goes to ending point
             int itemsRemaining = 0;
             for (int i = 0; i < level.getGroup().size(); i++) {
                 itemsRemaining += level.getGroup().get(i).getCounter();
