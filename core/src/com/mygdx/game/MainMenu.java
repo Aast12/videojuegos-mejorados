@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
-import java.util.LinkedList;
-
 /**
  * Clase para la pantalla principal del juego
  * @author jeg99
@@ -32,10 +30,6 @@ public class MainMenu implements Screen {
     private TextButtonStyle textButtonStyle;
     private Skin skin;
     private TextureAtlas buttonAtlas;
-    //private Menu menu;
-    //private LinkedList<Button> options;
-    //private Texture buttonMaterial;
-    //private boolean visible;
     private Texture background;
     private OrthographicCamera camera;
     private BitmapFont font;
@@ -45,8 +39,8 @@ public class MainMenu implements Screen {
      * Inicializa la pantalla principal del juego
      * @param game 
      */
-    public MainMenu(final VMGame g) {
-        this.game = g;
+    public MainMenu(final VMGame game) {
+        this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
         
@@ -62,20 +56,7 @@ public class MainMenu implements Screen {
         textButtonStyle.up = skin.getDrawable("button-up");
         textButtonStyle.down = skin.getDrawable("button-down");
         textButtonStyle.checked = skin.getDrawable("button-checked");
-        /*
-        this.options = new LinkedList<Button>();
-        this.buttonMaterial = new Texture("material1.png");
-        Button start = new Button(80, 450, 128, 32, "START", buttonMaterial);
-        Button load = new Button(80, 485, 128, 32, "LOAD (under development)", buttonMaterial);
-        Button options = new Button(80, 520, 128, 32, "OPTIONS", buttonMaterial);
-        Button exit = new Button(80, 555, 128, 32, "EXIT", buttonMaterial);
-        this.options.add(start);
-        this.options.add(load);
-        this.options.add(options);
-        this.options.add(exit);
-        */
         this.background = new Texture("main_menu_background.png");
-        //this.menu = new Menu(game, "THE GAME", this.options, background);
         this.startButton = new TextButton("Start game", textButtonStyle);
         startButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 200);
         startButton.setSize(100,30);
@@ -160,44 +141,23 @@ public class MainMenu implements Screen {
         music.play();
         
     }
-/*
-    public Menu getMenu() {
-        return menu;
-    }
-*/
+
     @Override
     public void show() {
 
     }
-
+    
+    /**
+     * Una función para dibujar esta pantalla
+     * @param delta 
+     */
     @Override
     public void render(float delta) {
         batch.begin();
         batch.draw(background, 0, 0);
+        this.font.draw(this.batch, "THE GAME", Gdx.graphics.getWidth() / 2 - 60, Gdx.graphics.getBackBufferHeight()/ 2 + 100);
         batch.end();
         stage.draw();
-        /*
-        menu.render(delta);
-        
-        Boton 0: start
-        Boton 1: load
-        Boton 2: options
-        Boton 3: quit
-         
-        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-		ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game);
-        }
-        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-
-        }
-        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(2).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            game.settings.getSettings().setVisible(true);
-            getMenu().setVisible(false);
-        }
-        if (Gdx.input.isTouched() && this.getMenu().getOptions().get(3).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            Gdx.app.exit();
-        }
-        */
     }
 
     @Override
@@ -219,10 +179,12 @@ public class MainMenu implements Screen {
     public void hide() {
 
     }
-
+    
+    /**
+     * Función para cuando esta pantalla se destruya
+     */
     @Override
     public void dispose() {
-        //batch.dispose();
 	music.stop();
     }
 }
