@@ -64,6 +64,8 @@ public class Player extends Entity {
 				walkSheet.getWidth() / 4,
                 walkSheet.getHeight() / 4);
 
+        // Asignación del hitbox con el tamaño de la sprite
+        // La spritesheet tiene 4 frames por fila y columna, sin separación
         hitbox.width = walkSheet.getWidth() / 4;
         hitbox.height = walkSheet.getHeight() / 4;
 
@@ -147,16 +149,16 @@ public class Player extends Entity {
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
-            for (int i = 0; i < level.getItems().size(); i++ ) {
-                for (Item item : level.getItems().get(i)) {
+            for (String key : level.getItems().keySet()) {
+                for (Item item : level.getItems().get(key)) {
                     if (hitbox.overlaps(item.hitbox)
                             && item.getPickable() == 1) {
                         double now = System.nanoTime();
                         if (now - lastHit > timeUnit) {
                             lastHit = now;
                             item.setPickable(0);
-                            for (int k = 0; k < level.getGroup().size(); k++) {
-                                if (level.getGroup().get(k).getIndexList() == i) {
+                            for (String k : level.getGroup().keySet()) {
+                                if (level.getGroup().get(k).getKey() == key) {
                                     level.getGroup().get(k).setCounter(level.getGroup().get(k).getCounter() - 1);
                                 }
                             }
@@ -193,8 +195,8 @@ public class Player extends Entity {
         // Se gana teniendo el item y yendo al final
         if (level.endpoint.overlaps(hitbox)) { // goes to ending point
             int itemsRemaining = 0;
-            for (int i = 0; i < level.getGroup().size(); i++) {
-                itemsRemaining += level.getGroup().get(i).getCounter();
+            for (String key : level.getGroup().keySet()) {
+                itemsRemaining += level.getGroup().get(key).getCounter();
             }
             if (itemsRemaining == 0) {
                 level.setWin(true);
