@@ -18,7 +18,7 @@ public class VMGame extends Game {
 
 
     BitmapFont font; // el font que utilizaremos para los botones
-    Level level; // variable en la que se almacena el nivel
+    //Level level; // variable en la que se almacena el nivel
 
     OrthographicCamera camera; // es la camara que seguira al jugador
     // Los siguientes dos manejaran el mapa, la imagen y los tiles
@@ -28,13 +28,14 @@ public class VMGame extends Game {
 
     GameWon gameWon; // imagen de game won
     GameOver gameOver; // imagen de game over
+    Globals globals;
 
 
     //Son las pantallas disponibles
-    MainMenu mainMenu;
-    Settings settings;
-    LevelContinue levelContinue;
-    ScreenHandler screenHandler;
+    //MainMenu mainMenu;
+    //Settings settings;
+    //LevelContinue levelContinue;
+    //ScreenHandler screenHandler;
 
     /**
      * aqui se crean los assets necesarios para jugar al juego
@@ -59,11 +60,11 @@ public class VMGame extends Game {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-
+        globals = new Globals();
 
 	
-	ScreenHandler.getInstance().init(this);
-	ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, this);
+        ScreenHandler.getInstance().init(this);
+        ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, this);
 	
     }
 

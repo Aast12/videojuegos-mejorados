@@ -157,6 +157,7 @@ public class Player extends Entity {
                         if (now - lastHit > timeUnit) {
                             lastHit = now;
                             item.setPickable(0);
+                            level.setPoints(level.getPoints() + 100 * level.getGame().globals.difficulty);
                             for (String k : level.getGroup().keySet()) {
                                 if (level.getGroup().get(k).getKey() == key) {
                                     level.getGroup().get(k).setCounter(level.getGroup().get(k).getCounter() - 1);
