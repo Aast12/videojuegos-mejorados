@@ -51,9 +51,7 @@ public class Player extends Entity {
         this.level = level;
         this.img = new Texture("player.png");
         this.hitbox = new Rectangle();
-        // hitbox.width = 40;
-        // hitbox.height = 64;
-        hitbox.x = x + 12;
+        hitbox.x = x;
         hitbox.y = y;
         acceleration = 0;
         health = 100;
@@ -105,7 +103,7 @@ public class Player extends Entity {
         stateTime += Gdx.graphics.getDeltaTime();
         double dx = 0, dy = 0;
 
-        hitbox.x = x + 12;
+        hitbox.x = x;
         hitbox.y = y;
         // Reinicia la animacion a posicion estatica
         animationState = -1;
