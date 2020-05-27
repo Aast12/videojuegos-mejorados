@@ -75,7 +75,9 @@ public class HUD {
         }
         int idx = 0;
         for (String key : itemsData.keySet()) {
-            items.get(idx).add(new Image(new Texture(key)));
+            Image im = new Image(new Texture(key));
+            im.setColor(1f, 1f, 1f, 0.2f);
+            items.get(idx).add(im);
             itemsData.get(key).setIndexList(idx);
             idx++;
         }
@@ -162,6 +164,17 @@ public class HUD {
         }
         for (int i = 0; i < available && i < dashes.size(); i++) {
             gel.get(i).setBackground(lightBlueColor);
+        }
+    }
+
+    public void updateItems() {
+        for (String key : itemsData.keySet()) {
+            int idx = itemsData.get(key).getIndexList();
+            for (int i = 0; i < items.get(idx).getChildren().size; i++) {
+                if (items.get(idx).getChild(i).getClass() == Image.class && itemsData.get(key).getCounter() == 0) {
+                    items.get(idx).getChild(i).setColor(1f, 1f, 1f, 1f);
+                }
+            }
         }
     }
 

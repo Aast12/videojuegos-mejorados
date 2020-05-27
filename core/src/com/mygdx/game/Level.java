@@ -250,6 +250,7 @@ public class Level implements Screen {
             hud.setHealth(player.getHealth());
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
+            hud.updateItems();
 
         if (getWin()) 
         {
