@@ -6,6 +6,7 @@ public class ItemGroup {
     private Texture texture;
     private int counter;
     private int indexList; // guardara el indice original en la lista de objetos
+    private String key;
 
     /**
      * constructor del array de itemgroup de los niveles
@@ -17,6 +18,18 @@ public class ItemGroup {
         this.texture = t;
         this.counter = c;
         this.indexList = i;
+    }
+
+    /**
+     * constructor del array de itemgroup de los niveles
+     * @param t la imagen del item
+     * @param c cuantos de esos objetos hay
+     * @param i indice en la lista original
+     */
+    public ItemGroup (Texture t, int c, String k) {
+        this.texture = t;
+        this.counter = c;
+        this.key = k;
     }
 
     /**
@@ -36,6 +49,12 @@ public class ItemGroup {
      * @return numero del indice del item en la lista del nivel
      */
     public int getIndexList() {return indexList;}
+
+    /**
+     * getter de la clave
+     * @return clave del HashMap del nivel
+     */
+    public String getKey() {return key;}
 
     /**
      * setter del contador

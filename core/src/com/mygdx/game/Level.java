@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Level implements Screen {
@@ -19,8 +20,8 @@ public class Level implements Screen {
     private int levelSeconds;
     float timeSeconds = 0f;
     float period = 1f;
-    private ArrayList<ArrayList<Item>> items;
-    private ArrayList<ItemGroup> group;
+    private HashMap<String, ArrayList<Item>> items;
+    private HashMap<String, ItemGroup> group;
     OrthographicCamera camera;
 
     Music levelMusic; // musica de menu
@@ -67,19 +68,26 @@ public class Level implements Screen {
         float endY = Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("y").toString());
         endpoint = new Rectangle(endX, endY, 64, 64);
         
-        items = new ArrayList<ArrayList<Item>>();
+        items = new HashMap<String, ArrayList<Item>>();
         //Incialización de items desde los datos del mapa
         Lambda genItems = (mp) -> {
             MapProperties curr = (MapProperties) mp;
             int x = (int) Float.parseFloat(curr.get("x").toString());
             int y = (int) Float.parseFloat(curr.get("y").toString());
-            ArrayList<Item> itemsfirst = new ArrayList<Item>();
-            itemsfirst.add(new Item(x, y, 26, 26, curr.get("filename").toString(), 1));
-            items.add(itemsfirst);
+            String filename = curr.get("filename").toString();
+
+            if (items.containsKey(filename)) {
+                items.get(filename).add(new Item(x, y, 26, 26, filename, 1));
+            }
+            else {
+                ArrayList<Item> itemsfirst = new ArrayList<Item>();
+                itemsfirst.add(new Item(x, y, 26, 26, filename, 1));
+                items.put(filename, itemsfirst);
+            }
         };
         mymap.applyOnLayerObjects("Items", genItems, true);
 
-        group = new ArrayList<ItemGroup>();
+        group = new HashMap<String, ItemGroup>();
         constructGroup(items);
         
         //Incialización de enemigos desde los datos del mapa
@@ -95,7 +103,7 @@ public class Level implements Screen {
 
         end = new Texture("end.png");
 
-        hud = new HUD();
+        hud = new HUD(group);
         hud.setTime(levelSeconds);
         hud.setHealth(98);
         hud.setDash(player.getDashes());
@@ -104,19 +112,19 @@ public class Level implements Screen {
 
     }
 
-    public void constructGroup(ArrayList<ArrayList<Item>> list) {
+    public void constructGroup(HashMap<String, ArrayList<Item>> list) {
 
-        for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).get(0).getPickable() == 1) {
-                group.add(new ItemGroup(list.get(i).get(0).getImg(), 1, i));
-                for (int j = 1; j < list.get(i).size(); j++) {
-                    group.get(i).setCounter(j+1);
+        for(String key : list.keySet()) {
+            if (list.get(key).get(0).getPickable() == 1) {
+                group.put(key, new ItemGroup(list.get(key).get(0).getImg(), 1, key));
+                for (int j = 1; j < list.get(key).size(); j++) {
+                    group.get(key).setCounter(j + 1);
                 }
             }
         }
     }
 
-    public ArrayList<ItemGroup> getGroup() {return group;}
+    public HashMap<String, ItemGroup> getGroup() {return group;}
 
     /**
      * getter de los segundos
@@ -146,7 +154,7 @@ public class Level implements Screen {
      * getter la lista de objetos
      * @return la lista de objetos
      */
-    public ArrayList<ArrayList<Item>> getItems() {return items;}
+    public HashMap<String, ArrayList<Item>> getItems() {return items;}
 
     /**
      * setter de win
@@ -191,10 +199,10 @@ public class Level implements Screen {
      * @param batch renderizador de dibujo
      */
     public void render(SpriteBatch batch) {
-        for (int i = 0; i < items.size(); i++ ) {
-            for (int j = 0; j < items.get(i).size(); j++) {
-                if (items.get(i).get(j).getPickable() != 0) {
-                    items.get(i).get(j).render(batch);
+        for (String key : items.keySet()) {
+            for (Item item : items.get(key)) {
+                if (item.getPickable() != 0) {
+                    item.render(batch);
                 }
             }
         }
@@ -242,6 +250,7 @@ public class Level implements Screen {
             hud.setHealth(player.getHealth());
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
+            hud.updateItems();
 
         if (getWin()) 
         {
