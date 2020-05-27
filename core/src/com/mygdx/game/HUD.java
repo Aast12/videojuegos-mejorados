@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
@@ -37,11 +38,12 @@ public class HUD {
     Container<Image> statusContainer;
     Vector<Container<Image>> dashes;
     Vector<Container<Image>> gel;
+    HashMap<String, ItemGroup> itemsData;
 
     String format;
     DecimalFormat decimalFormat;
 
-    HUD() {
+    HUD(HashMap<String, ItemGroup> itemMap) {
         format = "000";
         decimalFormat = new DecimalFormat(format);
 
@@ -56,6 +58,7 @@ public class HUD {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         // Item Section
+        itemsData = itemMap;
 
         itemSection = new Table(skin);
         itemSection.setHeight(72);
@@ -69,6 +72,12 @@ public class HUD {
             items.add(new Table(skin));
             items.get(i).setBackground(darkUIColor);
             itemSection.add(items.get(i)).width(64).expandY().padRight(4);
+        }
+        int idx = 0;
+        for (String key : itemsData.keySet()) {
+            items.get(idx).add(new Image(new Texture(key)));
+            itemsData.get(key).setIndexList(idx);
+            idx++;
         }
 
         stage.addActor(itemSection);

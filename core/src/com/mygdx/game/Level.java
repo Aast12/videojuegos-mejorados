@@ -103,7 +103,7 @@ public class Level implements Screen {
 
         end = new Texture("end.png");
 
-        hud = new HUD();
+        hud = new HUD(group);
         hud.setTime(levelSeconds);
         hud.setHealth(98);
         hud.setDash(player.getDashes());
