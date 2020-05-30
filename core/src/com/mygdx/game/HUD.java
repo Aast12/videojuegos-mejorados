@@ -37,6 +37,9 @@ public class HUD {
     private Label punctuationLabel;
     private Container<Label> popupField;
     private Label popupLabel;
+    private boolean hasPopup;
+    private long popupInitialTime = System.nanoTime();
+    private long popupTime = 1000000000;
 
     private Container<Image> statusContainer;
     private Vector<Container<Image>> dashes;
@@ -45,8 +48,6 @@ public class HUD {
 
     private String format;
     private DecimalFormat decimalFormat;
-
-
 
     /**
      * Constructor del HUD
@@ -67,7 +68,7 @@ public class HUD {
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        // Item Section
+        // Sección de items en esquina superior izquierda
         itemsData = itemMap;
 
         itemSection = new Table(skin);
@@ -94,8 +95,7 @@ public class HUD {
 
         stage.addActor(itemSection);
         
-        // Time Fields
-
+        // Campos de datos de tiempo
         timerLabel = new Label("035 s", skin);
         timerField = new Container<Label>(timerLabel);
         timerField.setPosition(stage.getViewport().getScreenWidth() - 145 * 2, stage.getViewport().getWorldHeight() - 40);
@@ -112,7 +112,7 @@ public class HUD {
         dayField.setBackground(darkUIColor);
         stage.addActor(dayField);
 
-        // Puctuation Field
+        // Campo de puntuación
         punctuationLabel = new Label("0", skin);
         punctuationField = new Container<Label>(punctuationLabel);
         punctuationField.setPosition(stage.getViewport().getScreenWidth() - 145*2, stage.getViewport().getWorldHeight() - 80);
@@ -121,17 +121,19 @@ public class HUD {
         punctuationField.setBackground(lightUIColor);
         stage.addActor(punctuationField);
 
-        // Pop-Up Field
-        popupLabel = new Label("Un mensaje", skin);
+        // Pop-Up
+        popupLabel = new Label("Pop Up", skin);
         popupField = new Container<Label>(popupLabel);
         popupField.setPosition(0, stage.getViewport().getWorldHeight() - 200);
         popupField.setWidth(stage.getViewport().getWorldWidth());
         popupField.setHeight(40);
         popupField.setBackground(darkBlueColor);
         stage.addActor(popupField);
+        popupField.setVisible(false);
 
-        // Bottom Bar
-        
+        hasPopup = false;
+
+        // Barra inferior 
         bottomBar = new Table(skin);        
         bottomBar.setWidth(stage.getViewport().getScreenWidth());
         bottomBar.setHeight(80);
@@ -143,11 +145,13 @@ public class HUD {
         healthLabel = new Label("Health: 100%", skin);
         bottomBar.add(healthLabel).padLeft(16).padRight(64);
         
+        // Imagen de estado
         Texture txt = new Texture("hudFace.png");
         statusContainer = new Container<Image>(new Image(txt));
         statusContainer.setBackground(lightUIColor);
         bottomBar.add(statusContainer).height(80).width(80).padLeft(16).padRight(48);
 
+        // Declaración de dashes
         dashes = new Vector<Container<Image>>();
 
         for (int i = 0; i < 3; i++) {
@@ -156,25 +160,52 @@ public class HUD {
             bottomBar.add(dashes.get(i)).height(21).width(21).pad(16);
         }
 
+        // Declaración de geles
         gel = new Vector<Container<Image>>();
 
         for (int i = 0; i < 3; i++) {
-            gel.add(new Container<Image>());
-            gel.get(i).setBackground(lightBlueColor);
+            Image gelImg = new Image(new Texture("gel.png"));
+            gelImg.setWidth(20f);
+            gelImg.setHeight(5f);
+            gel.add(new Container<Image>(gelImg));
+            // gel.get(i).setBackground(lightBlueColor);
             bottomBar.add(gel.get(i)).height(55).width(40).pad(16);
         }
     }
 
-    public void setTime(int seconds)  {
-        timerLabel.setText(decimalFormat.format(seconds) + "s");
-    }
+    /**
+     * Actualiza la etiqueta de tiempo
+     * 
+     * @param seconds segundos a mostrar en la etiqueta
+     */
+    public void setTime(int seconds)  { timerLabel.setText(decimalFormat.format(seconds) + "s"); }
 
-    public void setPunctuation(int points) { punctuationLabel.setText("Points: " + points);}
+    /**
+     * Actualiza la etiqueta de puntuación
+     * 
+     * @param points puntos a asignar
+     */
+    public void setPunctuation(int points) { punctuationLabel.setText("Score: " + points); }
 
+    /**
+     * Actualiza la etiqueta de la fecha
+     * 
+     * @param date nueva fecha a asignar
+     */
     public void setDate(String date)  { dayLabel.setText(date); }
 
+    /**
+     * Actualiza la etiqueta de la vida del jugador
+     * 
+     * @param health puntos de vida del jugador
+     */
     public void setHealth(int health)  { healthLabel.setText("HEALTH : " + Integer.toString(health) + "%"); }
 
+    /**
+     * Actualiza el contador visual de dashes
+     * 
+     * @param available la cantidad de dashes disponibles
+     */
     public void setDash(int available) {
         for (int i = 0; i < dashes.size(); i++) {
             dashes.get(i).setBackground(darkGreenColor);
@@ -184,15 +215,23 @@ public class HUD {
         }
     }
 
+    /**
+     * Actualiza el contador visual de geles antibacteriales
+     * 
+     * @param available la cantidad
+     */
     public void setGel(int available) {
         for (int i = 0; i < dashes.size(); i++) {
-            gel.get(i).setBackground(darkBlueColor);
+            gel.get(i).setColor(1f, 1f, 1f, 0.2f);
         }
         for (int i = 0; i < available && i < dashes.size(); i++) {
-            gel.get(i).setBackground(lightBlueColor);
+            gel.get(i).setColor(1f, 1f, 1f, 1f);
         }
     }
 
+    /**
+     * Actualiza la opacidad de los items al ser recolectados.
+     */
     public void updateItems() {
         for (String key : itemsData.keySet()) {
             int idx = itemsData.get(key).getIndexList();
@@ -204,11 +243,17 @@ public class HUD {
         }
     }
 
+    /**
+     * Muestra el HUD en pantalla
+     */
     public void render() {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 
+    /**
+     * Libera los recursos utilizados por el HUD
+     */
     public void dispose() {
         stage.dispose();
         skin.dispose();
