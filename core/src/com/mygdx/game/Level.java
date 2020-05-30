@@ -109,6 +109,8 @@ public class Level implements Screen {
         hud.setDash(player.getDashes());
         hud.setGel(0);
 
+        hud.triggerPopup("Hey esto es un popusad");
+
 
     }
 
@@ -268,7 +270,7 @@ public class Level implements Screen {
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
             hud.setPunctuation(getPoints());
-            hud.updateItems();
+            hud.tick();
 
         if (getWin()) 
         {

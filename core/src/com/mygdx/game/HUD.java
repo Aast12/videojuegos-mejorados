@@ -1,10 +1,12 @@
 package com.mygdx.game;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -38,8 +40,14 @@ public class HUD {
     private Container<Label> popupField;
     private Label popupLabel;
     private boolean hasPopup;
-    private long popupInitialTime = System.nanoTime();
-    private long popupTime = 1000000000;
+    private float popupTime;
+    private ArrayList<Float> popupTimestamps = new ArrayList<Float>() {
+        {
+            add(3f); // aparición
+            add(9f); // visible
+            add(12f); // desaparición
+        }
+    };
 
     private Container<Image> statusContainer;
     private Vector<Container<Image>> dashes;
@@ -230,9 +238,9 @@ public class HUD {
     }
 
     /**
-     * Actualiza la opacidad de los items al ser recolectados.
+     * Actualiza el estado del HUD
      */
-    public void updateItems() {
+    public void tick() {
         for (String key : itemsData.keySet()) {
             int idx = itemsData.get(key).getIndexList();
             for (int i = 0; i < items.get(idx).getChildren().size; i++) {
@@ -240,7 +248,29 @@ public class HUD {
                     items.get(idx).getChild(i).setColor(1f, 1f, 1f, 1f);
                 }
             }
+            if (hasPopup) {
+                popupTime += Gdx.graphics.getDeltaTime();
+                if (popupTime < popupTimestamps.get(0)) {
+                    popupField.setColor(1f, 1f, 1f, Globals.map(popupTime, 0f, popupTimestamps.get(0), 0f, 1f));
+                }
+                else if (popupTime > popupTimestamps.get(1) && popupTime < popupTimestamps.get(2)) {
+                    popupField.setColor(1f, 1f, 1f, Globals.map(popupTime, popupTimestamps.get(1), popupTimestamps.get(2), 1f, 0f));
+                }
+                else if (popupTime >= popupTimestamps.get(2)) {
+                    popupField.setVisible(false);
+                    popupTime = 0;
+                    hasPopup = false;
+                }
+            }
         }
+    }
+
+    public void triggerPopup(String message) {
+        popupField.setVisible(true);
+        popupLabel.setText(message);
+        popupField.setColor(1f, 1f, 1f, 0f);
+        popupTime = 0;
+        hasPopup = true;
     }
 
     /**
