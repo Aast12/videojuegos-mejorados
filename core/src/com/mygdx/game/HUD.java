@@ -16,35 +16,42 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class HUD {
-    Stage stage;
-    Skin skin;
+    private Stage stage;
+    private Skin skin;
 
-    ColorDrawable lightUIColor;
-    ColorDrawable darkUIColor;
-    ColorDrawable lightGreenColor;
-    ColorDrawable darkGreenColor;
-    ColorDrawable lightBlueColor;
-    ColorDrawable darkBlueColor;
+    private ColorDrawable lightUIColor;
+    private ColorDrawable darkUIColor;
+    private ColorDrawable lightGreenColor;
+    private ColorDrawable darkGreenColor;
+    private ColorDrawable lightBlueColor;
+    private ColorDrawable darkBlueColor;
 
-    Table bottomBar;
-    Label healthLabel;
-    Table itemSection;
-    Vector<Table> items;
-    Container<Label> timerField;
-    Label timerLabel;    
-    Container<Label> dayField;
-    Label dayLabel;
-    Container<Label> punctuationField;
-    Label punctuationLabel;
+    private Table bottomBar;
+    private Label healthLabel;
+    private Table itemSection;
+    private Vector<Table> items;
+    private Container<Label> timerField;
+    private Label timerLabel;    
+    private Container<Label> dayField;
+    private Label dayLabel;
+    private Container<Label> punctuationField;
+    private Label punctuationLabel;
 
-    Container<Image> statusContainer;
-    Vector<Container<Image>> dashes;
-    Vector<Container<Image>> gel;
-    HashMap<String, ItemGroup> itemsData;
+    private Container<Image> statusContainer;
+    private Vector<Container<Image>> dashes;
+    private Vector<Container<Image>> gel;
+    private HashMap<String, ItemGroup> itemsData;
 
-    String format;
-    DecimalFormat decimalFormat;
+    private String format;
+    private DecimalFormat decimalFormat;
 
+
+
+    /**
+     * Constructor del HUD
+     * 
+     * @param itemMap lista de items a mostrar en el HUD
+     */
     HUD(HashMap<String, ItemGroup> itemMap) {
         format = "000";
         decimalFormat = new DecimalFormat(format);
@@ -185,6 +192,11 @@ public class HUD {
                 }
             }
         }
+    }
+
+    public void render() {
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     public void dispose() {

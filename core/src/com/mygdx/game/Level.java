@@ -262,8 +262,7 @@ public class Level implements Screen {
             batch.end();
 
             // HUD Render
-            hud.stage.act(Gdx.graphics.getDeltaTime());
-            hud.stage.draw();
+            hud.render();
 
             hud.setHealth(player.getHealth());
             hud.setDash(player.getDashes());
@@ -301,10 +300,8 @@ public class Level implements Screen {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		// map.dispose();
 		mymap.dispose();
-		//font.dispose();
-		hud.stage.dispose();
+		hud.dispose();
 		levelMusic.stop();
 	}
 }
