@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -36,6 +35,8 @@ public class HUD {
     private Label dayLabel;
     private Container<Label> punctuationField;
     private Label punctuationLabel;
+    private Container<Label> popupField;
+    private Label popupLabel;
 
     private Container<Image> statusContainer;
     private Vector<Container<Image>> dashes;
@@ -119,6 +120,15 @@ public class HUD {
         punctuationField.setHeight(40);
         punctuationField.setBackground(lightUIColor);
         stage.addActor(punctuationField);
+
+        // Pop-Up Field
+        popupLabel = new Label("Un mensaje", skin);
+        popupField = new Container<Label>(popupLabel);
+        popupField.setPosition(0, stage.getViewport().getWorldHeight() - 200);
+        popupField.setWidth(stage.getViewport().getWorldWidth());
+        popupField.setHeight(40);
+        popupField.setBackground(darkBlueColor);
+        stage.addActor(popupField);
 
         // Bottom Bar
         
