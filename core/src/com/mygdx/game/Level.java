@@ -17,7 +17,7 @@ import java.util.Iterator;
 
 public class Level implements Screen {
     private boolean win, lost;
-    private int levelSeconds;
+    private int levelSeconds, points;
     float timeSeconds = 0f;
     float period = 1f;
     private HashMap<String, ArrayList<Item>> items;
@@ -33,7 +33,6 @@ public class Level implements Screen {
     VMGame game;
     HUD hud; // aqui se hace el rendering del layout dle HUD
     ArrayList<Enemy> enemies;
-    Item item1; // aqui se guarda un item
     Texture end; // luego sera un atributo de la clase Level
 
     Rectangle endpoint;
@@ -47,6 +46,7 @@ public class Level implements Screen {
         this.win = false;
         this.lost = false;
         this.levelSeconds = seconds;
+        this.points = 0;
         levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
         levelMusic.setVolume((float) 0.5);
         // this.items.addAll(items);
@@ -133,6 +133,12 @@ public class Level implements Screen {
     public int getLevelSeconds() {return levelSeconds;}
 
     /**
+     * getter de los puntos
+     * @return puntos
+     */
+    public int getPoints() {return points;}
+
+    /**
      * getter de si gano
      * @return booleano si gano
      */
@@ -143,6 +149,12 @@ public class Level implements Screen {
      * @return booleano de si perdio
      */
     public boolean getLost() {return lost;}
+
+    /**
+     * getter de game
+     * @return juego
+     */
+    public VMGame getGame() {return game;}
 
     /**
      * getter del mapa
@@ -167,6 +179,12 @@ public class Level implements Screen {
      * @param lost cambia si perdio o no
      */
     public void setLost(boolean lost) { this.lost = lost;}
+
+    /**
+     * setter de puntos
+     * @param points puntos actuales del juego
+     */
+    public void setPoints(int points) { this.points = points;}
 
     /**
      * checa si el usuario ha perdido si se acabo el tiempo
@@ -250,6 +268,7 @@ public class Level implements Screen {
             hud.setHealth(player.getHealth());
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
+            hud.setPunctuation(getPoints());
             hud.updateItems();
 
         if (getWin()) 

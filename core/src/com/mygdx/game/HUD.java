@@ -34,6 +34,8 @@ public class HUD {
     Label timerLabel;    
     Container<Label> dayField;
     Label dayLabel;
+    Container<Label> punctuationField;
+    Label punctuationLabel;
 
     Container<Image> statusContainer;
     Vector<Container<Image>> dashes;
@@ -102,6 +104,15 @@ public class HUD {
         dayField.setBackground(darkUIColor);
         stage.addActor(dayField);
 
+        // Puctuation Field
+        punctuationLabel = new Label("0", skin);
+        punctuationField = new Container<Label>(punctuationLabel);
+        punctuationField.setPosition(stage.getViewport().getScreenWidth() - 145*2, stage.getViewport().getWorldHeight() - 80);
+        punctuationField.setWidth(145*2);
+        punctuationField.setHeight(40);
+        punctuationField.setBackground(lightUIColor);
+        stage.addActor(punctuationField);
+
         // Bottom Bar
         
         bottomBar = new Table(skin);        
@@ -141,13 +152,11 @@ public class HUD {
         timerLabel.setText(decimalFormat.format(seconds) + "s");
     }
 
-    public void setDate(String date)  {
-        dayLabel.setText(date);
-    }
+    public void setPunctuation(int points) { punctuationLabel.setText("Points: " + points);}
 
-    public void setHealth(int health)  {
-        healthLabel.setText("HEALTH : " + Integer.toString(health) + "%");
-    }
+    public void setDate(String date)  { dayLabel.setText(date); }
+
+    public void setHealth(int health)  { healthLabel.setText("HEALTH : " + Integer.toString(health) + "%"); }
 
     public void setDash(int available) {
         for (int i = 0; i < dashes.size(); i++) {
