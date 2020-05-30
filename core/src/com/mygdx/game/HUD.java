@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -16,6 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+/**
+ * Clase para administrar los elementos del HUD del juego.
+ * 
+ * 
+ * @author Alam Sanchez
+ * @author davidg
+ */
 public class HUD {
     private Stage stage;
     private Skin skin;
@@ -66,12 +72,13 @@ public class HUD {
         format = "000";
         decimalFormat = new DecimalFormat(format);
 
-        lightUIColor = new ColorDrawable((float) 86 / 255, (float) 108 / 255, (float) 134 / 255, (float) 0.9);
-        darkUIColor = new ColorDrawable((float) 51 / 255, (float) 60 / 255, (float) 87 / 255, (float) 0.9);
-        lightGreenColor = new ColorDrawable((float) 167 / 255, (float) 240 / 255, (float) 112 / 255, (float) 0.9);
-        darkGreenColor = new ColorDrawable((float) 56 / 255, (float) 183 / 255, (float) 100 / 255, (float) 0.9);
-        lightBlueColor = new ColorDrawable((float) 65 / 255, (float) 165 / 255, (float) 246 / 255, (float) 0.9);
-        darkBlueColor = new ColorDrawable((float) 59 / 255, (float) 93 / 255, (float) 201 / 255, (float) 0.9);
+        // Declaración de colores para UI
+        lightUIColor = new ColorDrawable(86f / 255, 108f / 255, 134f / 255, 0.9f);
+        darkUIColor = new ColorDrawable(51f / 255, 60f / 255, 87f / 255, 0.9f);
+        lightGreenColor = new ColorDrawable(167f / 255, 240f / 255, 112f / 255, 0.9f);
+        darkGreenColor = new ColorDrawable(56f / 255, 183f / 255, 100f / 255, 0.9f);
+        lightBlueColor = new ColorDrawable(65f / 255, 165f / 255, 246f / 255, 0.9f);
+        darkBlueColor = new ColorDrawable(59f / 255, 93f / 255, 201f / 255, 0.9f);
 
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
