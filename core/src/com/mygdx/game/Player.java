@@ -20,10 +20,9 @@ public class Player extends Entity {
     private int health; // la vida del jugador
     private Level level; // cambar a futuro por Level
     private boolean isDashing; // checa si esta haciendo dash
-    long dashTime; // checa el tiempo del dash
+    long dashTime, gelTime; // checa el tiempo del dash y geles
     double lastHit;
-    private VMGame game;
-    private int dashes;
+    private int dashes, geles, gelShield;
     private long timeUnit = 1000000000;
     private double dashTimeProportion = 0.2;
 
@@ -43,9 +42,8 @@ public class Player extends Entity {
      * @param x coordenada en x
      * @param y coordenada en y
      * @param level nivel en el que esta jugando
-     * @param game juego al que pertenece
      */
-    public Player(int x, int y, Level level, VMGame game)
+    public Player(int x, int y, Level level)
     {
         super(x, y);
         this.level = level;
@@ -81,6 +79,8 @@ public class Player extends Entity {
         
         stateTime = 0f;
 
+        geles = 1;
+        gelShield = 0;
         dashes = 3;
 
     }
@@ -114,6 +114,13 @@ public class Player extends Entity {
             isDashing = false;
             acceleration = 0;
         }
+        if (gelShield > 0 && System.nanoTime() - gelTime > timeUnit ) {
+            gelTime = System.nanoTime();
+            gelShield -= 5;
+            if (gelShield < 0) {
+                gelShield = 0;
+            }
+        }
         // Se mueve a la izquierda
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             dx = -(200f + acceleration) * Gdx.graphics.getDeltaTime();
@@ -146,7 +153,11 @@ public class Player extends Entity {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
-
+            if (geles > 0) {
+                geles--;
+                gelTime = System.nanoTime();
+                gelShield += 25 / level.getGame().globals.difficulty;
+            }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
             for (String key : level.getItems().keySet()) {
@@ -177,17 +188,19 @@ public class Player extends Entity {
                 acceleration = 200;
             }
         }
-	for (Enemy e : level.enemies)
-	{
-		if (getHitbox().overlaps(e.getCovidZone())) {
-		    double now = System.nanoTime();
-		    if (now - lastHit > timeUnit) {
-			health -= 25; //quick death for testing
-			lastHit = now;
-		    }
+        for (Enemy e : level.enemies)
+        {
+            if (getHitbox().overlaps(e.getCovidZone())) {
+                double now = System.nanoTime();
+                if (now - lastHit > timeUnit) {
+                    int minusShield = gelShield;
+                    int minusHealth = 25 - minusShield;
+                    gelShield -= minusShield;
+                    health -= minusHealth; //quick death for testing
+                    lastHit = now;
+                }
+            }
         }
-
-	}
         // Se puede perder por baja vida, implementar en level
         if (health <= 0){
             level.setLost(true);

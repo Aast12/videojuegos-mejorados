@@ -60,7 +60,7 @@ public class Level implements Screen {
 
 	    //Empezando aqui todo debe ser por nivel
 	    //TOOD: la inicializacion de player deberia depender del nivel
-        player = new Player(800 / 2 - 64 / 2, 136, this, game);
+        player = new Player(800 / 2 - 64 / 2, 136, this);
         
         
         // Inicialización del punto de salida
