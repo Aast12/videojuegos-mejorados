@@ -156,7 +156,7 @@ public class Player extends Entity {
             if (geles > 0) {
                 geles--;
                 gelTime = System.nanoTime();
-                gelShield += 25 / level.getGame().globals.difficulty;
+                gelShield += 30 / level.getGame().globals.difficulty;
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
@@ -194,6 +194,9 @@ public class Player extends Entity {
                 double now = System.nanoTime();
                 if (now - lastHit > timeUnit) {
                     int minusShield = gelShield;
+                    if (minusShield > 25) {
+                        minusShield = 25;
+                    }
                     int minusHealth = 25 - minusShield;
                     gelShield -= minusShield;
                     health -= minusHealth; //quick death for testing
