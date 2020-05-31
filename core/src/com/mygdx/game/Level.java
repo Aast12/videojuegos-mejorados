@@ -286,6 +286,8 @@ public class Level implements Screen {
 
         if (getWin()) 
         {
+            points += player.getHealth() * game.globals.difficulty * 2;
+            points += levelSeconds * 3 * game.globals.difficulty;
             ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
         }
 
