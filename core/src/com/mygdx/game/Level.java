@@ -116,6 +116,8 @@ public class Level implements Screen {
         hud.setDash(player.getDashes());
         hud.setGel(0);
 
+        hud.triggerPopup("Hey esto es un popusaadsd");
+
 
     }
 
@@ -271,18 +273,16 @@ public class Level implements Screen {
 	        render(batch);
             batch.draw(end, endpoint.x, endpoint.y);
 
-            //batch.draw;
             batch.end();
 
             // HUD Render
-            hud.stage.act(Gdx.graphics.getDeltaTime());
-            hud.stage.draw();
+            hud.render();
 
             hud.setHealth(player.getHealth());
             hud.setDash(player.getDashes());
             hud.setTime(getLevelSeconds());
             hud.setPunctuation(getPoints());
-            hud.updateItems();
+            hud.tick();
 
         if (getWin()) 
         {
@@ -316,10 +316,8 @@ public class Level implements Screen {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		// map.dispose();
 		mymap.dispose();
-		//font.dispose();
-		hud.stage.dispose();
+		hud.dispose();
 		levelMusic.stop();
 	}
 }

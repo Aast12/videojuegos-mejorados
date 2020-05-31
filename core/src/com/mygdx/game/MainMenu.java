@@ -1,8 +1,11 @@
 package com.mygdx.game;
 
+import java.awt.Color;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -44,22 +49,23 @@ public class MainMenu implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
         
-        this.batch = new SpriteBatch();
-        this.stage = new Stage();
+        batch = new SpriteBatch();
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        this.skin = new Skin();
+        skin = new Skin();
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
-        this.font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("font.fnt"));
         textButtonStyle = new TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("button-up");
         textButtonStyle.down = skin.getDrawable("button-down");
         textButtonStyle.checked = skin.getDrawable("button-checked");
-        this.background = new Texture("main_menu_background.png");
-        this.startButton = new TextButton("Start game", textButtonStyle);
+        background = new Texture("main_menu_background.png");
+
+        startButton = new TextButton("Start game", textButtonStyle);
         startButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 200);
-        startButton.setSize(100,30);
+        startButton.setHeight(32);
         startButton.addListener(
             new InputListener() { 
                 @Override
@@ -74,11 +80,11 @@ public class MainMenu implements Screen {
                 }
             }
         );
-	stage.addActor(startButton);
+        stage.addActor(startButton);
         
         this.loadButton = new TextButton("Load game", textButtonStyle);
         loadButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 230);
-        loadButton.setSize(100,30);
+        loadButton.setHeight(32);
         loadButton.addListener(
             new InputListener() { 
                 @Override
@@ -93,11 +99,11 @@ public class MainMenu implements Screen {
                 }
             }
         );
-	stage.addActor(loadButton);
+	    stage.addActor(loadButton);
         
         this.optionsButton = new TextButton("Options", textButtonStyle);
         optionsButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 260);
-        optionsButton.setSize(100,30);
+        optionsButton.setHeight(32);
         optionsButton.addListener(
             new InputListener() { 
                 @Override
@@ -112,11 +118,11 @@ public class MainMenu implements Screen {
                 }
             }
         );
-	stage.addActor(optionsButton);
+	    stage.addActor(optionsButton);
         
         this.exitButton = new TextButton("Exit", textButtonStyle);
         exitButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 290);
-        exitButton.setSize(100,30);
+        exitButton.setHeight(32);
         exitButton.addListener(
             new InputListener() { 
                 @Override
@@ -132,7 +138,7 @@ public class MainMenu implements Screen {
                 }
             }
         );
-	stage.addActor(exitButton);
+	    stage.addActor(exitButton);
         
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
         music.setVolume((float) 0.25);
@@ -155,7 +161,7 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         batch.begin();
         batch.draw(background, 0, 0);
-        this.font.draw(this.batch, "THE GAME", Gdx.graphics.getWidth() / 2 - 60, Gdx.graphics.getBackBufferHeight()/ 2 + 100);
+        font.draw(batch, "THE GAME", 50, Gdx.graphics.getBackBufferHeight() - 180);
         batch.end();
         stage.draw();
     }
