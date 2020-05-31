@@ -17,7 +17,7 @@ import java.util.Iterator;
 
 public class Level implements Screen {
     private boolean win, lost;
-    private int levelSeconds, points;
+    private int levelSeconds, points, minItems = 0;
     float timeSeconds = 0f;
     float period = 1f;
     private HashMap<String, ArrayList<Item>> items;
@@ -89,6 +89,13 @@ public class Level implements Screen {
 
         group = new HashMap<String, ItemGroup>();
         constructGroup(items);
+
+
+        for (String key : this.getGroup().keySet()) {
+            minItems += this.getGroup().get(key).getCounter();
+        }
+
+        minItems = minItems / 2;
         
         //Incialización de enemigos desde los datos del mapa
         enemies = new ArrayList<Enemy>();
@@ -161,6 +168,12 @@ public class Level implements Screen {
      * @return regresa el mapa
      */
     public MapHandler getMap() {return mymap;}
+
+    /**
+     * getter del minimo de items para acabar el nivel
+     * @return regresa el minimo
+     */
+    public int getMinimumItems() {return minItems;}
 
     /**
      * getter la lista de objetos
@@ -273,6 +286,8 @@ public class Level implements Screen {
 
         if (getWin()) 
         {
+            points += player.getHealth() * game.globals.difficulty * 2;
+            points += levelSeconds * 3 * game.globals.difficulty;
             ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
         }
 
