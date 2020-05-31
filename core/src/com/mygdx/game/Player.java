@@ -199,7 +199,7 @@ public class Player extends Entity {
             for (String key : level.getGroup().keySet()) {
                 itemsRemaining += level.getGroup().get(key).getCounter();
             }
-            if (itemsRemaining == 0) {
+            if (itemsRemaining <= level.getMinimumItems()) {
                 level.setWin(true);
             }
         }
