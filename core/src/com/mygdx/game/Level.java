@@ -109,7 +109,7 @@ public class Level implements Screen {
         hud.setDash(player.getDashes());
         hud.setGel(0);
 
-        hud.triggerPopup("Hey esto es un popusad");
+        hud.triggerPopup("Hey esto es un popusaadsd");
 
 
     }
@@ -260,7 +260,6 @@ public class Level implements Screen {
 	        render(batch);
             batch.draw(end, endpoint.x, endpoint.y);
 
-            //batch.draw;
             batch.end();
 
             // HUD Render

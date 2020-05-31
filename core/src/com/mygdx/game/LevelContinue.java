@@ -10,12 +10,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * Una clase para el Overlay de la primera pantalla de juego, incluye insturcciones de controles
  * @author jeg99
+ * @author Alam Sanchez
  */
 public class LevelContinue implements Screen {
 
@@ -45,21 +50,21 @@ public class LevelContinue implements Screen {
         this.batch = new SpriteBatch();
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        this.skin = new Skin();
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButton.TextButtonStyle();
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("font18.fnt"));
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("button-up");
         textButtonStyle.down = skin.getDrawable("button-down");
         textButtonStyle.checked = skin.getDrawable("button-checked");
         
-        this.background = new Texture("main_menu_background.png");
+        // this.background = new Texture("main_menu_background.png");
         
         this.continueButton = new TextButton("Continue", textButtonStyle);
         continueButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 140);
-        continueButton.setSize(100,30);
+        continueButton.setHeight(32);
         continueButton.addListener(
             new InputListener() { 
                 @Override
@@ -74,11 +79,11 @@ public class LevelContinue implements Screen {
                 }
             }
         );
-        stage.addActor(continueButton);
+        
         
         this.saveButton = new TextButton("Save game", textButtonStyle);
         saveButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 170);
-        saveButton.setSize(100,30);
+        saveButton.setHeight(32);
         saveButton.addListener(
             new InputListener() { 
                 @Override
@@ -92,11 +97,11 @@ public class LevelContinue implements Screen {
                 }
             }
         );
-        stage.addActor(saveButton);
+        
         
         this.quitButton = new TextButton("Quit game", textButtonStyle);
         quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 200);
-        quitButton.setSize(100,30);
+        quitButton.setHeight(32);
         quitButton.addListener(
             new InputListener() { 
                 @Override
@@ -111,29 +116,60 @@ public class LevelContinue implements Screen {
                 }
             }
         );
-        stage.addActor(quitButton);
         
-    }
 
+        Table contentTable = new Table(skin);
+        contentTable.setHeight(Gdx.graphics.getHeight());
+        contentTable.setWidth(Gdx.graphics.getWidth());
+        contentTable.setPosition(0f, 0f);
+        contentTable.align(Align.top);
+        Label headerLabel = new Label("LEVEL START", skin);
+        headerLabel.setWrap(true);
+        headerLabel.setAlignment(Align.center);
+        Label instructionsLabel = new Label("¡Recoge todos los articulos de primera necesidad antes de que se te termine el tiempo!\nNo olvides respetar la sana distancia de los demas clientes.", skin);
+        instructionsLabel.setWrap(true);
+        instructionsLabel.setAlignment(Align.center);
+        Label controlsLabel = new Label("W: Move up\n S: Move down\n A: Move left\n D: Move right\n E: Pick object\n SPACE BAR: Dash", skin);
+        controlsLabel.setWrap(true);
+        controlsLabel.setAlignment(Align.center);
+
+        contentTable.row().fillX();
+        contentTable.add(headerLabel).height(32).expandX();
+        contentTable.row().fillX();
+        contentTable.add(instructionsLabel).pad(10, 64, 10, 64).expandX();
+        contentTable.row().fillX();
+        contentTable.add(controlsLabel).expandX();
+        
+        Table buttonsTable = new Table(skin);
+        buttonsTable.align(Align.center);
+        buttonsTable.row().fill();
+        buttonsTable.add(continueButton).height(32);
+        buttonsTable.row().fill();
+        buttonsTable.add(saveButton).height(32);
+        buttonsTable.row().fill();
+        buttonsTable.add(quitButton).height(32);
+
+        contentTable.row().fillX();
+        contentTable.add(buttonsTable).expandX().pad(16, 0, 16, 0);
+        
+        stage.addActor(contentTable);
+    }
+    
     @Override
     public void show() {
 
     }
 
     /**
-     * Para dibujar el men� de level overlay.
+     * Para dibujar el menu de level overlay.
      *
      * @param delta
      */
     @Override
-    public void render(float delta) { // aqu� va la l�gica de los botones
+    public void render(float delta) { // aqui va la logica de los botones
         // dibujar instrucciones sobre los controles
         batch.begin();
-        batch.draw(background, 0, 0);
-        font.draw(batch, "LEVEL START:\n "
- + "                      ¡Recoge todos los artículos de primera necesidad antes de que se te termine el tiempo!\n"
- + "                      No olvides respetar la sana distancia de los demás clientes.", 60, 500);
-        font.draw(batch, "W: Move up\n S: Move down\n A: Move left\n D: Move right\n E: Pick object\n SPACE BAR: Dash", 300, 420);
+        // batch.draw(background, 0, 0);
         batch.end();
         stage.draw();
     }
