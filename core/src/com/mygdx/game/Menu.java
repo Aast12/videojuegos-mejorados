@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 //import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.LinkedList;
 
 /**
@@ -23,6 +24,7 @@ public class Menu implements Screen {
     private LinkedList<Button> options;
     private boolean visible;
     private Texture background;
+    private SpriteBatch batch;
     //OrthographicCamera camera;
 
     public Menu(VMGame game, String title, LinkedList<Button> options, Texture background) {
@@ -30,6 +32,7 @@ public class Menu implements Screen {
         this.game = game;
         this.options = options;
         this.background = background;
+	batch = new SpriteBatch();
 
         //camera = new OrthographicCamera();
         //camera.setToOrtho(false, 800, 600);
@@ -58,14 +61,14 @@ public class Menu implements Screen {
 
         //camera.update();
         //game.batch.setProjectionMatrix(camera.combined);
-        //game.batch.begin();
-        game.batch.draw(background, 0, 0);
+        batch.begin();
+        batch.draw(background, 0, 0);
         for (Button button : options) {
-            button.render(game.batch);
-            game.font.draw(game.batch, button.getMessage(), button.getBox().getX() + 20, 600 - button.getBox().getY() - 5);
+            button.render(batch);
+            game.font.draw(batch, button.getMessage(), button.getBox().getX() + 20, 600 - button.getBox().getY() - 5);
         }
-        game.font.draw(game.batch, title, 350, 520);
-        //game.batch.end();
+        game.font.draw(batch, title, 350, 520);
+        batch.end();
     }
 
     @Override

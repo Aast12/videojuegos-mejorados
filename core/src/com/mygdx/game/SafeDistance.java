@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class SafeDistance extends Entity {
 
 	/**
-	 * Inicializa un área de sana distancea para colocar alrededor de 
+	 * Inicializa un area de sana distancea para colocar alrededor de 
 	 * enemigos
 	 * @param x
 	 * @param y 

@@ -5,82 +5,173 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 
-import java.util.LinkedList;
-
+/**
+ * Una clase para el Overlay de la primera pantalla de juego, incluye insturcciones de controles
+ * @author jeg99
+ * @author Alam Sanchez
+ */
 public class LevelContinue implements Screen {
 
     private VMGame game; // para dibujar la pantalla
-    private Menu levelContinue; // para implementar la interfaz
-    private LinkedList<Button> options; // para accesar a los botones de esta pantalla
-    private Texture buttonMaterial; // el material para los botones de esta pantalla
-    private boolean visible; // to control screen visibility *REEMPLAZARLA POR EL HANDLER DE LA CAMARA*
+    private SpriteBatch batch; // para dibujar la pantalla
+    private TextButton continueButton;
+    private TextButton saveButton;
+    private TextButton quitButton;
+    private Stage stage;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
     private Texture background; // el fondo de esta pantalla
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
 
     /**
-     * Constructor para el menú del level overlay.
+     * Constructor para el menï¿½ del level overlay.
      *
      * @param game
      */
-    public LevelContinue(VMGame game) {
+    public LevelContinue(final VMGame game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
 
-        this.options = new LinkedList<Button>();
-        this.buttonMaterial = new Texture("material1.png");
-        Button save = new Button(334, 500, 128, 32, "SAVE (under development)", buttonMaterial);
-        Button quit = new Button(334, 542, 128, 32, "QUIT", buttonMaterial);
-        this.options.add(save);
-        this.options.add(quit);
-        this.background = new Texture("main_menu_background.png");
-        this.levelContinue = new Menu(game, "LEVEL START", this.options, background);
+        this.batch = new SpriteBatch();
+        this.stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
+        skin.addRegions(buttonAtlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        font = new BitmapFont(Gdx.files.internal("font18.fnt"));
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("button-up");
+        textButtonStyle.down = skin.getDrawable("button-down");
+        textButtonStyle.checked = skin.getDrawable("button-checked");
+        
+        // this.background = new Texture("main_menu_background.png");
+        
+        this.continueButton = new TextButton("Continue", textButtonStyle);
+        continueButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 140);
+        continueButton.setHeight(32);
+        continueButton.addListener(
+            new InputListener() { 
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    
+                }
 
-        this.font = new BitmapFont();
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game);
+                    return true;
+                }
+            }
+        );
+        
+        
+        this.saveButton = new TextButton("Save game", textButtonStyle);
+        saveButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 170);
+        saveButton.setHeight(32);
+        saveButton.addListener(
+            new InputListener() { 
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    
+                }
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+            }
+        );
+        
+        
+        this.quitButton = new TextButton("Quit game", textButtonStyle);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 200);
+        quitButton.setHeight(32);
+        quitButton.addListener(
+            new InputListener() { 
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    
+                }
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game);
+                    return true;
+                }
+            }
+        );
+        
+
+        Table contentTable = new Table(skin);
+        contentTable.setHeight(Gdx.graphics.getHeight());
+        contentTable.setWidth(Gdx.graphics.getWidth());
+        contentTable.setPosition(0f, 0f);
+        contentTable.align(Align.top);
+        Label headerLabel = new Label("LEVEL START", skin);
+        headerLabel.setWrap(true);
+        headerLabel.setAlignment(Align.center);
+        Label instructionsLabel = new Label("Â¡Recoge todos los articulos de primera necesidad antes de que se te termine el tiempo!\nNo olvides respetar la sana distancia de los demas clientes.", skin);
+        instructionsLabel.setWrap(true);
+        instructionsLabel.setAlignment(Align.center);
+        Label controlsLabel = new Label("W: Move up\n S: Move down\n A: Move left\n D: Move right\n E: Pick object\n SPACE BAR: Dash", skin);
+        controlsLabel.setWrap(true);
+        controlsLabel.setAlignment(Align.center);
+
+        contentTable.row().fillX();
+        contentTable.add(headerLabel).height(32).expandX();
+        contentTable.row().fillX();
+        contentTable.add(instructionsLabel).pad(10, 64, 10, 64).expandX();
+        contentTable.row().fillX();
+        contentTable.add(controlsLabel).expandX();
+        
+        Table buttonsTable = new Table(skin);
+        buttonsTable.align(Align.center);
+        buttonsTable.row().fill();
+        buttonsTable.add(continueButton).height(32);
+        buttonsTable.row().fill();
+        buttonsTable.add(saveButton).height(32);
+        buttonsTable.row().fill();
+        buttonsTable.add(quitButton).height(32);
+
+        contentTable.row().fillX();
+        contentTable.add(buttonsTable).expandX().pad(16, 0, 16, 0);
+        
+        stage.addActor(contentTable);
     }
-
-    public Menu getLevelContinue() {
-        return levelContinue;
-    }
-
+    
     @Override
     public void show() {
 
     }
 
     /**
-     * Para dibujar el menú de level overlay.
+     * Para dibujar el menu de level overlay.
      *
      * @param delta
      */
     @Override
-    public void render(float delta) { // aquï¿½ va la lï¿½gica de los botones
-        levelContinue.render(delta); // dibujar materiales y botones
-
+    public void render(float delta) { // aqui va la logica de los botones
         // dibujar instrucciones sobre los controles
-        game.font.draw(game.batch, "W: Move up", 334, 460);
-        game.font.draw(game.batch, "S: Move down", 334, 430);
-        game.font.draw(game.batch, "A: Move left", 334, 400);
-        game.font.draw(game.batch, "D: Move right", 334, 370);
-        game.font.draw(game.batch, "E: Pick object", 334, 340);
-        game.font.draw(game.batch, "SPACE BAR: Dash", 334, 310);
-
-        /*
-        Boton 0: save
-        Boton 1: quit
-         */
-        // para save
-        if (Gdx.input.isTouched() && this.getLevelContinue().getOptions().get(0).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // guardar partida
-        }
-        // para quit
-        if (Gdx.input.isTouched() && this.getLevelContinue().getOptions().get(1).getBox().contains(Gdx.input.getX(), Gdx.input.getY())) {
-            // cambiar pantalla a MainMenu
-            getLevelContinue().setVisible(false);
-            game.mainMenu.getMenu().setVisible(true);
-        }
+        batch.begin();
+        // batch.draw(background, 0, 0);
+        batch.end();
+        stage.draw();
     }
 
     @Override

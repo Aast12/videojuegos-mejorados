@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,13 +20,13 @@ import com.badlogic.gdx.math.Rectangle;
  * 
  * Usa tilemaps en formato .tmx </p> 
  * 
- * @author Alam Sánchez
+ * @author Alam Sanchez
  */
 public class MapHandler {
     public OrthographicCamera camera;
     public OrthogonalTiledMapRenderer renderer;
     public TiledMap map;
-    public Vector<MapObject> solidObjects;
+    public ArrayList<MapObject> solidObjects;
     
     /**
      * Crea un objeto MapHandler para manejar un tilemap.
@@ -48,12 +50,44 @@ public class MapHandler {
     }
 
     /**
-     * Indica si un rectángulo colisiona con alguno de los objetos 
+     * Aplica una función en todos los objetos de una capa del mapa.
+     * 
+     * @param layerName nombre de la capa de objetos
+     * @param fn objeto Lambda con la función a aplicar
+     * @param onProperties bandera determina si se mandan las propiedades el objeto del mapa a la lambda o el mismo objeto
+     */
+    public void applyOnLayerObjects(String layerName, Lambda fn, boolean onProperties) {
+        //Se genera un iterador para recorrer todos los objetos
+        Iterator<MapObject> it =  map.getLayers().get(layerName).getObjects().iterator();
+        while (it.hasNext()) {
+            MapObject curr = it.next();
+            // Se aplica la función sobre el objeto o las propiedades
+            if (onProperties) {
+                fn.apply(curr.getProperties());
+            } else {
+                fn.apply(curr);
+            }
+        }
+    }
+
+    /**
+     * Regresa un objeto del mapa dado su nombre y la capa en la que se encuentra.
+     * 
+     * @param layerName nombre de la capa para buscar
+     * @param objectName nombre del objeto dentro de la capa
+     */
+    public MapObject getObjectFromLayer(String layerName, String objectName) {
+        return map.getLayers().get(layerName).getObjects().get(objectName);
+    }
+
+
+    /**
+     * Indica si un rectangulo colisiona con alguno de los objetos 
      * rectangulares de una capa del mapa.
      * 
      * @param layerName nombre de la capa de la colision
-     * @param rect objecto Rectangle de la colisión
-     * @return booleano que representa si hay o no una colisión
+     * @param rect objecto Rectangle de la colision
+     * @return booleano que representa si hay o no una colision
      */
     public boolean collidesOnLayer(String layerName, Rectangle rect) {
         MapLayer layer = map.getLayers().get(layerName);
