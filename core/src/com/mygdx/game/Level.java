@@ -62,7 +62,7 @@ public class Level implements Screen {
 
         int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
         int playerY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("y").toString());
-        player = new Player(playerX, playerY, this, game);
+        player = new Player(playerX, playerY, this);
 
         
         // Inicialización del punto de salida
