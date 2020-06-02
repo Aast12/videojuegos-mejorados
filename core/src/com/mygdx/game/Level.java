@@ -53,7 +53,7 @@ public class Level implements Screen {
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
-        mymap = new MapHandler("mapv2.tmx", camera);
+        mymap = new MapHandler("maps/example/mapv3.tmx", camera);
         map = mymap.map;
 	    this.game = g;
         batch = new SpriteBatch();
