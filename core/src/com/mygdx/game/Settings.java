@@ -92,6 +92,7 @@ public class Settings implements Screen {
                     } else {
                         index = 2;
                     }
+                    game.globals.diff = difficulties[index];
                     return true;
                 }
             }
@@ -115,6 +116,7 @@ public class Settings implements Screen {
                     } else {
                         index = 0;
                     }
+                    game.globals.diff = difficulties[index];
                     return true;
                 }
             }
@@ -157,6 +159,7 @@ public class Settings implements Screen {
                     } else {
                         currentMusicVol += 2;
                     }
+                    game.globals.musicVolume = currentMusicVol;
                     return true;
                 }
             }
@@ -180,6 +183,7 @@ public class Settings implements Screen {
                     } else {
                         currentMusicVol -= 2;
                     }
+                    game.globals.musicVolume = currentMusicVol;                    
                     return true;
                 }
             }
