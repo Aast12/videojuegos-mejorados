@@ -63,6 +63,10 @@ public class Enemy extends Entity {
 		dialogue.add("He estado aquí todo el día y aún no termino");
 		dialogue.add("Me duele la garganta");
 		dialogue.add("Me duelen los pies");
+		dialogue.add("Todavía no hay internet en la casa");
+		dialogue.add("Okay, sodas papas y me largo");
+		dialogue.add("Me tosieron en la cara");
+
 		diagLine = "";
 		willTalk = false;
 		
@@ -121,7 +125,6 @@ public class Enemy extends Entity {
 	protected void talk()
 	{
 		int index = (int)(Math.random() * ((dialogue.size())));
-		System.out.println(index);
 		diagLine = dialogue.get(index);
 	}
 
@@ -143,6 +146,6 @@ public class Enemy extends Entity {
 		batch.draw(img, x, y);
 
 		if (willTalk)
-			font.draw(batch, diagLine , x,y+80 );
+			font.draw(batch, diagLine , x-32,y+80 );
 	}
 }
