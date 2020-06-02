@@ -93,5 +93,6 @@ public class Menu implements Screen {
 
     @Override
     public void dispose() {
+	    batch.dispose();
     }
 }

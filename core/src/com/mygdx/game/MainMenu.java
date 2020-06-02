@@ -192,5 +192,7 @@ public class MainMenu implements Screen {
     @Override
     public void dispose() {
 	music.stop();
+	batch.dispose();
+	stage.dispose();
     }
 }
