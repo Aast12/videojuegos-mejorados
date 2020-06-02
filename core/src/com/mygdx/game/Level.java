@@ -59,11 +59,11 @@ public class Level implements Screen {
         batch = new SpriteBatch();
 
 	    //Empezando aqui todo debe ser por nivel
-        //TOOD: la inicializacion de player deberia depender del nivel
+
         int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
         int playerY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("y").toString());
         player = new Player(playerX, playerY, this, game);
-        
+
         
         // Inicialización del punto de salida
         float endX = Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("x").toString());

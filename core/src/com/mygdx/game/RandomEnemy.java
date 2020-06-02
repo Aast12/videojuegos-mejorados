@@ -14,6 +14,10 @@ public class RandomEnemy extends Enemy {
 	boolean isMoving; //used for random movement
 	int targetX;
 	int targetY;
+	int maxDisplacement;
+	int targetDistance;
+	int ranDistance;
+	boolean bump;
 	
 	/**
 	 * Inicializa un enemigo con movimiento al azar
@@ -24,8 +28,10 @@ public class RandomEnemy extends Enemy {
 	public RandomEnemy(int x, int y, MapHandler map) {
 		super(x, y, map);
 
+		maxDisplacement = 16000;
 		lastMove = System.nanoTime();
 		isMoving = false;
+		
 	}
 
 	/**
@@ -38,25 +44,37 @@ public class RandomEnemy extends Enemy {
 		if (!isMoving)
 		{
 			double now = System.nanoTime();
-			if (now - lastMove > 2000000000) 
+			double rOffset = (double)(Math.random() * (1500000000 - 1)+1)+1;
+			if (now - lastMove > 1000000000 + rOffset) 
 			{
 				boolean willMove;
 
 				targetX = targetY = 0;
 				willMove = Math.random() >.5;
 				if (willMove)
-					targetX = (int)(Math.random() * ((1600 - 10) + 1 ) + 10) - 500;
+					targetX = (int)(Math.random() * (((maxDisplacement * speed) - 10) + 1 ) + 10) - 500;
 				targetX += x;
 				willMove = Math.random() >.5;
 				if (willMove)
-					targetY = (int)(Math.random() * ((1000 - 10) + 1 ) + 10) - 500;
+					targetY = (int)(Math.random() * (((maxDisplacement *speed) - 10) + 1 ) + 10) - 500;
 				targetY += y;
 				isMoving = true;
+				ranDistance = 0;
+				targetDistance = (int)Math.sqrt((x-targetX)*(x-targetX) + (y-targetY)*(y-targetY));
+				bump = false;
+				talk();
+				willTalk = (Math.random() >.9);
 			}
 		}
 		else
 		{
+
 			int tmpX, tmpY;
+			if (ranDistance >= targetDistance)
+			{
+				isMoving = false;
+				lastMove = System.nanoTime();
+			}
 			if (targetX > x)
 			{
 				tmpX = speed;
@@ -92,12 +110,23 @@ public class RandomEnemy extends Enemy {
 			}
 			if (collision)
 			{
-				isMoving = false;
+				if (!bump)
+				{
+					bump = true;
+					targetX *= -1;
+					targetY *= -1;
+				}
+				else
+				{
+					isMoving = false;
+					lastMove = System.nanoTime();
+				}
 			}
 			else
 			{
 				this.x += tmpX;
 				this.y += tmpY;
+				ranDistance += speed;
 			}
 		}
 	}
@@ -110,7 +139,7 @@ public class RandomEnemy extends Enemy {
 		moveRandom();	
 		hitbox.x = x;
 		hitbox.y = y;
-		covidBox.tick(x-32, y-32);
+		covidBox.tick(x-covidOffset, y-covidOffset);
 	}
 	
 }

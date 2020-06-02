@@ -99,6 +99,8 @@ public class GameWon implements Screen {
 
     @Override
     public void dispose() {
+	    stage.dispose();
+	    batch.dispose();
     }
 
 }
