@@ -114,9 +114,9 @@ public class Level implements Screen {
 
         hud = new HUD(group);
         hud.setTime(levelSeconds);
-        hud.setHealth(98);
+        hud.setHealth(98, player.getShield());
         hud.setDash(player.getDashes());
-        hud.setGel(0);
+        hud.setGel(player.getGel());
 
         hud.triggerPopup("Hey esto es un popusaadsd");
 
@@ -280,8 +280,9 @@ public class Level implements Screen {
             // HUD Render
             hud.render();
 
-            hud.setHealth(player.getHealth());
+            hud.setHealth(player.getHealth(), player.getShield());
             hud.setDash(player.getDashes());
+            hud.setGel(player.getGel());
             hud.setTime(getLevelSeconds());
             hud.setPunctuation(getPoints());
             hud.tick();

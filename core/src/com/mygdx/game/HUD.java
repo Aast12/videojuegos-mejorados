@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -210,11 +211,21 @@ public class HUD {
     public void setDate(String date)  { dayLabel.setText(date); }
 
     /**
-     * Actualiza la etiqueta de la vida del jugador
+     * Actualiza la etiqueta de la vida del jugador y su escudo
      * 
      * @param health puntos de vida del jugador
+     * @param shield puntos de escudo del jugador
      */
-    public void setHealth(int health)  { healthLabel.setText("HEALTH : " + Integer.toString(health) + "%"); }
+    public void setHealth(int health, int shield)  {
+        if (shield > 0) {
+            healthLabel.setColor(lightBlueColor.getColor());
+        } else {
+            healthLabel.setColor(Color.WHITE);
+        }
+        healthLabel.setText("HEALTH : " + Integer.toString(health + shield) + "%");
+    }
+
+    
 
     /**
      * Actualiza el contador visual de dashes
