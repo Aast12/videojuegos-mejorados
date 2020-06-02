@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class ColorDrawable extends TextureRegionDrawable {
     private float r, g, b, a;
+    private Color color;
     public Pixmap bgPixmap;
 
     /**
@@ -29,10 +30,17 @@ public class ColorDrawable extends TextureRegionDrawable {
         this.g = g;
         this.b = b;
         this.a = a;
+        color = new Color(r, g, b, a);
         bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA4444);
-        bgPixmap.setColor(new Color(r, g, b, a));
+        bgPixmap.setColor(color);
         bgPixmap.fill();
 
         this.setRegion(new TextureRegion(new Texture(bgPixmap)));
     }
+    
+    /**
+     * 
+     * @return el color de la textura
+     */
+    public Color getColor() { return color; }
 }

@@ -79,7 +79,7 @@ public class Player extends Entity {
         
         stateTime = 0f;
 
-        geles = 1;
+        geles = 3;
         gelShield = 0;
         dashes = 3;
 
@@ -93,9 +93,21 @@ public class Player extends Entity {
 
     /**
      * getter de los dashes
-     * @return
+     * @return cantidad de dashes
      */
     public int getDashes() {return dashes;}
+
+    /**
+     * getter del escudo
+     * @return magnitud del escudo
+     */
+    public int getShield() {return gelShield;}
+
+    /**
+     * getter de los geles
+     * @return cantidad de geles
+     */
+    public int getGel() {return geles;}
 
     /**
      * Aqui se hace el movimiento del jugador
@@ -152,7 +164,7 @@ public class Player extends Entity {
             y += dy;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {// GELES
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {// GELES
             if (geles > 0) {
                 geles--;
                 gelTime = System.nanoTime();
