@@ -21,12 +21,15 @@ public class SafeDistance extends Entity {
 	 * @param x
 	 * @param y 
 	 */
-	public SafeDistance(int x, int y) {
+	public SafeDistance(int x, int y, int w, int h) {
 		super(x, y);
 		hitbox = new Rectangle();
-		hitbox.width = 128;
-		hitbox.height = 128;
-		img = new Texture("covid_radius.png");
+		hitbox.width = w;
+		hitbox.height = h;
+		if (w == 192)
+			img = new Texture("big_covid_radius.png");
+		else
+			img = new Texture("covid_radius.png");
 	}
 
 	/**

@@ -5,9 +5,16 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -20,6 +27,11 @@ public class Enemy extends Entity {
 	int speed;
 	int direction; //1D movement
 	MapHandler map;
+	int covidOffset;
+	BitmapFont font;
+	ArrayList<String> dialogue;
+	String diagLine;
+	protected boolean willTalk;
 
 
 	/**
@@ -31,17 +43,33 @@ public class Enemy extends Entity {
 	public Enemy(int x, int y, MapHandler map)
 	{
 		super(x, y);
+		covidOffset = 32;
 		this.img = new Texture("man.png");
 		this.hitbox = new Rectangle();
 		hitbox.width = 64;
 		hitbox.height = 64;
 		hitbox.x = x;
 		hitbox.y = y;
-		covidBox = new SafeDistance(x-32, y-32);
+		covidBox = new SafeDistance(x-covidOffset, y-covidOffset, 128, 128);
 		speed = 1;
 		direction = -1;
 		this.map = map;
+		font = new BitmapFont();
+		font.setColor(Color.YELLOW);
+		dialogue = new ArrayList<>();
+		dialogue.add("hmm...");
+		dialogue.add("No quiero regresar a casa...");
+		dialogue.add("¡Ah, Se me olvidaba!");
+		dialogue.add("He estado aquí todo el día y aún no termino");
+		dialogue.add("Me duele la garganta");
+		dialogue.add("Me duelen los pies");
+		dialogue.add("Todavía no hay internet en la casa");
+		dialogue.add("Okay, sodas papas y me largo");
+		dialogue.add("Me tosieron en la cara");
 
+		diagLine = "";
+		willTalk = false;
+		
 	}
 
 	/**
@@ -77,7 +105,6 @@ public class Enemy extends Entity {
 		if (collision)
 		{
 			direction *= -1;
-			System.out.println("bump");
 		}
 		y += speed * direction;
 	}
@@ -91,9 +118,14 @@ public class Enemy extends Entity {
 		if (collision)
 		{
 			direction *= -1;
-			System.out.println("bump");
 		}
 		x += speed * direction;
+	}
+
+	protected void talk()
+	{
+		int index = (int)(Math.random() * ((dialogue.size())));
+		diagLine = dialogue.get(index);
 	}
 
 
@@ -105,12 +137,15 @@ public class Enemy extends Entity {
 		moveLeftRight();
 		hitbox.x = x;
 		hitbox.y = y;
-		covidBox.tick(x-32, y-32);
+		covidBox.tick(x-covidOffset, y-covidOffset);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		covidBox.render(batch);
 		batch.draw(img, x, y);
+
+		if (willTalk)
+			font.draw(batch, diagLine , x-32,y+80 );
 	}
 }
