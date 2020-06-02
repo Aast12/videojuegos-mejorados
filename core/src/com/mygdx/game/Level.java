@@ -53,15 +53,17 @@ public class Level implements Screen {
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
-        mymap = new MapHandler("mapa.tmx", camera);
+        mymap = new MapHandler("maps/example/mapv3.tmx", camera);
         map = mymap.map;
 	    this.game = g;
         batch = new SpriteBatch();
 
 	    //Empezando aqui todo debe ser por nivel
-	    //TOOD: la inicializacion de player deberia depender del nivel
-        player = new Player(800 / 2 - 64 / 2, 136, this);
-        
+
+        int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
+        int playerY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("y").toString());
+        player = new Player(playerX, playerY, this);
+
         
         // Inicialización del punto de salida
         float endX = Float.parseFloat(mymap.getObjectFromLayer("Other", "Exit").getProperties().get("x").toString());
