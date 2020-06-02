@@ -48,7 +48,8 @@ public class Level implements Screen {
         this.levelSeconds = seconds;
         this.points = 0;
         levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
-        levelMusic.setVolume((float) 0.5);
+        levelMusic.setVolume((float) (0.1 * game.globals.musicVolume));
+        
         // this.items.addAll(items);
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
@@ -59,7 +60,8 @@ public class Level implements Screen {
         batch = new SpriteBatch();
 
 	    //Empezando aqui todo debe ser por nivel
-
+        game.globals.init();
+        
         int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
         int playerY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("y").toString());
         player = new Player(playerX, playerY, this);
@@ -234,6 +236,8 @@ public class Level implements Screen {
      * @param batch renderizador de dibujo
      */
     public void render(SpriteBatch batch) {
+        //System.out.println(game.globals.diff);
+        //System.out.println(game.globals.difficulty);
         for (String key : items.keySet()) {
             for (Item item : items.get(key)) {
                 if (item.getPickable() != 0) {

@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class Globals {
     public int difficulty; //TODO: QUE VENGA DE LA PANTALLA DE SETTINGS
-    public int musicVolume;
-    public int fxVolume = 50;
-    String diff;
+    public int musicVolume = 50;
+    public int fxVolume;
+    String diff = new String();
     public void init(){
         switch (diff) {
             case "easy":  

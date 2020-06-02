@@ -56,7 +56,6 @@ public class Player extends Entity {
         isDashing = false;
         lastHit = System.nanoTime();
 
-
         walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
 				walkSheet.getWidth() / 4,
