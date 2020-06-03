@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="20" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="49">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="49">
  <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64" tilecount="42" columns="7">
   <image source="../tilesv3.png" width="448" height="384"/>
  </tileset>
@@ -108,13 +108,13 @@
   </object>
  </objectgroup>
  <objectgroup color="#000000" id="6" name="Walls">
-  <object id="34" x="384" y="1604" width="58" height="372"/>
-  <object id="35" x="576" y="1606" width="58" height="368"/>
-  <object id="36" x="768" y="1606" width="58" height="362"/>
-  <object id="37" x="642" y="644" width="58" height="746"/>
-  <object id="38" x="770" y="708" width="56" height="684"/>
-  <object id="39" x="386" y="772" width="60" height="618"/>
-  <object id="40" x="898" y="710" width="56" height="684"/>
+  <object id="34" x="384" y="1604" width="58" height="312"/>
+  <object id="35" x="576" y="1606" width="58" height="319"/>
+  <object id="36" x="768" y="1606" width="58" height="320"/>
+  <object id="37" x="642" y="644" width="58" height="699.5"/>
+  <object id="38" x="770" y="708" width="56" height="634.5"/>
+  <object id="39" x="386" y="772" width="60" height="574"/>
+  <object id="40" x="898" y="710" width="56" height="636.5"/>
   <object id="41" x="390" y="644" width="60" height="70"/>
   <object id="42" x="834" y="644" width="60" height="66"/>
   <object id="43" x="8" y="2252" width="1260" height="116"/>
