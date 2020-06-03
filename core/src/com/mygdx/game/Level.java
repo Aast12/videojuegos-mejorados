@@ -235,8 +235,6 @@ public class Level implements Screen {
      * @param batch renderizador de dibujo
      */
     public void render(SpriteBatch batch) {
-        System.out.println(game.globals.difficulties[game.globals.index]);
-        System.out.println(game.globals.index + 1);
         for (String key : items.keySet()) {
             for (Item item : items.get(key)) {
                 if (item.getPickable() != 0) {
