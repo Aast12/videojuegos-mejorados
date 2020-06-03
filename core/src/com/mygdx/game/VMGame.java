@@ -30,6 +30,7 @@ public class VMGame extends Game {
     GameOver gameOver; // imagen de game over
     Globals globals;
 
+    DataManager dataManager;
 
     //Son las pantallas disponibles
     //MainMenu mainMenu;
@@ -53,7 +54,7 @@ public class VMGame extends Game {
         //levelContinue.getLevelContinue().setVisible(false);
 
         font = new BitmapFont();
-
+        dataManager = new DataManager();
 
 
         camera = new OrthographicCamera(800, 600);

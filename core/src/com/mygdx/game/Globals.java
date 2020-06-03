@@ -8,6 +8,7 @@ public class Globals {
     //public int difficulty = index + 1; //TODO: QUE VENGA DE LA PANTALLA DE SETTINGS --este rollo no se actualiza
     public int musicVolume = 50;
     public int fxVolume;
+    public int totalScore = 0;
 
     public static HashMap<String, String> itemTypes = new HashMap<String, String>() {
         {
