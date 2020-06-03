@@ -68,6 +68,7 @@ public class GameWon implements Screen {
             }
         });
 
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         
         Table contentTable = new Table(skin);
         contentTable.setHeight(Gdx.graphics.getHeight());
