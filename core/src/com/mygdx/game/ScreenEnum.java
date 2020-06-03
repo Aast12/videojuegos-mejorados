@@ -40,14 +40,23 @@ public enum ScreenEnum {
                     String map = "";
                     switch(lvl){
                         case 1: time = 40; map = "mapTest.tmx";
+                        break;
                         case 2: time = 40; map = "mapTest.tmx";
+                        break;
                         case 3: time = 40; map = "mapTest.tmx";
+                        break;
                         case 4: time = 40; map = "mapTest.tmx";
+                        break;
                         case 5: time = 40; map = "mapTest.tmx";
+                        break;
                         case 6: time = 40; map = "mapTest.tmx";
+                        break;
                         case 7: time = 40; map = "mapTest.tmx";
+                        break;
                         case 8: time = 40; map = "mapTest.tmx";
+                        break;
                         case 9: time = 40; map = "mapTest.tmx";
+                        break;
                         case 10: time = 80; map = "mapv3.tmx";
                     }
                     return new Level(time, game, map, lvl);
