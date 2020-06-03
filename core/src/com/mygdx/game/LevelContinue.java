@@ -94,6 +94,7 @@ public class LevelContinue implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    game.dataManager.setValues(game.globals.totalScore, nextLevel);
                     return true;
                 }
             }

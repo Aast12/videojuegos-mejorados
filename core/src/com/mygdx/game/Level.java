@@ -411,23 +411,22 @@ public class Level implements Screen {
                 setLevel(getLevel() + 1);
                 points += player.getHealth() * (game.globals.index + 1) * 2;
                 points += levelSeconds * 3 * (game.globals.index + 1);
+                game.globals.totalScore += points;
                 if(getLevel() <= 10 ){
                     ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL_OVERLAY, game, getLevel());
                 } else{
                     ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game, getLevel());
                 }   
             }
-
-                if (getLost())
-                {
-                        ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game, 1);
-                }
-
+            if (getLost())
+            {
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game, 1);
+            }
             if(paused){
                 stage.draw();
             }
             
-        }
+  }
 
 	@Override
 	public void resize(int i, int i1) {
