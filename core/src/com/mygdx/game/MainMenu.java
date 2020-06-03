@@ -63,7 +63,7 @@ public class MainMenu implements Screen {
         textButtonStyle.checked = skin.getDrawable("button-checked");
         background = new Texture("main_menu_background.png");
         
-        startButton = new TextButton("Start game", textButtonStyle);
+        startButton = new TextButton("Nuevo juego", textButtonStyle);
         startButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 200);
         startButton.setHeight(32);
         startButton.addListener(
@@ -82,7 +82,7 @@ public class MainMenu implements Screen {
         );
         stage.addActor(startButton);
         
-        this.loadButton = new TextButton("Load game", textButtonStyle);
+        this.loadButton = new TextButton("Cargar juego", textButtonStyle);
         loadButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 230);
         loadButton.setHeight(32);
         loadButton.addListener(
@@ -102,7 +102,7 @@ public class MainMenu implements Screen {
         );
         stage.addActor(loadButton);
         
-        this.optionsButton = new TextButton("Options", textButtonStyle);
+        this.optionsButton = new TextButton("Opciones", textButtonStyle);
         optionsButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 260);
         optionsButton.setHeight(32);
         optionsButton.addListener(
@@ -121,7 +121,7 @@ public class MainMenu implements Screen {
         );
         stage.addActor(optionsButton);
         
-        this.exitButton = new TextButton("Exit", textButtonStyle);
+        this.exitButton = new TextButton("Salir", textButtonStyle);
         exitButton.setPosition(30, Gdx.graphics.getHeight() / 2 - 290);
         exitButton.setHeight(32);
         exitButton.addListener(

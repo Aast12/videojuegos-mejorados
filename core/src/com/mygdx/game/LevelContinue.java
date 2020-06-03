@@ -65,7 +65,7 @@ public class LevelContinue implements Screen {
         
         // this.background = new Texture("main_menu_background.png");
         
-        this.continueButton = new TextButton("Continue", textButtonStyle);
+        this.continueButton = new TextButton("Continuar", textButtonStyle);
         continueButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 140);
         continueButton.setHeight(32);
         continueButton.addListener(
@@ -84,7 +84,7 @@ public class LevelContinue implements Screen {
         );
         
         
-        this.saveButton = new TextButton("Save game", textButtonStyle);
+        this.saveButton = new TextButton("Guardar", textButtonStyle);
         saveButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 170);
         saveButton.setHeight(32);
         saveButton.addListener(
@@ -103,7 +103,7 @@ public class LevelContinue implements Screen {
         );
         
         
-        this.quitButton = new TextButton("Quit game", textButtonStyle);
+        this.quitButton = new TextButton("Salir del juego", textButtonStyle);
         quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 200);
         quitButton.setHeight(32);
         quitButton.addListener(
@@ -129,7 +129,7 @@ public class LevelContinue implements Screen {
         contentTable.align(Align.top);
         
         if (nextlvl == 1) {
-            Label headerLabel = new Label("LEVEL START", skin);
+            Label headerLabel = new Label("INICIO", skin);
             headerLabel.setWrap(true);
             headerLabel.setAlignment(Align.center);
             Label instructionsLabel = new Label("¡Recoge todos los articulos de primera necesidad antes de que se te termine el tiempo!\nNo olvides respetar la sana distancia de los demas clientes.", skin);
@@ -142,11 +142,11 @@ public class LevelContinue implements Screen {
             controlsLabel.setAlignment(Align.center);
             
             contentTable.row().fillX();
-            contentTable.add(headerLabel).height(32).expandX();
+            contentTable.add(headerLabel).height(32).pad(20).expandX();
             contentTable.row().fillX();
             contentTable.add(instructionsLabel).pad(10, 64, 10, 64).expandX();
             contentTable.row().fillX();
-            contentTable.add(controlsLabel).expandX();
+            contentTable.add(controlsLabel).pad(10).expandX();
         }
         else {
             Table calendarTable = new Table(skin);
@@ -168,7 +168,7 @@ public class LevelContinue implements Screen {
                 calendarTable.add(stack).pad(5);
                 idx++;
             }
-            Label levelHeader = new Label("Nivel completado !", skin);
+            Label levelHeader = new Label("Dia " + Integer.toString(nextlvl - 1) + " completado !", skin);
             levelHeader.setAlignment(Align.topLeft);
             levelHeader.setFontScale(1.5f);
             Label calendarHeader = new Label("Dias de cuarentena", skin);
@@ -185,11 +185,11 @@ public class LevelContinue implements Screen {
         Table buttonsTable = new Table(skin);
         buttonsTable.align(Align.center);
         buttonsTable.row().fill();
-        buttonsTable.add(continueButton).height(32);
+        buttonsTable.add(continueButton).height(32).pad(5);
         buttonsTable.row().fill();
-        buttonsTable.add(saveButton).height(32);
+        buttonsTable.add(saveButton).height(32).pad(5);
         buttonsTable.row().fill();
-        buttonsTable.add(quitButton).height(32);
+        buttonsTable.add(quitButton).height(32).pad(5);
 
         contentTable.row().fillX();
         contentTable.add(buttonsTable).expandX().pad(16, 0, 16, 0);

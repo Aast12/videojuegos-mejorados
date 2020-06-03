@@ -100,8 +100,10 @@ public class Level implements Screen {
         contentTable.setWidth(Gdx.graphics.getWidth());
         contentTable.setPosition(0f, 0f);
         contentTable.align(Align.top);
+
+        contentTable.setBackground(new ColorDrawable(0f, 0f, 0f, 0.7f));
         
-        Label headerLabel = new Label("PAUSE", skin);
+        Label headerLabel = new Label("PAUSA", skin);
         headerLabel.setWrap(true);
         headerLabel.setAlignment(Align.center);
         contentTable.add(headerLabel).height(200).expandX();
@@ -189,7 +191,7 @@ public class Level implements Screen {
         
         hud.triggerPopup("Level " + Integer.toString(lvl));
         
-        this.continueButton = new TextButton("Continue", textButtonStyle);
+        this.continueButton = new TextButton("Continuar", textButtonStyle);
         continueButton.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 140);
         continueButton.setHeight(32);
         continueButton.addListener(
@@ -208,7 +210,7 @@ public class Level implements Screen {
         );
         stage.addActor(continueButton);
         
-        this.quitButton = new TextButton("Quit game", textButtonStyle);
+        this.quitButton = new TextButton("Salir del juego", textButtonStyle);
         quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 220);
         quitButton.setHeight(32);
         quitButton.addListener(
