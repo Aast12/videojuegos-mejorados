@@ -42,7 +42,6 @@ public class Level implements Screen {
     private Texture background;
     
     private TextButton continueButton;
-    private TextButton saveButton;
     private TextButton quitButton;
     private Stage stage;
     private TextButton.TextButtonStyle textButtonStyle;
@@ -210,7 +209,7 @@ public class Level implements Screen {
         stage.addActor(continueButton);
         
         this.quitButton = new TextButton("Quit game", textButtonStyle);
-        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 200);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 220);
         quitButton.setHeight(32);
         quitButton.addListener(
                 new InputListener() {
