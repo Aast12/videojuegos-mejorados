@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="35" height="32" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="87">
+ <tileset firstgid="1" name="tilesTest" tilewidth="64" tileheight="64" tilecount="20" columns="4">
+  <image source="../../tilesv2.png" width="256" height="320"/>
+ </tileset>
+ <tileset firstgid="21" name="tilesv3" tilewidth="64" tileheight="64" tilecount="42" columns="7">
+  <image source="../../tilesv3.png" width="448" height="384"/>
+ </tileset>
+ <layer id="1" name="Floor" width="35" height="32">
+  <data encoding="csv">
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,7,7,7,
+7,7,7,3,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,2,7,7,7,
+7,7,7,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,3,3,3,3,3,3,3,5,4,5,4,5,4,5,3,3,3,3,3,3,3,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,30,30,30,30,30,30,3,5,8,5,8,5,8,5,20,20,20,20,20,20,20,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,5,5,5,3,5,32,5,32,5,32,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,5,5,5,3,5,46,5,46,5,46,5,5,2,2,2,2,2,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,5,5,5,3,5,53,5,53,5,53,5,5,2,2,2,2,2,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,2,3,3,3,3,3,5,5,5,5,5,5,5,5,30,30,30,30,30,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,20,20,3,3,20,20,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,32,5,32,5,32,5,5,3,3,3,3,3,3,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,39,5,39,5,39,5,5,1,1,1,1,1,1,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,39,5,39,5,39,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,46,5,46,5,46,5,5,3,3,3,3,3,3,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,53,5,53,5,53,5,5,1,1,1,1,1,1,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,32,5,32,5,32,5,5,3,5,5,32,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,3,3,5,5,5,39,5,39,5,39,5,5,3,5,5,39,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,6,6,5,5,5,39,5,39,5,39,5,5,3,5,5,32,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,5,5,5,5,5,46,5,46,5,46,5,5,3,5,5,46,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,5,5,5,5,5,53,5,53,5,53,5,5,3,5,5,53,5,5,2,7,7,7,
+7,7,7,3,5,5,5,5,3,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,3,5,5,5,5,5,2,7,7,7,
+7,7,7,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+</data>
+ </layer>
+ <objectgroup color="#00ff00" id="2" name="Walls">
+  <object id="8" x="192" y="192" width="64" height="1664"/>
+  <object id="9" x="256" y="192" width="1791" height="83"/>
+  <object id="10" x="1984" y="192" width="64" height="1664"/>
+  <object id="11" x="192" y="1792" width="1856" height="64"/>
+  <object id="12" x="512" y="512" width="128" height="1280"/>
+  <object id="13" x="832" y="832" width="128" height="704"/>
+  <object id="14" x="704" y="832" width="384" height="64"/>
+  <object id="15" x="640" y="512" width="448" height="64"/>
+  <object id="16" x="1024" y="576" width="64" height="256"/>
+  <object id="17" x="1152" y="640" width="64" height="128"/>
+  <object id="18" x="1152" y="512" width="64" height="64"/>
+  <object id="19" x="1280" y="512" width="64" height="64"/>
+  <object id="20" x="1408" y="512" width="64" height="64"/>
+  <object id="21" x="1536" y="512" width="448" height="64"/>
+  <object id="22" x="1600" y="704" width="320" height="128"/>
+  <object id="23" x="1280" y="640" width="64" height="128"/>
+  <object id="24" x="1408" y="640" width="64" height="128"/>
+  <object id="25" x="1600" y="1024" width="384" height="64"/>
+  <object id="26" x="1600" y="1216" width="384" height="64"/>
+  <object id="27" x="1792" y="1408" width="64" height="256"/>
+  <object id="28" x="1600" y="1408" width="64" height="384"/>
+  <object id="29" x="1408" y="1024" width="64" height="256"/>
+  <object id="30" x="1280" y="1024" width="64" height="256"/>
+  <object id="31" x="1152" y="1024" width="64" height="256"/>
+  <object id="32" x="1152" y="1408" width="64" height="256"/>
+  <object id="33" x="1280" y="1408" width="64" height="256"/>
+  <object id="34" x="1408" y="1408" width="64" height="256"/>
+  <object id="35" x="640" y="576" width="384.5" height="21.5"/>
+  <object id="36" x="704" y="896" width="129" height="26.0455"/>
+  <object id="37" x="960" y="896" width="127" height="23"/>
+  <object id="42" x="832" y="1536" width="127.667" height="24.1667"/>
+  <object id="43" x="1536" y="576" width="449" height="24.3333"/>
+  <object id="44" x="1600" y="832" width="321" height="19.1667"/>
+  <object id="45" x="1408" y="768" width="62.5" height="21"/>
+  <object id="46" x="1152" y="768" width="63" height="22.8333"/>
+  <object id="47" x="1280" y="768" width="62.875" height="23.5"/>
+  <object id="48" x="1152" y="1280" width="63.0625" height="24.5"/>
+  <object id="49" x="1280" y="1280" width="62.9375" height="22.1667"/>
+  <object id="50" x="1408" y="1280" width="62.5" height="22.6667"/>
+  <object id="51" x="1152" y="1664" width="63.5" height="22"/>
+  <object id="52" x="1280" y="1664" width="63" height="21.3333"/>
+  <object id="53" x="1408" y="1664" width="62.8182" height="22.1667"/>
+  <object id="54" x="1792" y="1664" width="64" height="24.3333"/>
+  <object id="55" x="1600" y="1280" width="384" height="18.3333"/>
+  <object id="56" x="1600" y="1088" width="383.5" height="18.5"/>
+ </objectgroup>
+ <objectgroup id="3" name="Enemies">
+  <object id="62" x="1583.67" y="348" width="8" height="0.666667" rotation="90"/>
+  <object id="68" x="1717.33" y="427.333" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="69" x="1591" y="333.333" width="64" height="64">
+   <properties>
+    <property name="type" value="big"/>
+   </properties>
+  </object>
+  <object id="74" x="1761.33" y="1659.52" width="64" height="64" rotation="180">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="78" x="1828" y="622.667" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="79" x="1864" y="914.667" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="80" x="908" y="726.667" width="64" height="64">
+   <properties>
+    <property name="type" value="big"/>
+   </properties>
+  </object>
+  <object id="81" x="1610.67" y="412" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="82" x="958" y="1705.33" width="64" height="64" rotation="180">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="83" x="1334.67" y="961.939" width="64" height="64" rotation="180">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="84" x="696" y="1298.67" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="85" x="1506" y="1611" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+  <object id="86" x="1032" y="1363" width="64" height="64">
+   <properties>
+    <property name="type" value="normal"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff00ff" id="5" name="Other">
+  <object id="57" name="Player" x="384" y="1664" width="64" height="64"/>
+  <object id="58" name="Exit" x="320" y="1664" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup color="#0000ff" id="6" name="Items">
+  <object id="59" x="928.667" y="717.333" width="32" height="32">
+   <properties>
+    <property name="filename" value="apple.png"/>
+   </properties>
+  </object>
+  <object id="60" x="1900" y="938" width="32" height="32">
+   <properties>
+    <property name="filename" value="bread.png"/>
+   </properties>
+  </object>
+  <object id="61" x="1906" y="1714" width="32" height="32">
+   <properties>
+    <property name="filename" value="battery.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
