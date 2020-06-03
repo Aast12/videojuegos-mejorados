@@ -11,6 +11,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Input;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +38,20 @@ public class Level implements Screen {
     float period = 1f;
     private HashMap<String, ArrayList<Item>> items;
     private HashMap<String, ItemGroup> group;
-    OrthographicCamera camera;
+    OrthographicCamera camera;  
+    boolean paused;
+    private SpriteBatch pauseBatch;
+    private Texture background;
+
+    private TextButton continueButton;
+    private TextButton saveButton;
+    private TextButton quitButton;
+    private Stage stage;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
+    private BitmapFont font;
+
 
     Music levelMusic; // musica de menu
     Sound regenDash; // sonido de regeneracion de dash
@@ -37,7 +64,7 @@ public class Level implements Screen {
     HUD hud; // aqui se hace el rendering del layout dle HUD
     ArrayList<Enemy> enemies;
     Texture end; // luego sera un atributo de la clase Level
-
+    
     Rectangle endpoint;
 
     /**
@@ -46,6 +73,21 @@ public class Level implements Screen {
 	 * @param g
      */
     public Level (int seconds, VMGame g, String mapFile, int lvl) {
+        
+        this.stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
+        skin.addRegions(buttonAtlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        font = new BitmapFont(Gdx.files.internal("font18.fnt"));
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("button-up");
+        textButtonStyle.down = skin.getDrawable("button-down");
+        textButtonStyle.checked = skin.getDrawable("button-checked");
+
+        //this.background = new Texture("main_menu_background.png");
+        paused = false;
         this.game = g;
         level = lvl;
         this.win = false;
@@ -56,6 +98,19 @@ public class Level implements Screen {
         levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
         levelMusic.setVolume((float) (0.1 * game.globals.musicVolume));
         
+        Table contentTable = new Table(skin);
+        contentTable.setHeight(Gdx.graphics.getHeight());
+        contentTable.setWidth(Gdx.graphics.getWidth());
+        contentTable.setPosition(0f, 0f);
+        contentTable.align(Align.top);
+        
+        Label headerLabel = new Label("PAUSE", skin);
+        headerLabel.setWrap(true);
+        headerLabel.setAlignment(Align.center);
+        contentTable.add(headerLabel).height(200).expandX();
+
+        stage.addActor(contentTable);
+
         // this.items.addAll(items);
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
@@ -63,7 +118,7 @@ public class Level implements Screen {
         mymap = new MapHandler(mapFile, camera);
         map = mymap.map;
         batch = new SpriteBatch();
-
+        pauseBatch = new SpriteBatch();
 	    //Empezando aqui todo debe ser por nivel
         
         int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
@@ -136,6 +191,45 @@ public class Level implements Screen {
         hud.setGel(player.getGel());
 
         hud.triggerPopup("Level " + Integer.toString(lvl));
+        
+        this.continueButton = new TextButton("Continue", textButtonStyle);
+        continueButton.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 140);
+        continueButton.setHeight(32);
+        continueButton.addListener(
+            new InputListener() { 
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    
+                }
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    paused = false;
+                    return true;
+                }
+            }
+        );
+        stage.addActor(continueButton);
+
+        this.quitButton = new TextButton("Quit game", textButtonStyle);
+        quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 200);
+        quitButton.setHeight(32);
+        quitButton.addListener(
+            new InputListener() { 
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    
+                }
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game, 1);
+                    return true;
+                }
+            }
+        );
+        stage.addActor(quitButton);
+        
 
 
     }
@@ -274,62 +368,65 @@ public class Level implements Screen {
 
 	@Override
 	public void render(float f) {
-		
-                levelMusic.play();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {// PAUSA
+                paused = true;
+            }
+            
 
+            levelMusic.play();
             camera.position.x = player.x + player.getHitbox().width / 2f;
             camera.position.y = player.y + player.getHitbox().height / 2f;
             camera.update();
-
             mymap.render(batch);
-            batch.begin();
+            batch.begin(); 
+            if(!paused){
+                // Sprites Render y tick
+                for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
+                        Enemy e = it.next();
+                        e.tick();
+                }
+                tick();
+                player.tick();
+            }
             
-		// Sprites Render y tick
-		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
-			Enemy e = it.next();
-			e.tick();
-		}
-	        tick();
-	        player.tick();
-
             player.render(batch);
-		for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
-			Enemy e = it.next();
-			e.render(batch);
-		}
-	        render(batch);
+            for (Iterator<Enemy> it = enemies.iterator(); it.hasNext();) {
+                Enemy e = it.next();
+                e.render(batch);
+            }
+            render(batch);
             batch.draw(end, endpoint.x, endpoint.y);
-
             batch.end();
 
             // HUD Render
             hud.render();
-
             hud.setHealth(player.getHealth(), player.getShield());
             hud.setDash(player.getDashes());
             hud.setGel(player.getGel());
             hud.setTime(getLevelSeconds());
             hud.setPunctuation(getPoints());
             hud.tick();
-
-        if (getWin()) 
-        {   
-            setLevel(getLevel() + 1);
-            points += player.getHealth() * (game.globals.index + 1) * 2;
-            points += levelSeconds * 3 * (game.globals.index + 1);
-            game.globals.totalScore += points;
-            if(getLevel() <= 10 ){
-                ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL_OVERLAY, game, getLevel());
-            } else{
-                ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game, getLevel());
-            }   
-        }
-
-	    if (getLost())
-	    {
-		    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game, 1);
-	    }
-	}
+            if (getWin()) 
+            {   
+                setLevel(getLevel() + 1);
+                points += player.getHealth() * (game.globals.index + 1) * 2;
+                points += levelSeconds * 3 * (game.globals.index + 1);
+                game.globals.totalScore += points;
+                if(getLevel() <= 10 ){
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL_OVERLAY, game, getLevel());
+                } else{
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game, getLevel());
+                }   
+            }
+            if (getLost())
+            {
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game, 1);
+            }
+            if(paused){
+                stage.draw();
+            }
+            
+  }
 
 	@Override
 	public void resize(int i, int i1) {
@@ -337,7 +434,8 @@ public class Level implements Screen {
 
 	@Override
 	public void pause() {
-	}
+            
+        }
 
 	@Override
 	public void resume() {
@@ -350,6 +448,7 @@ public class Level implements Screen {
 	@Override
 	public void dispose() {
 		batch.dispose();
+                stage.dispose();
 		mymap.dispose();
 		hud.dispose();
 		levelMusic.stop();
