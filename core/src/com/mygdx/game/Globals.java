@@ -3,7 +3,11 @@ package com.mygdx.game;
 import java.util.HashMap;
 
 public class Globals {
-    public int difficulty = 1; //TODO: QUE VENGA DE LA PANTALLA DE SETTINGS
+    public String[] difficulties = {"easy", "normal", "hard"};
+    public int index = 1; // default: normal
+    //public int difficulty = index + 1; //TODO: QUE VENGA DE LA PANTALLA DE SETTINGS --este rollo no se actualiza
+    public int musicVolume = 50;
+    public int fxVolume;
 
     public static HashMap<String, String> itemTypes = new HashMap<String, String>() {
         {

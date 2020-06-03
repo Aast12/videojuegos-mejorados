@@ -43,23 +43,24 @@ public class Level implements Screen {
 	 * @param g
      */
     public Level (int seconds, VMGame g) {
+        this.game = g;
         this.win = false;
         this.lost = false;
         this.levelSeconds = seconds;
         this.points = 0;
         levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
-        levelMusic.setVolume((float) 0.5);
+        levelMusic.setVolume((float) (0.1 * game.globals.musicVolume));
+        
         // this.items.addAll(items);
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         mymap = new MapHandler("maps/example/mapv3.tmx", camera);
         map = mymap.map;
-	    this.game = g;
         batch = new SpriteBatch();
 
 	    //Empezando aqui todo debe ser por nivel
-
+        
         int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
         int playerY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("y").toString());
         player = new Player(playerX, playerY, this);
@@ -289,8 +290,8 @@ public class Level implements Screen {
 
         if (getWin()) 
         {
-            points += player.getHealth() * game.globals.difficulty * 2;
-            points += levelSeconds * 3 * game.globals.difficulty;
+            points += player.getHealth() * (game.globals.index + 1) * 2;
+            points += levelSeconds * 3 * (game.globals.index + 1);
             ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
         }
 

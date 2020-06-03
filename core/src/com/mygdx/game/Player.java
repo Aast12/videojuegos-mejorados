@@ -56,7 +56,6 @@ public class Player extends Entity {
         isDashing = false;
         lastHit = System.nanoTime();
 
-
         walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
 				walkSheet.getWidth() / 4,
@@ -168,7 +167,7 @@ public class Player extends Entity {
             if (geles > 0) {
                 geles--;
                 gelTime = System.nanoTime();
-                gelShield += 30 / level.getGame().globals.difficulty;
+                gelShield += 30 / (level.getGame().globals.index + 1);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
@@ -180,7 +179,7 @@ public class Player extends Entity {
                         if (now - lastHit > timeUnit) {
                             lastHit = now;
                             item.setPickable(0);
-                            level.setPoints(level.getPoints() + 100 * level.getGame().globals.difficulty);
+                            level.setPoints(level.getPoints() + 100 * (level.getGame().globals.index + 1));
                             for (String k : level.getGroup().keySet()) {
                                 if (level.getGroup().get(k).getKey() == key) {
                                     level.getGroup().get(k).setCounter(level.getGroup().get(k).getCounter() - 1);

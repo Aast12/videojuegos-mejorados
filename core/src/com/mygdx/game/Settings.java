@@ -87,11 +87,14 @@ public class Settings implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    if(index > 0) {
-                        index--;
+                    if(game.globals.index > 0) {
+                        //index--;
+                        game.globals.index--;
                     } else {
-                        index = 2;
+                        //index = 2;
+                        game.globals.index = 2;
                     }
+                    //game.globals.diff = difficulties[index];
                     return true;
                 }
             }
@@ -110,11 +113,14 @@ public class Settings implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    if(index < 2) {
-                        index++;
+                    if(game.globals.index < 2) {
+                        //index++;
+                        game.globals.index++;
                     } else {
-                        index = 0;
+                        //index = 0;
+                        game.globals.index = 0;
                     }
+                    //game.globals.diff = difficulties[index];
                     return true;
                 }
             }
@@ -152,11 +158,14 @@ public class Settings implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    if(currentMusicVol >= 100){
-                        currentMusicVol = 100;
+                    if(game.globals.musicVolume >= 100){
+                        //currentMusicVol = 100;
+                        game.globals.musicVolume = 100;
                     } else {
-                        currentMusicVol += 2;
+                        //currentMusicVol += 2;
+                        game.globals.musicVolume += 2;
                     }
+                    //game.globals.musicVolume = currentMusicVol;
                     return true;
                 }
             }
@@ -175,20 +184,24 @@ public class Settings implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    if(currentMusicVol <= 0){
-                        currentMusicVol = 0;
+                    if(game.globals.musicVolume <= 0){
+                        //currentMusicVol = 0;
+                        game.globals.musicVolume = 0;
                     } else {
-                        currentMusicVol -= 2;
+                        //currentMusicVol -= 2;
+                        game.globals.musicVolume -= 2;
                     }
+                    //game.globals.musicVolume = currentMusicVol;                    
                     return true;
                 }
             }
         );
 	stage.addActor(volumeDownButton);
         // las configuraciones del juego por default
-        currentMusicVol = 50;
-        currentFxVol = 50;
-        currentDifficulty = difficulties[index];
+        // currentMusicVol = 50;
+        // currentFxVol = 50;
+        // currentDifficulty = difficulties[index];
+        // currentMusicVol = game.globals.musicVolume;
     }
 
     @Override
@@ -203,14 +216,16 @@ public class Settings implements Screen {
     @Override
     public void render(float delta) {
         // dibujar materiales y botones
-        currentDifficulty = difficulties[index];
+        //currentDifficulty = difficulties[index];
         batch.begin();
         batch.draw(background, 0, 0);
         font.draw(batch, "SETTINGS", Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 + 100);
         font.draw(batch, "Difficulty:", Gdx.graphics.getWidth() / 2 - 120 - 105, Gdx.graphics.getHeight() / 2 - 100 + 20);
-        font.draw(batch, currentDifficulty, Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);
+        // font.draw(batch, currentDifficulty, Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);
+        font.draw(batch, game.globals.difficulties[game.globals.index], Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);    
         font.draw(batch, "Music volume:", Gdx.graphics.getWidth() / 2 - 120 - 140, Gdx.graphics.getHeight() / 2 - 150 + 20);
-        font.draw(batch, Integer.toString(currentMusicVol), Gdx.graphics.getWidth() / 2 - 10, Gdx.graphics.getHeight() / 2 - 150 + 20);
+        // font.draw(batch, Integer.toString(currentMusicVol), Gdx.graphics.getWidth() / 2 - 10, Gdx.graphics.getHeight() / 2 - 150 + 20);
+        font.draw(batch, Integer.toString(game.globals.musicVolume), Gdx.graphics.getWidth() / 2 - 10, Gdx.graphics.getHeight() / 2 - 150 + 20);
         batch.end();
         stage.draw();
     }
