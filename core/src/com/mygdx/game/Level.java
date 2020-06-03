@@ -43,6 +43,7 @@ public class Level implements Screen {
 	 * @param g
      */
     public Level (int seconds, VMGame g) {
+        this.game = g;
         this.win = false;
         this.lost = false;
         this.levelSeconds = seconds;
@@ -56,11 +57,9 @@ public class Level implements Screen {
         camera.update();
         mymap = new MapHandler("maps/example/mapv3.tmx", camera);
         map = mymap.map;
-	    this.game = g;
         batch = new SpriteBatch();
 
 	    //Empezando aqui todo debe ser por nivel
-        game.globals.init();
         
         int playerX = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("x").toString());
         int playerY = (int) Float.parseFloat(mymap.getObjectFromLayer("Other", "Player").getProperties().get("y").toString());
@@ -236,8 +235,8 @@ public class Level implements Screen {
      * @param batch renderizador de dibujo
      */
     public void render(SpriteBatch batch) {
-        //System.out.println(game.globals.diff);
-        //System.out.println(game.globals.difficulty);
+        System.out.println(game.globals.difficulties[game.globals.index]);
+        System.out.println(game.globals.index + 1);
         for (String key : items.keySet()) {
             for (Item item : items.get(key)) {
                 if (item.getPickable() != 0) {
@@ -293,8 +292,8 @@ public class Level implements Screen {
 
         if (getWin()) 
         {
-            points += player.getHealth() * game.globals.difficulty * 2;
-            points += levelSeconds * 3 * game.globals.difficulty;
+            points += player.getHealth() * (game.globals.index + 1) * 2;
+            points += levelSeconds * 3 * (game.globals.index + 1);
             ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
         }
 
