@@ -129,6 +129,13 @@ public class Player extends Entity {
             isDashing = false;
             acceleration = 0;
         }
+
+        if ( dashes < 3 && !isDashing && System.nanoTime() - dashTime > 2 * timeUnit) {
+            dashes++;
+            dashTime = System.nanoTime();
+            level.regenDash.play((float) 0.3);
+        }
+
         if (gelShield > 0 && System.nanoTime() - gelTime > timeUnit ) {
             gelTime = System.nanoTime();
             gelShield -= 5;
@@ -171,7 +178,7 @@ public class Player extends Entity {
             if (geles > 0) {
                 geles--;
                 gelTime = System.nanoTime();
-                gelShield += 30 / level.getGame().globals.difficulty;
+                gelShield += 30 / (level.getGame().globals.index + 1);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {// RECOGER
@@ -183,7 +190,7 @@ public class Player extends Entity {
                         if (now - lastHit > timeUnit) {
                             lastHit = now;
                             item.setPickable(0);
-                            level.setPoints(level.getPoints() + 100 * level.getGame().globals.difficulty);
+                            level.setPoints(level.getPoints() + 100 * (level.getGame().globals.index + 1));
                             for (String k : level.getGroup().keySet()) {
                                 if (level.getGroup().get(k).getKey() == key) {
                                     level.getGroup().get(k).setCounter(level.getGroup().get(k).getCounter() - 1);

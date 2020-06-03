@@ -141,7 +141,7 @@ public class MainMenu implements Screen {
 	    stage.addActor(exitButton);
         
         music = Gdx.audio.newMusic(Gdx.files.internal("Manu.ogg"));
-        music.setVolume((float) 0.25);
+        music.setVolume((float) (0.01 * this.game.globals.musicVolume));
 
         music.setLooping(true);
         music.play();
