@@ -56,22 +56,24 @@ public class Player extends Entity {
         isDashing = false;
         lastHit = System.nanoTime();
 
+        int spritesheetRows = 4;
+        int spritesheetCols = 4;
 
         walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
-				walkSheet.getWidth() / 4,
-                walkSheet.getHeight() / 4);
+				walkSheet.getWidth() / spritesheetCols,
+                walkSheet.getHeight() / spritesheetRows);
 
         // Asignación del hitbox con el tamaño de la sprite
         // La spritesheet tiene 4 frames por fila y columna, sin separación
-        hitbox.width = walkSheet.getWidth() / 4;
-        hitbox.height = walkSheet.getHeight() / 4;
+        hitbox.width = walkSheet.getWidth() / spritesheetCols;
+        hitbox.height = walkSheet.getHeight() / spritesheetRows;
 
         // Asignacion de animaciones
         walkAnimation = new Vector<Animation<TextureRegion>>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < spritesheetRows; i++) {
             TextureRegion[] walkFrames = new TextureRegion[4];
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < spritesheetCols; j++) {
                 walkFrames[j] = tmp[i][j];
             }
             walkAnimation.add(new Animation<TextureRegion>(0.25f, walkFrames));
