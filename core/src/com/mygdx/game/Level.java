@@ -166,7 +166,18 @@ public class Level implements Screen {
             MapProperties curr = (MapProperties) mp;
             int x = (int) Float.parseFloat(curr.get("x").toString());
             int y = (int) Float.parseFloat(curr.get("y").toString());
-            enemies.add(new RandomEnemy(x, y, mymap));
+            try {
+                String type = curr.get("type").toString();
+                if (type == "big") {
+                    enemies.add(new RandomEnemyBig(x, y, mymap));
+                }
+                else {
+                    enemies.add(new RandomEnemy(x, y, mymap));
+                }
+            }
+            catch (Exception e) {
+                enemies.add(new RandomEnemy(x, y, mymap));
+            }
         };
 
         mymap.applyOnLayerObjects("Enemies", genEnemies, true);
