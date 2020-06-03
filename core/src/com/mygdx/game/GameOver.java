@@ -48,7 +48,7 @@ public class GameOver implements Screen {
         batch = new SpriteBatch();
         
         this.background = new Texture("game_over.png");
-        button = new TextButton("Restart", textButtonStyle);
+        button = new TextButton("Reiniciar", textButtonStyle);
         button.addListener(new InputListener()
         {
             @Override

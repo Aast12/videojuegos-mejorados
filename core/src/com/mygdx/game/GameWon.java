@@ -48,7 +48,7 @@ public class GameWon implements Screen {
         batch = new SpriteBatch();
         
         this.background = new Texture("win_screen.png");
-        button = new TextButton("Restart", textButtonStyle);
+        button = new TextButton("Reiniciar", textButtonStyle);
         button.addListener(new InputListener()
         {
             @Override
