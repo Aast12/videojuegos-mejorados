@@ -168,6 +168,7 @@ public class Player extends Entity {
         test.x += dx;
         test.y += dy;
         boolean collision = level.mymap.collidesOnLayer("Walls", test);
+        
         // Avanza si no ha chocado con alguna pared
         if (!collision) {
             x += dx;

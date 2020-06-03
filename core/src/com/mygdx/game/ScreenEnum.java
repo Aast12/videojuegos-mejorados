@@ -39,13 +39,13 @@ public enum ScreenEnum {
             int time = 0;
             String map = "";
             switch(lvl){
-                case 1: time = 80; map = "maps/alam_level1.tmx";
+                case 1: time = 80; map = "maps/level0.tmx";
                 break;
                 case 2: time = 80; map = "maps/alam_level1.tmx";
                 break;
-                case 3: time = 80; map = "maps/E1map.tmx";
+                case 3: time = 80; map = "maps/alam_level2.tmx";
                 break;
-                case 4: time = 80; map = "maps/E2map.tmx";
+                case 4: time = 80; map = "maps/E1map.tmx";
                 break;
                 case 5: time = 80; map = "KMap.tmx";
                 break;
