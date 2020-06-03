@@ -137,8 +137,8 @@ public class RandomEnemy extends Enemy {
     public void tick()
     {
         moveRandom();
-        hitbox.x = x;
-        hitbox.y = y;
+        // hitbox.x = x;
+        // hitbox.y = y;
         covidBox.tick(x - covidOffsetX, y - covidOffsetY);
     }
     

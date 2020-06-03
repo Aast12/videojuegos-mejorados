@@ -10,7 +10,7 @@ import com.mygdx.game.VMGame;
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
-        System.setProperty("user.name", "Public");
+        // System.setProperty("user.name", "Public");
         
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Game";
