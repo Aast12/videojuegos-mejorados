@@ -33,10 +33,73 @@ public enum ScreenEnum {
 		}
 
 	},
-	LEVEL {
+	LEVEL1 {
 		@Override
 		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(40, game);
+			return new Level(40, game, "mapTest.tmx", 1);
+		}
+		
+	},
+        LEVEL2 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 2);
+		}
+		
+	},
+        LEVEL3 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 3);
+		}
+		
+	},
+        LEVEL4 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 4);
+		}
+		
+	},
+        LEVEL5 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 5);
+		}
+		
+	},
+        LEVEL6 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 6);
+		}
+		
+	},
+        LEVEL7 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 7);
+		}
+		
+	},
+        LEVEL8 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 8);
+		}
+		
+	},
+        LEVEL9 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(50, game, "mapTest.tmx", 9);
+		}
+		
+	},
+        LEVEL10 {
+		@Override
+		public Screen getScreen(VMGame game, Object... params) {
+			return new Level(200, game, "maps/example/mapv3.tmx", 10);
 		}
 		
 	},
