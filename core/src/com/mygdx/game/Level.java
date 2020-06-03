@@ -167,7 +167,8 @@ public class Level implements Screen {
             int y = (int) Float.parseFloat(curr.get("y").toString());
             try {
                 String type = curr.get("type").toString();
-                if (type == "big") {
+                
+                if (type.equals("big")) {
                     enemies.add(new RandomEnemyBig(x, y, mymap));
                 }
                 else {
