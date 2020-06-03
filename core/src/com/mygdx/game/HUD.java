@@ -57,6 +57,7 @@ public class HUD {
     };
 
     private Container<Image> statusContainer;
+    Image statusIndicators[];
     private Vector<Container<Image>> dashes;
     private Vector<Container<Image>> gel;
     private HashMap<String, ItemGroup> itemsData;
@@ -103,8 +104,11 @@ public class HUD {
         int idx = 0;
         for (String key : itemsData.keySet()) {
             Image im = new Image(new Texture(key));
+            Label counter = new Label("x0", skin);
+            counter.setScale(0.5f);
             im.setColor(1f, 1f, 1f, 0.2f);
             items.get(idx).add(im);
+            items.get(idx).add(counter).bottom().right();
             itemsData.get(key).setIndexList(idx);
             idx++;
         }
@@ -162,8 +166,11 @@ public class HUD {
         bottomBar.add(healthLabel).padLeft(16).padRight(64);
         
         // Imagen de estado
-        Texture txt = new Texture("hudFace.png");
-        statusContainer = new Container<Image>(new Image(txt));
+        statusIndicators = new Image[5];
+        for (int i = 0; i < 5; i++) {
+            statusIndicators[i] = new Image(new Texture("hudFaceL" + Integer.toString(i) + ".png"));
+        }
+        statusContainer = new Container<Image>(statusIndicators[0]);
         statusContainer.setBackground(lightUIColor);
         bottomBar.add(statusContainer).height(80).width(80).padLeft(16).padRight(48);
 
@@ -184,7 +191,6 @@ public class HUD {
             gelImg.setWidth(20f);
             gelImg.setHeight(5f);
             gel.add(new Container<Image>(gelImg));
-            // gel.get(i).setBackground(lightBlueColor);
             bottomBar.add(gel.get(i)).height(55).width(40).pad(16);
         }
     }
@@ -222,10 +228,24 @@ public class HUD {
         } else {
             healthLabel.setColor(Color.WHITE);
         }
+        if (health > 80) {
+            statusContainer.setActor(statusIndicators[0]);
+        }
+        else if (health > 60) {
+            statusContainer.setActor(statusIndicators[1]);
+        }
+        else if (health > 40) {
+            statusContainer.setActor(statusIndicators[2]);
+        }
+        else if (health > 15) {
+            statusContainer.setActor(statusIndicators[3]);
+        }
+        else {
+            statusContainer.setActor(statusIndicators[4]);
+        }
         healthLabel.setText("HEALTH : " + Integer.toString(health + shield) + "%");
     }
-
-    
+  
 
     /**
      * Actualiza el contador visual de dashes
@@ -264,6 +284,9 @@ public class HUD {
             for (int i = 0; i < items.get(idx).getChildren().size; i++) {
                 if (items.get(idx).getChild(i).getClass() == Image.class && itemsData.get(key).getCounter() == 0) {
                     items.get(idx).getChild(i).setColor(1f, 1f, 1f, 1f);
+                }
+                if (items.get(idx).getChild(i).getClass() == Label.class) {
+                    ((Label) items.get(idx).getChild(i)).setText("x" + Integer.toString(itemsData.get(key).getCounter()));
                 }
             }
             if (hasPopup) {
