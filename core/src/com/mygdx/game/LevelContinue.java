@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -125,25 +127,61 @@ public class LevelContinue implements Screen {
         contentTable.setWidth(Gdx.graphics.getWidth());
         contentTable.setPosition(0f, 0f);
         contentTable.align(Align.top);
-        Label headerLabel = new Label("LEVEL START", skin);
-        headerLabel.setWrap(true);
-        headerLabel.setAlignment(Align.center);
-        Label instructionsLabel = new Label("¡Recoge todos los articulos de primera necesidad antes de que se te termine el tiempo!\nNo olvides respetar la sana distancia de los demas clientes.", skin);
-        instructionsLabel.setFontScale(0.75f);
-        instructionsLabel.setWrap(true);
-        instructionsLabel.setAlignment(Align.left);
-        Label controlsLabel = new Label("P: Pausar el juego\n W: Caminar hacia arriba\n S: Caminar hacia abajo\n A: Caminar hacia la izquierda\n D: Caminar hacia la derecha\n E: Recoger objeto\n SPACE BAR: Impulso", skin);
-        controlsLabel.setFontScale(0.75f);
-        controlsLabel.setWrap(true);
-        controlsLabel.setAlignment(Align.center);
         
-        contentTable.row().fillX();
-        contentTable.add(headerLabel).height(32).expandX();
-        contentTable.row().fillX();
-        contentTable.add(instructionsLabel).pad(10, 64, 10, 64).expandX();
-        contentTable.row().fillX();
-        contentTable.add(controlsLabel).expandX();
-        
+        if (nextlvl == 1) {
+            Label headerLabel = new Label("LEVEL START", skin);
+            headerLabel.setWrap(true);
+            headerLabel.setAlignment(Align.center);
+            Label instructionsLabel = new Label("¡Recoge todos los articulos de primera necesidad antes de que se te termine el tiempo!\nNo olvides respetar la sana distancia de los demas clientes.", skin);
+            instructionsLabel.setFontScale(0.75f);
+            instructionsLabel.setWrap(true);
+            instructionsLabel.setAlignment(Align.left);
+            Label controlsLabel = new Label("P: Pausar el juego\n W: Caminar hacia arriba\n S: Caminar hacia abajo\n A: Caminar hacia la izquierda\n D: Caminar hacia la derecha\n E: Recoger objeto\n SPACE BAR: Impulso", skin);
+            controlsLabel.setFontScale(0.75f);
+            controlsLabel.setWrap(true);
+            controlsLabel.setAlignment(Align.center);
+            
+            contentTable.row().fillX();
+            contentTable.add(headerLabel).height(32).expandX();
+            contentTable.row().fillX();
+            contentTable.add(instructionsLabel).pad(10, 64, 10, 64).expandX();
+            contentTable.row().fillX();
+            contentTable.add(controlsLabel).expandX();
+        }
+        else {
+            Table calendarTable = new Table(skin);
+            calendarTable.row();
+            int idx = 0;
+            for (int i = 0; i < 10; i++) {
+                if (i == 5) calendarTable.row();
+
+                Stack stack = new Stack();
+                stack.add(new Image(new Texture("calendarBox.png")));
+                Label dayLabel = new Label(Integer.toString(i + 1), skin);
+                stack.add(dayLabel);
+                dayLabel.setAlignment(Align.topRight);
+                
+                if (idx < nextlvl - 1) {
+                    stack.add(new Image(new Texture("cross.png")));
+                }
+
+                calendarTable.add(stack).pad(5);
+                idx++;
+            }
+            Label levelHeader = new Label("Nivel completado !", skin);
+            levelHeader.setAlignment(Align.topLeft);
+            levelHeader.setFontScale(1.5f);
+            Label calendarHeader = new Label("Dias de cuarentena", skin);
+            calendarHeader.setAlignment(Align.center);
+            
+            contentTable.row().fill();
+            contentTable.add(levelHeader).pad(20);
+            contentTable.row().fill();
+            contentTable.add(calendarHeader).pad(10);
+            contentTable.row().fill();
+            contentTable.add(calendarTable).pad(40);
+        }
+
         Table buttonsTable = new Table(skin);
         buttonsTable.align(Align.center);
         buttonsTable.row().fill();
@@ -152,7 +190,7 @@ public class LevelContinue implements Screen {
         buttonsTable.add(saveButton).height(32);
         buttonsTable.row().fill();
         buttonsTable.add(quitButton).height(32);
-        
+
         contentTable.row().fillX();
         contentTable.add(buttonsTable).expandX().pad(16, 0, 16, 0);
         
