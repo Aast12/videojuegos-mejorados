@@ -20,6 +20,7 @@ public class GameOver implements Screen {
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
     TextButton button;
+    TextButton restartButton;
     Stage stage;
     TextButtonStyle textButtonStyle;
     Skin skin;
@@ -48,7 +49,7 @@ public class GameOver implements Screen {
         batch = new SpriteBatch();
         
         this.background = new Texture("game_over.png");
-        button = new TextButton("Reiniciar", textButtonStyle);
+        button = new TextButton("Regresar al menú principal", textButtonStyle);
         button.addListener(new InputListener()
         {
             @Override
@@ -64,8 +65,30 @@ public class GameOver implements Screen {
                 return true;
             }
         });
-        
+
+	restartButton = new TextButton("Regresar al último save", textButtonStyle);
+	restartButton.addListener(new InputListener()
+        {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+                
+            }
+            
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
+		int level = game.dataManager.getCurrLevel();
+		if (level == -1);
+			level = 1;
+                ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game, level);
+                return true;
+            }
+        });
+	restartButton.setPosition(0, 100);
+
         stage.addActor(button);
+	stage.addActor(restartButton);
     }
     
     @Override
