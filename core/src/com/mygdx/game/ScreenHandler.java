@@ -39,11 +39,11 @@ public class ScreenHandler {
 		this.game = g;
 	}
 
-	public void showScreen(ScreenEnum screen,VMGame game, Object... params)
+	public void showScreen(ScreenEnum screen,VMGame game, int lvl, Object... params)
 	{
 		Screen curr = game.getScreen();
 		Screen newScreen;
-		newScreen = screen.getScreen(game, params);
+		newScreen = screen.getScreen(game, lvl, params);
 		game.setScreen(newScreen);
 
 		if (curr != null)
