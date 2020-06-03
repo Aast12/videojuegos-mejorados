@@ -66,7 +66,9 @@ public class Settings implements Screen {
         this.skin = new Skin();
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
-        this.font = new BitmapFont();
+        //this.font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("font18.fnt"));
+
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("button-up");
@@ -220,7 +222,7 @@ public class Settings implements Screen {
         batch.begin();
         batch.draw(background, 0, 0);
         font.draw(batch, "OPCIONES", Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 + 100);
-        font.draw(batch, "Dificultad:", Gdx.graphics.getWidth() / 2 - 120 - 105, Gdx.graphics.getHeight() / 2 - 100 + 20);
+        font.draw(batch, "Dificultad:", Gdx.graphics.getWidth() / 2 - 120 - 170, Gdx.graphics.getHeight() / 2 - 100 + 20);
         // font.draw(batch, currentDifficulty, Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);
         font.draw(batch, game.globals.difficulties[game.globals.index], Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);
         font.draw(batch, "Volumen:", Gdx.graphics.getWidth() / 2 - 120 - 140, Gdx.graphics.getHeight() / 2 - 150 + 20);
