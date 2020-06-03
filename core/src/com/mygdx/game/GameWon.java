@@ -10,9 +10,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.Align;
 
 public class GameWon implements Screen {
     private VMGame game; // para dibujar la pantalla
@@ -64,8 +67,22 @@ public class GameWon implements Screen {
                 return true;
             }
         });
+
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         
-        stage.addActor(button);
+        Table contentTable = new Table(skin);
+        contentTable.setHeight(Gdx.graphics.getHeight());
+        contentTable.setWidth(Gdx.graphics.getWidth());
+        contentTable.setPosition(0f, 0f);
+        contentTable.align(Align.bottomLeft);
+        
+        Label scoreLabel = new Label("Puntaje : " + Integer.toString(game.globals.totalScore), skin);
+        contentTable.row();
+        contentTable.add(scoreLabel).pad(10);
+        contentTable.row();
+        contentTable.add(button).pad(10);
+
+        stage.addActor(contentTable);
     }
     
     @Override

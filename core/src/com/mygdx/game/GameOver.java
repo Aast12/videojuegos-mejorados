@@ -10,9 +10,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.Align;
 
 public class GameOver implements Screen {
     private VMGame game;
@@ -85,10 +88,26 @@ public class GameOver implements Screen {
                 return true;
             }
         });
-	restartButton.setPosition(0, 100);
+        restartButton.setPosition(0, 100);
+        
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // game.globals.totalScore = game.dataManager.getTotalScore();
 
-        stage.addActor(button);
-	stage.addActor(restartButton);
+        Table contentTable = new Table(skin);
+        contentTable.setHeight(Gdx.graphics.getHeight());
+        contentTable.setWidth(Gdx.graphics.getWidth());
+        contentTable.setPosition(0f, 0f);
+        contentTable.align(Align.bottomLeft);
+        
+        Label scoreLabel = new Label("Puntaje : " + Integer.toString(game.globals.totalScore), skin);
+        contentTable.row();
+        contentTable.add(scoreLabel).pad(10);
+        contentTable.row();
+        contentTable.add(button).pad(10);
+        contentTable.row();
+        contentTable.add(restartButton).pad(10);
+
+        stage.addActor(contentTable);
     }
     
     @Override

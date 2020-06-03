@@ -136,7 +136,7 @@ public class LevelContinue implements Screen {
             instructionsLabel.setFontScale(0.75f);
             instructionsLabel.setWrap(true);
             instructionsLabel.setAlignment(Align.left);
-            Label controlsLabel = new Label("P: Pausar el juego\n W: Caminar hacia arriba\n S: Caminar hacia abajo\n A: Caminar hacia la izquierda\n D: Caminar hacia la derecha\n E: Recoger objeto\n SPACE BAR: Impulso", skin);
+            Label controlsLabel = new Label("P: Pausar el juego\n W: Caminar hacia arriba\n S: Caminar hacia abajo\n A: Caminar hacia la izquierda\n D: Caminar hacia la derecha\n E: Recoger objeto\n F: Usar gel antibacterial\n SPACE BAR: Impulso", skin);
             controlsLabel.setFontScale(0.75f);
             controlsLabel.setWrap(true);
             controlsLabel.setAlignment(Align.center);
