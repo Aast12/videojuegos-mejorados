@@ -36,14 +36,15 @@ public class LevelContinue implements Screen {
     private Texture background; // el fondo de esta pantalla
     private OrthographicCamera camera; // para controlar visibilidad *PARA REEMPLAZAR bool visible*
     private BitmapFont font; // la fuente de esta pantalla *podemos cambiarla pq siempre es la misma para el juego*
-
+    public int nextLevel;
     /**
      * Constructor para el men� del level overlay.
      *
      * @param game
      */
-    public LevelContinue(final VMGame game) {
+    public LevelContinue(final VMGame game, int nextlvl) {
         this.game = game;
+        nextLevel = nextlvl;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
 
@@ -74,7 +75,7 @@ public class LevelContinue implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL1, game);
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game, nextLevel);
                     return true;
                 }
             }
@@ -111,7 +112,7 @@ public class LevelContinue implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game);
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game, 1);
                     return true;
                 }
             }

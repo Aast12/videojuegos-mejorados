@@ -14,104 +14,55 @@ import com.badlogic.gdx.Screen;
 public enum ScreenEnum {
 	MAIN_MENU {
 		@Override
-		public Screen getScreen(VMGame game, Object... params) {
+		public Screen getScreen(VMGame game, int lvl, Object... params) {
 			return new MainMenu(game);
 		}
 
 	},
         OPTIONS_MENU {
 		@Override
-		public Screen getScreen(VMGame game, Object... params) {
+		public Screen getScreen(VMGame game, int lvl, Object... params) {
 			return new Settings(game);
 		}
 
 	},
         LEVEL_OVERLAY {
 		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new LevelContinue(game);
+		public Screen getScreen(VMGame game, int lvl, Object... params) {
+			return new LevelContinue(game, lvl);
 		}
 
 	},
-	LEVEL1 {
+	LEVEL {
 		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(40, game, "mapTest.tmx", 1);
-		}
-		
-	},
-        LEVEL2 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 2);
-		}
-		
-	},
-        LEVEL3 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 3);
-		}
-		
-	},
-        LEVEL4 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 4);
-		}
-		
-	},
-        LEVEL5 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 5);
-		}
-		
-	},
-        LEVEL6 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 6);
-		}
-		
-	},
-        LEVEL7 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 7);
-		}
-		
-	},
-        LEVEL8 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 8);
-		}
-		
-	},
-        LEVEL9 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(50, game, "mapTest.tmx", 9);
-		}
-		
-	},
-        LEVEL10 {
-		@Override
-		public Screen getScreen(VMGame game, Object... params) {
-			return new Level(200, game, "maps/example/mapv3.tmx", 10);
+		public Screen getScreen(VMGame game, int lvl, Object... params) {
+                    int time = 0;
+                    String map = "";
+                    switch(lvl){
+                        case 1: time = 40; map = "mapTest.tmx";
+                        case 2: time = 40; map = "mapTest.tmx";
+                        case 3: time = 40; map = "mapTest.tmx";
+                        case 4: time = 40; map = "mapTest.tmx";
+                        case 5: time = 40; map = "mapTest.tmx";
+                        case 6: time = 40; map = "mapTest.tmx";
+                        case 7: time = 40; map = "mapTest.tmx";
+                        case 8: time = 40; map = "mapTest.tmx";
+                        case 9: time = 40; map = "mapTest.tmx";
+                        case 10: time = 80; map = "mapv3.tmx";
+                    }
+                    return new Level(time, game, map, lvl);
 		}
 		
 	},
 	GAME_WON {
 		@Override
-		public Screen getScreen(VMGame game, Object... params) {
+		public Screen getScreen(VMGame game, int lvl, Object... params) {
 			return new GameWon(game);
 		}
 	},
 	GAME_OVER {
 		@Override
-		public Screen getScreen(VMGame game, Object... params) {
+		public Screen getScreen(VMGame game, int lvl, Object... params) {
 			return new GameOver(game);
 		}
 	};
@@ -122,6 +73,6 @@ public enum ScreenEnum {
 	 * @param params
 	 * @return 
 	 */
-	public abstract Screen getScreen(VMGame game, Object... params);
+	public abstract Screen getScreen(VMGame game, int lvl, Object... params);
 	
 }

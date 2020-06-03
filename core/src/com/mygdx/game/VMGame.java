@@ -64,7 +64,7 @@ public class VMGame extends Game {
 
 	
         ScreenHandler.getInstance().init(this);
-        ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, this);
+        ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, this, 1);
 	
     }
 

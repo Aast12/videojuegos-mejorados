@@ -139,7 +139,7 @@ public class Settings implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game);
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game, 1);
                     return true;
                 }
             }

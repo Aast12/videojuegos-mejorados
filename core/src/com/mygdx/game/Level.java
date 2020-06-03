@@ -306,33 +306,16 @@ public class Level implements Screen {
             setLevel(getLevel() + 1);
             points += player.getHealth() * (game.globals.index + 1) * 2;
             points += levelSeconds * 3 * (game.globals.index + 1);
-            switch(getLevel()){
-                case 2: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL2, game);
-                break;
-                case 3: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL3, game);
-                break;
-                case 4: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL4, game);
-                break;
-                case 5: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL5, game);
-                break;
-                case 6: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL6, game);
-                break;
-                case 7: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL7, game);
-                break;
-                case 8: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL8, game);
-                break;             
-                case 9: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL9, game);
-                break;   
-                case 10: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL10, game);
-                break;
-                default:
-                ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
-            }
+            if(getLevel() <= 10 ){
+                ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL_OVERLAY, game, getLevel());
+            } else{
+                ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game, getLevel());
+            }   
         }
 
 	    if (getLost())
 	    {
-		    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game);
+		    ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_OVER, game, 1);
 	    }
 	}
 
