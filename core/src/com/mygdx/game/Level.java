@@ -114,10 +114,10 @@ public class Level implements Screen {
             try {
                 String type = curr.get("type").toString();
                 if (type == "big") {
-                    enemies.add(new RandomEnemy(x, y, mymap));
+                    enemies.add(new RandomEnemyBig(x, y, mymap));
                 }
                 else {
-                    enemies.add(new RandomEnemyBig(x, y, mymap));
+                    enemies.add(new RandomEnemy(x, y, mymap));
                 }
             }
             catch (Exception e) {
