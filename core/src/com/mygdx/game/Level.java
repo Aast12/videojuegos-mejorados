@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,7 @@ public class Level implements Screen {
     OrthographicCamera camera;
 
     Music levelMusic; // musica de menu
+    Sound regenDash; // sonido de regeneracion de dash
     Player player; // entidad que controlara el usuario
 
     SpriteBatch batch; // servira para hacer render de los objetos
@@ -48,6 +50,7 @@ public class Level implements Screen {
         this.lost = false;
         this.levelSeconds = seconds;
         this.points = 0;
+        regenDash = Gdx.audio.newSound(Gdx.files.internal("obtDash.mp3"));
         levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
         levelMusic.setVolume((float) (0.1 * game.globals.musicVolume));
         

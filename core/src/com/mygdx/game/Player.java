@@ -125,6 +125,13 @@ public class Player extends Entity {
             isDashing = false;
             acceleration = 0;
         }
+
+        if ( dashes < 3 && !isDashing && System.nanoTime() - dashTime > 2 * timeUnit) {
+            dashes++;
+            dashTime = System.nanoTime();
+            level.regenDash.play((float) 0.3);
+        }
+
         if (gelShield > 0 && System.nanoTime() - gelTime > timeUnit ) {
             gelTime = System.nanoTime();
             gelShield -= 5;
