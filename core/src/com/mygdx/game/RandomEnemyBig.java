@@ -13,8 +13,10 @@ public class RandomEnemyBig extends RandomEnemy {
 	
 	public RandomEnemyBig(int x, int y, MapHandler map) {
 		super(x, y, map);
-		covidOffset = 64;
-		this.covidBox = new SafeDistance(this.x-covidOffset, this.y-covidOffset, 192, 192);
+		// covidOffset = 64;
+		covidOffsetX = (192 - (int) hitbox.width) / 2;
+		covidOffsetY = (192 - (int) hitbox.height) / 2;
+		this.covidBox = new SafeDistance(this.x-covidOffsetX, this.y-covidOffsetY, 192, 192);
 		speed = 2;
 		maxDisplacement = 800;
 		dialogue.add("Me da miedo toser");

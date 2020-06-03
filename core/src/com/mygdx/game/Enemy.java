@@ -5,16 +5,21 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  *
@@ -28,10 +33,26 @@ public class Enemy extends Entity {
 	int direction; //1D movement
 	MapHandler map;
 	int covidOffset;
+	int covidOffsetX;
+	int covidOffsetY;
 	BitmapFont font;
 	ArrayList<String> dialogue;
 	String diagLine;
 	protected boolean willTalk;
+
+	Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
+    int animationState = -1;
+    // Estatico
+    // 0 frontal
+    // 1 derecha
+    // 2 izquierda
+    // 3 atras
+    
+    Texture walkSheet; // Spritesheet de animacion
+	float stateTime; // Tiempo de animacion
+	
+	float lastX;
+	float lastY;
 
 
 	/**
@@ -43,14 +64,10 @@ public class Enemy extends Entity {
 	public Enemy(int x, int y, MapHandler map)
 	{
 		super(x, y);
-		covidOffset = 32;
 		this.img = new Texture("man.png");
 		this.hitbox = new Rectangle();
-		hitbox.width = 64;
-		hitbox.height = 64;
 		hitbox.x = x;
 		hitbox.y = y;
-		covidBox = new SafeDistance(x-covidOffset, y-covidOffset, 128, 128);
 		speed = 1;
 		direction = -1;
 		this.map = map;
@@ -69,6 +86,35 @@ public class Enemy extends Entity {
 
 		diagLine = "";
 		willTalk = false;
+
+		int spritesheetRows = 4;
+		int spritesheetCols = 4;
+		
+		walkSheet = new Texture(Gdx.files.internal("enemy_spritesheet.png"));
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
+				walkSheet.getWidth() / spritesheetCols,
+                walkSheet.getHeight() / spritesheetRows);
+
+		// Asignación del hitbox con el tamaño de la sprite
+        // La spritesheet tiene 4 frames por fila y columna, sin separación
+        hitbox.width = walkSheet.getWidth() / spritesheetCols;
+		hitbox.height = walkSheet.getHeight() / spritesheetRows;
+		
+		covidOffsetX = (128 - (int) hitbox.width) / 2;
+		covidOffsetY = (128 - (int) hitbox.height) / 2;
+		covidBox = new SafeDistance(x - covidOffsetX, y - covidOffsetY, 128, 128);
+
+        // Asignacion de animaciones
+        walkAnimation = new Vector<Animation<TextureRegion>>();
+        for (int i = 0; i < spritesheetRows; i++) {
+            TextureRegion[] walkFrames = new TextureRegion[4];
+            for (int j = 0; j < spritesheetCols; j++) {
+                walkFrames[j] = tmp[i][j];
+            }
+            walkAnimation.add(new Animation<TextureRegion>(0.25f, walkFrames));
+        }
+        
+        stateTime = 0f;
 		
 	}
 
@@ -137,15 +183,33 @@ public class Enemy extends Entity {
 		moveLeftRight();
 		hitbox.x = x;
 		hitbox.y = y;
-		covidBox.tick(x-covidOffset, y-covidOffset);
+		covidBox.tick(x - covidOffsetX, y - covidOffsetY);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
+		stateTime += Gdx.graphics.getDeltaTime();
+
+		if (lastX > x) animationState = 1;
+		else if (lastX < x) animationState = 2;
+		else if (lastY > y) animationState = 0;
+		else if (lastY < y) animationState = 3;
+		else animationState = -1;
+
+		if (animationState == -1) {
+            // El frame 0 es una posicion estatica
+            batch.draw(walkAnimation.get(0).getKeyFrame(0), x, y);
+        } else {
+            // Dibuja el frame correspondiente a la animacion
+            batch.draw(walkAnimation.get(animationState).getKeyFrame(stateTime, true), x, y);
+        }
+
 		covidBox.render(batch);
-		batch.draw(img, x, y);
 
 		if (willTalk)
 			font.draw(batch, diagLine , x-32,y+80 );
+
+		lastX = x;
+		lastY = y;
 	}
 }
