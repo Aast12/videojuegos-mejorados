@@ -181,13 +181,14 @@ public class Enemy extends Entity {
     public void tick()
     {
         moveLeftRight();
-        hitbox.x = x;
-        hitbox.y = y;
         covidBox.tick(x - covidOffsetX, y - covidOffsetY);
     }
     
     @Override
     public void render(SpriteBatch batch) {
+        hitbox.x = x;
+        hitbox.y = y;
+
         stateTime += Gdx.graphics.getDeltaTime();
         
         if (lastX > x) animationState = 1;

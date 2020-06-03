@@ -24,8 +24,8 @@ public class SafeDistance extends Entity {
     public SafeDistance(int x, int y, int w, int h) {
         super(x, y);
         hitbox = new Rectangle();
-        hitbox.width = w;
-        hitbox.height = h;
+        hitbox.width = w - 32;
+        hitbox.height = h - 32;
         if (w == 192)
             img = new Texture("big_covid_radius.png");
         else
@@ -42,8 +42,8 @@ public class SafeDistance extends Entity {
         this.x = x;
         this.y = y;
         
-        hitbox.x = x;
-        hitbox.y = y;
+        hitbox.x = x + 16;
+        hitbox.y = y - 16;
         
     }
     
