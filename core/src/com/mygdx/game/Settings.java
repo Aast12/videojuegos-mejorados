@@ -44,7 +44,7 @@ public class Settings implements Screen {
     String musicVol;
     private int currentMusicVol;
     private int currentFxVol;
-    private String[] difficulties = {"easy", "normal", "hard"};
+    private String[] difficulties = {"facil", "normal", "dificil"};
     private int index = 1;
     private String currentDifficulty;
     
@@ -219,11 +219,11 @@ public class Settings implements Screen {
         //currentDifficulty = difficulties[index];
         batch.begin();
         batch.draw(background, 0, 0);
-        font.draw(batch, "SETTINGS", Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 + 100);
-        font.draw(batch, "Difficulty:", Gdx.graphics.getWidth() / 2 - 120 - 105, Gdx.graphics.getHeight() / 2 - 100 + 20);
+        font.draw(batch, "OPCIONES", Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 + 100);
+        font.draw(batch, "Dificultad:", Gdx.graphics.getWidth() / 2 - 120 - 105, Gdx.graphics.getHeight() / 2 - 100 + 20);
         // font.draw(batch, currentDifficulty, Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);
         font.draw(batch, game.globals.difficulties[game.globals.index], Gdx.graphics.getWidth() / 2 - 20, Gdx.graphics.getHeight() / 2 - 100 + 20);
-        font.draw(batch, "Music volume:", Gdx.graphics.getWidth() / 2 - 120 - 140, Gdx.graphics.getHeight() / 2 - 150 + 20);
+        font.draw(batch, "Volumen:", Gdx.graphics.getWidth() / 2 - 120 - 140, Gdx.graphics.getHeight() / 2 - 150 + 20);
         // font.draw(batch, Integer.toString(currentMusicVol), Gdx.graphics.getWidth() / 2 - 10, Gdx.graphics.getHeight() / 2 - 150 + 20);
         font.draw(batch, Integer.toString(game.globals.musicVolume), Gdx.graphics.getWidth() / 2 - 10, Gdx.graphics.getHeight() / 2 - 150 + 20);
         batch.end();
