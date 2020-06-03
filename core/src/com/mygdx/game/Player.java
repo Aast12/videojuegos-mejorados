@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package com.mygdx.game;
 
 import java.util.Vector;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Player extends Entity {
-
+    
     private double acceleration; // velocidad aumentada por el dash
     private int health; // la vida del jugador
     private Level level; // cambar a futuro por Level
@@ -26,7 +26,7 @@ public class Player extends Entity {
     private int dashes, geles, gelShield;
     private long timeUnit = 1000000000;
     private double dashTimeProportion = 0.2;
-
+    
     Vector<Animation<TextureRegion>> walkAnimation; // Lista de animaciones de caminata
     int animationState = -1;
     // Estatico
@@ -37,7 +37,7 @@ public class Player extends Entity {
     
     Texture walkSheet; // Spritesheet de animacion
     float stateTime; // Tiempo de animacion
-
+    
     /**
      * constructor de player
      * @param x coordenada en x
@@ -56,20 +56,20 @@ public class Player extends Entity {
         health = 100;
         isDashing = false;
         lastHit = System.nanoTime();
-
+        
         int spritesheetRows = 4;
         int spritesheetCols = 4;
-
+        
         walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
-				walkSheet.getWidth() / spritesheetCols,
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
+                walkSheet.getWidth() / spritesheetCols,
                 walkSheet.getHeight() / spritesheetRows);
-
+        
         // Asignación del hitbox con el tamaño de la sprite
         // La spritesheet tiene 4 frames por fila y columna, sin separación
         hitbox.width = walkSheet.getWidth() / spritesheetCols;
         hitbox.height = walkSheet.getHeight() / spritesheetRows;
-
+        
         // Asignacion de animaciones
         walkAnimation = new Vector<Animation<TextureRegion>>();
         for (int i = 0; i < spritesheetRows; i++) {
@@ -81,37 +81,37 @@ public class Player extends Entity {
         }
         
         stateTime = 0f;
-
+        
         geles = 3;
         gelShield = 0;
         dashes = 3;
-
+        
     }
-
+    
     /**
      * getter de la vida
      * @return la vida del jugador
      */
     public int getHealth() {return health;}
-
+    
     /**
      * getter de los dashes
      * @return cantidad de dashes
      */
     public int getDashes() {return dashes;}
-
+    
     /**
      * getter del escudo
      * @return magnitud del escudo
      */
     public int getShield() {return gelShield;}
-
+    
     /**
      * getter de los geles
      * @return cantidad de geles
      */
     public int getGel() {return geles;}
-
+    
     /**
      * Aqui se hace el movimiento del jugador
      */
@@ -119,7 +119,7 @@ public class Player extends Entity {
     {
         stateTime += Gdx.graphics.getDeltaTime();
         double dx = 0, dy = 0;
-
+        
         hitbox.x = x;
         hitbox.y = y;
         // Reinicia la animacion a posicion estatica
@@ -129,13 +129,13 @@ public class Player extends Entity {
             isDashing = false;
             acceleration = 0;
         }
-
+        
         if ( dashes < 3 && !isDashing && System.nanoTime() - dashTime > 2 * timeUnit) {
             dashes++;
             dashTime = System.nanoTime();
             level.regenDash.play((float) 0.3);
         }
-
+        
         if (gelShield > 0 && System.nanoTime() - gelTime > timeUnit ) {
             gelTime = System.nanoTime();
             gelShield -= 5;
@@ -173,7 +173,7 @@ public class Player extends Entity {
             x += dx;
             y += dy;
         }
-
+        
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {// GELES
             if (geles > 0) {
                 geles--;
@@ -200,7 +200,7 @@ public class Player extends Entity {
                     }
                 }
             }
-
+            
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {// DASH
             if (dashes > 0) {
@@ -230,7 +230,7 @@ public class Player extends Entity {
         if (health <= 0){
             level.setLost(true);
         }
-
+        
         // Se gana teniendo el item y yendo al final
         if (level.endpoint.overlaps(hitbox)) { // goes to ending point
             int itemsRemaining = 0;
@@ -242,7 +242,7 @@ public class Player extends Entity {
             }
         }
     }
-
+    
     @Override
     public void render(SpriteBatch batch) {
         if (animationState == -1) {

@@ -18,28 +18,28 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * Clase para administrar los elementos del HUD del juego.
- * 
- * 
+ *
+ *
  * @author Alam Sanchez
  * @author davidg
  */
 public class HUD {
     private Stage stage;
     private Skin skin;
-
+    
     private ColorDrawable lightUIColor;
     private ColorDrawable darkUIColor;
     private ColorDrawable lightGreenColor;
     private ColorDrawable darkGreenColor;
     private ColorDrawable lightBlueColor;
     private ColorDrawable darkBlueColor;
-
+    
     private Table bottomBar;
     private Label healthLabel;
     private Table itemSection;
     private Vector<Table> items;
     private Container<Label> timerField;
-    private Label timerLabel;    
+    private Label timerLabel;
     private Container<Label> dayField;
     private Label dayLabel;
     private Container<Label> punctuationField;
@@ -55,25 +55,25 @@ public class HUD {
             add(12f); // desaparición
         }
     };
-
+    
     private Container<Image> statusContainer;
     Image statusIndicators[];
     private Vector<Container<Image>> dashes;
     private Vector<Container<Image>> gel;
     private HashMap<String, ItemGroup> itemsData;
-
+    
     private String format;
     private DecimalFormat decimalFormat;
-
+    
     /**
      * Constructor del HUD
-     * 
+     *
      * @param itemMap lista de items a mostrar en el HUD
      */
     HUD(HashMap<String, ItemGroup> itemMap) {
         format = "000";
         decimalFormat = new DecimalFormat(format);
-
+        
         // Declaración de colores para UI
         lightUIColor = new ColorDrawable(86f / 255, 108f / 255, 134f / 255, 0.9f);
         darkUIColor = new ColorDrawable(51f / 255, 60f / 255, 87f / 255, 0.9f);
@@ -81,13 +81,13 @@ public class HUD {
         darkGreenColor = new ColorDrawable(56f / 255, 183f / 255, 100f / 255, 0.9f);
         lightBlueColor = new ColorDrawable(65f / 255, 165f / 255, 246f / 255, 0.9f);
         darkBlueColor = new ColorDrawable(59f / 255, 93f / 255, 201f / 255, 0.9f);
-
+        
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-
+        
         // Sección de items en esquina superior izquierda
         itemsData = itemMap;
-
+        
         itemSection = new Table(skin);
         itemSection.setHeight(72);
         itemSection.setWidth(64 * 3 + 16);
@@ -112,7 +112,7 @@ public class HUD {
             itemsData.get(key).setIndexList(idx);
             idx++;
         }
-
+        
         stage.addActor(itemSection);
         
         // Campos de datos de tiempo
@@ -123,7 +123,7 @@ public class HUD {
         timerField.setHeight(40);
         timerField.setBackground(lightUIColor);
         stage.addActor(timerField);
-
+        
         dayLabel = new Label("Apr. 5", skin);
         dayField = new Container<Label>(dayLabel);
         dayField.setPosition(stage.getViewport().getScreenWidth() - 145, stage.getViewport().getWorldHeight() - 40);
@@ -131,7 +131,7 @@ public class HUD {
         dayField.setHeight(40);
         dayField.setBackground(darkUIColor);
         stage.addActor(dayField);
-
+        
         // Campo de puntuación
         punctuationLabel = new Label("0", skin);
         punctuationField = new Container<Label>(punctuationLabel);
@@ -140,7 +140,7 @@ public class HUD {
         punctuationField.setHeight(40);
         punctuationField.setBackground(lightUIColor);
         stage.addActor(punctuationField);
-
+        
         // Pop-Up
         popupLabel = new Label("Pop Up", skin);
         popupField = new Container<Label>(popupLabel);
@@ -150,17 +150,17 @@ public class HUD {
         popupField.setBackground(darkBlueColor);
         stage.addActor(popupField);
         popupField.setVisible(false);
-
+        
         hasPopup = false;
-
-        // Barra inferior 
-        bottomBar = new Table(skin);        
+        
+        // Barra inferior
+        bottomBar = new Table(skin);
         bottomBar.setWidth(stage.getViewport().getScreenWidth());
         bottomBar.setHeight(80);
         bottomBar.setBackground(darkUIColor);
         bottomBar.align(Align.left);
         stage.addActor(bottomBar);
-
+        
         bottomBar.row().fill();
         healthLabel = new Label("Health: 100%", skin);
         bottomBar.add(healthLabel).padLeft(16).padRight(64);
@@ -173,19 +173,19 @@ public class HUD {
         statusContainer = new Container<Image>(statusIndicators[0]);
         statusContainer.setBackground(lightUIColor);
         bottomBar.add(statusContainer).height(80).width(80).padLeft(16).padRight(48);
-
+        
         // Declaración de dashes
         dashes = new Vector<Container<Image>>();
-
+        
         for (int i = 0; i < 3; i++) {
             dashes.add(new Container<Image>());
             dashes.get(i).setBackground(lightGreenColor);
             bottomBar.add(dashes.get(i)).height(21).width(21).pad(16);
         }
-
+        
         // Declaración de geles
         gel = new Vector<Container<Image>>();
-
+        
         for (int i = 0; i < 3; i++) {
             Image gelImg = new Image(new Texture("gel.png"));
             gelImg.setWidth(20f);
@@ -194,31 +194,31 @@ public class HUD {
             bottomBar.add(gel.get(i)).height(55).width(40).pad(16);
         }
     }
-
+    
     /**
      * Actualiza la etiqueta de tiempo
-     * 
+     *
      * @param seconds segundos a mostrar en la etiqueta
      */
     public void setTime(int seconds)  { timerLabel.setText(decimalFormat.format(seconds) + "s"); }
-
+    
     /**
      * Actualiza la etiqueta de puntuación
-     * 
+     *
      * @param points puntos a asignar
      */
     public void setPunctuation(int points) { punctuationLabel.setText("Score: " + points); }
-
+    
     /**
      * Actualiza la etiqueta de la fecha
-     * 
+     *
      * @param date nueva fecha a asignar
      */
     public void setDate(String date)  { dayLabel.setText(date); }
-
+    
     /**
      * Actualiza la etiqueta de la vida del jugador y su escudo
-     * 
+     *
      * @param health puntos de vida del jugador
      * @param shield puntos de escudo del jugador
      */
@@ -245,11 +245,11 @@ public class HUD {
         }
         healthLabel.setText("HEALTH : " + Integer.toString(health + shield) + "%");
     }
-  
-
+    
+    
     /**
      * Actualiza el contador visual de dashes
-     * 
+     *
      * @param available la cantidad de dashes disponibles
      */
     public void setDash(int available) {
@@ -260,10 +260,10 @@ public class HUD {
             dashes.get(i).setBackground(lightGreenColor);
         }
     }
-
+    
     /**
      * Actualiza el contador visual de geles antibacteriales
-     * 
+     *
      * @param available la cantidad
      */
     public void setGel(int available) {
@@ -274,7 +274,7 @@ public class HUD {
             gel.get(i).setColor(1f, 1f, 1f, 1f);
         }
     }
-
+    
     /**
      * Actualiza el estado del HUD
      */
@@ -305,7 +305,7 @@ public class HUD {
             }
         }
     }
-
+    
     public void triggerPopup(String message) {
         popupField.setVisible(true);
         popupLabel.setText(message);
@@ -313,7 +313,7 @@ public class HUD {
         popupTime = 0;
         hasPopup = true;
     }
-
+    
     /**
      * Muestra el HUD en pantalla
      */
@@ -321,7 +321,7 @@ public class HUD {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
-
+    
     /**
      * Libera los recursos utilizados por el HUD
      */
@@ -329,6 +329,6 @@ public class HUD {
         stage.dispose();
         skin.dispose();
     }
-
+    
     
 }

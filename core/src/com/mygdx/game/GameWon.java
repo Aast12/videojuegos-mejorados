@@ -25,7 +25,7 @@ public class GameWon implements Screen {
     Skin skin;
     TextureAtlas buttonAtlas;
     SpriteBatch batch;
-
+    
     /**
      * Inicaliza la pantalla de terminar el juego
      * @param game
@@ -46,7 +46,7 @@ public class GameWon implements Screen {
         textButtonStyle.down = skin.getDrawable("button-down");
         textButtonStyle.checked = skin.getDrawable("button-checked");
         batch = new SpriteBatch();
-
+        
         this.background = new Texture("win_screen.png");
         button = new TextButton("Restart", textButtonStyle);
         button.addListener(new InputListener()
@@ -54,9 +54,9 @@ public class GameWon implements Screen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
-
+                
             }
-
+            
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
             {
@@ -64,43 +64,43 @@ public class GameWon implements Screen {
                 return true;
             }
         });
-
+        
         stage.addActor(button);
     }
-
+    
     @Override
     public void show() {
     }
-
+    
     @Override
     public void render(float f) {
         batch.begin();
         batch.draw(background, 0, 0);
         batch.end();
         stage.draw();
-
+        
     }
-
+    
     @Override
     public void resize(int i, int i1) {
     }
-
+    
     @Override
     public void pause() {
     }
-
+    
     @Override
     public void resume() {
     }
-
+    
     @Override
     public void hide() {
     }
-
+    
     @Override
     public void dispose() {
-	    stage.dispose();
-	    batch.dispose();
+        stage.dispose();
+        batch.dispose();
     }
-
+    
 }

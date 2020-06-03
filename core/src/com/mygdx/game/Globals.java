@@ -9,16 +9,16 @@ public class Globals {
     public int musicVolume = 50;
     public int fxVolume;
     public int totalScore = 0;
-
+    
     public static HashMap<String, String> itemTypes = new HashMap<String, String>() {
         {
             put("carrot", "carrot.png");
             put("magenta", "item.png");
         }
     };
-
+    
     public static float map(float num, float in_min, float in_max, float out_min, float out_max) {
         return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
-
+    
 }

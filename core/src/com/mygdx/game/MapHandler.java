@@ -17,9 +17,9 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Clase auxiliar para renderizar mapas en pantalla y manejar las interacciones
  * con los diferentes tipos de objetos del mapa.</p>
- * 
- * Usa tilemaps en formato .tmx </p> 
- * 
+ *
+ * Usa tilemaps en formato .tmx </p>
+ *
  * @author Alam Sanchez
  */
 public class MapHandler {
@@ -30,7 +30,7 @@ public class MapHandler {
     
     /**
      * Crea un objeto MapHandler para manejar un tilemap.
-     * 
+     *
      * @param file ruta del archivo .tmx
      * @param camera camara para visualizar el mapa
      */
@@ -39,19 +39,19 @@ public class MapHandler {
         this.renderer = new OrthogonalTiledMapRenderer(map, 1);
         this.camera = camera;
     }
-
+    
     /**
      * Asigna una camara para ver el mapa.
-     * 
+     *
      * @param camera nueva camara para visualizar el mapa
      */
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
     }
-
+    
     /**
      * Aplica una función en todos los objetos de una capa del mapa.
-     * 
+     *
      * @param layerName nombre de la capa de objetos
      * @param fn objeto Lambda con la función a aplicar
      * @param onProperties bandera determina si se mandan las propiedades el objeto del mapa a la lambda o el mismo objeto
@@ -69,22 +69,22 @@ public class MapHandler {
             }
         }
     }
-
+    
     /**
      * Regresa un objeto del mapa dado su nombre y la capa en la que se encuentra.
-     * 
+     *
      * @param layerName nombre de la capa para buscar
      * @param objectName nombre del objeto dentro de la capa
      */
     public MapObject getObjectFromLayer(String layerName, String objectName) {
         return map.getLayers().get(layerName).getObjects().get(objectName);
     }
-
-
+    
+    
     /**
-     * Indica si un rectangulo colisiona con alguno de los objetos 
+     * Indica si un rectangulo colisiona con alguno de los objetos
      * rectangulares de una capa del mapa.
-     * 
+     *
      * @param layerName nombre de la capa de la colision
      * @param rect objecto Rectangle de la colision
      * @return booleano que representa si hay o no una colision
@@ -98,10 +98,10 @@ public class MapHandler {
         }
         return false;
     }
-
+    
     /**
      * Renderiza el mapa en pantalla.
-     * 
+     *
      * @param batch objeto Batch usado para dibujar en la pantalla
      */
     public void render(Batch batch) {
@@ -111,7 +111,7 @@ public class MapHandler {
         batch.setProjectionMatrix(camera.combined);
         batch.end();
     }
-
+    
     /**
      * Libera los recursos utilizados por los miembros de la instancia.
      */

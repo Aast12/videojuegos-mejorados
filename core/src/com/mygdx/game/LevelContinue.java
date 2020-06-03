@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.Align;
  * @author Alam Sanchez
  */
 public class LevelContinue implements Screen {
-
+    
     private VMGame game; // para dibujar la pantalla
     private SpriteBatch batch; // para dibujar la pantalla
     private TextButton continueButton;
@@ -47,7 +47,7 @@ public class LevelContinue implements Screen {
         nextLevel = nextlvl;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
-
+        
         this.batch = new SpriteBatch();
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -67,18 +67,18 @@ public class LevelContinue implements Screen {
         continueButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 140);
         continueButton.setHeight(32);
         continueButton.addListener(
-            new InputListener() { 
-                @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                new InputListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        
+                    }
                     
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game, nextLevel);
+                        return true;
+                    }
                 }
-
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game, nextLevel);
-                    return true;
-                }
-            }
         );
         
         
@@ -86,18 +86,18 @@ public class LevelContinue implements Screen {
         saveButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 170);
         saveButton.setHeight(32);
         saveButton.addListener(
-            new InputListener() { 
-                @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                new InputListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        
+                    }
                     
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        game.dataManager.setValues(game.globals.totalScore, nextLevel);
+                        return true;
+                    }
                 }
-
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    game.dataManager.setValues(game.globals.totalScore, nextLevel);
-                    return true;
-                }
-            }
         );
         
         
@@ -105,21 +105,21 @@ public class LevelContinue implements Screen {
         quitButton.setPosition(Gdx.graphics.getWidth() / 2 - 50, Gdx.graphics.getHeight() / 2 - 200);
         quitButton.setHeight(32);
         quitButton.addListener(
-            new InputListener() { 
-                @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                new InputListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        
+                    }
                     
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game, 1);
+                        return true;
+                    }
                 }
-
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenHandler.getInstance().showScreen(ScreenEnum.MAIN_MENU, game, 1);
-                    return true;
-                }
-            }
         );
         
-
+        
         Table contentTable = new Table(skin);
         contentTable.setHeight(Gdx.graphics.getHeight());
         contentTable.setWidth(Gdx.graphics.getWidth());
@@ -136,7 +136,7 @@ public class LevelContinue implements Screen {
         controlsLabel.setFontScale(0.75f);
         controlsLabel.setWrap(true);
         controlsLabel.setAlignment(Align.center);
-
+        
         contentTable.row().fillX();
         contentTable.add(headerLabel).height(32).expandX();
         contentTable.row().fillX();
@@ -152,7 +152,7 @@ public class LevelContinue implements Screen {
         buttonsTable.add(saveButton).height(32);
         buttonsTable.row().fill();
         buttonsTable.add(quitButton).height(32);
-
+        
         contentTable.row().fillX();
         contentTable.add(buttonsTable).expandX().pad(16, 0, 16, 0);
         
@@ -161,9 +161,9 @@ public class LevelContinue implements Screen {
     
     @Override
     public void show() {
-
+        
     }
-
+    
     /**
      * Para dibujar el menu de level overlay.
      *
@@ -177,31 +177,31 @@ public class LevelContinue implements Screen {
         batch.end();
         stage.draw();
     }
-
+    
     @Override
     public void resize(int width, int height) {
-
+        
     }
-
+    
     @Override
     public void pause() {
-
+        
     }
-
+    
     @Override
     public void resume() {
-
+        
     }
-
+    
     @Override
     public void hide() {
-
+        
     }
-
+    
     @Override
     public void dispose() {
-	    batch.dispose();
-	    stage.dispose();
-	
+        batch.dispose();
+        stage.dispose();
+        
     }
 }

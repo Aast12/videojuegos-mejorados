@@ -8,17 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Clase para generar una textura para rellenar de color a elementos de UI.
- * 
+ *
  * @author Alam Sanchez
  */
 public class ColorDrawable extends TextureRegionDrawable {
     private float r, g, b, a;
     private Color color;
     public Pixmap bgPixmap;
-
+    
     /**
      * Constructor de la textura de color
-     * 
+     *
      * @param r valor del canal rojo
      * @param g valor del canal verde
      * @param b valor del canal azul
@@ -34,12 +34,12 @@ public class ColorDrawable extends TextureRegionDrawable {
         bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA4444);
         bgPixmap.setColor(color);
         bgPixmap.fill();
-
+        
         this.setRegion(new TextureRegion(new Texture(bgPixmap)));
     }
     
     /**
-     * 
+     *
      * @return el color de la textura
      */
     public Color getColor() { return color; }
