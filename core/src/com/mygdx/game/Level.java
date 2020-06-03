@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Level implements Screen {
+    private int level;
     private boolean win, lost;
     private int levelSeconds, points, minItems = 0;
     float timeSeconds = 0f;
@@ -26,7 +26,6 @@ public class Level implements Screen {
     OrthographicCamera camera;
 
     Music levelMusic; // musica de menu
-    Sound regenDash; // sonido de regeneracion de dash
     Player player; // entidad que controlara el usuario
 
     SpriteBatch batch; // servira para hacer render de los objetos
@@ -44,13 +43,13 @@ public class Level implements Screen {
      * @param seconds segundos para que se acabe el contrarreloj
 	 * @param g
      */
-    public Level (int seconds, VMGame g) {
+    public Level (int seconds, VMGame g, String mapFile, int lvl) {
         this.game = g;
+        level = lvl;
         this.win = false;
         this.lost = false;
         this.levelSeconds = seconds;
         this.points = 0;
-        regenDash = Gdx.audio.newSound(Gdx.files.internal("obtDash.mp3"));
         levelMusic = Gdx.audio.newMusic(Gdx.files.internal("TheJ.mp3"));
         levelMusic.setVolume((float) (0.1 * game.globals.musicVolume));
         
@@ -58,7 +57,8 @@ public class Level implements Screen {
         camera = new OrthographicCamera(800, 600);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
-        mymap = new MapHandler("maps/level0.tmx", camera);
+        //mymap = new MapHandler("maps/example/mapv3.tmx", camera);
+        mymap = new MapHandler(mapFile, camera);
         map = mymap.map;
         batch = new SpriteBatch();
 
@@ -122,7 +122,7 @@ public class Level implements Screen {
         hud.setDash(player.getDashes());
         hud.setGel(player.getGel());
 
-        hud.triggerPopup("Hey esto es un popusaadsd");
+        hud.triggerPopup("Level" + Integer.toString(lvl));
 
 
     }
@@ -137,6 +137,14 @@ public class Level implements Screen {
                 }
             }
         }
+    }
+
+    public int getLevel(){
+        return level;
+    }
+
+    public void setLevel(int l){
+        this.level = l;
     }
 
     public HashMap<String, ItemGroup> getGroup() {return group;}
@@ -292,10 +300,32 @@ public class Level implements Screen {
             hud.tick();
 
         if (getWin()) 
-        {
+        {   
+            setLevel(getLevel() + 1);
             points += player.getHealth() * (game.globals.index + 1) * 2;
             points += levelSeconds * 3 * (game.globals.index + 1);
-            ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
+            switch(getLevel()){
+                case 2: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL2, game);
+                break;
+                case 3: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL3, game);
+                break;
+                case 4: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL4, game);
+                break;
+                case 5: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL5, game);
+                break;
+                case 6: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL6, game);
+                break;
+                case 7: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL7, game);
+                break;
+                case 8: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL8, game);
+                break;             
+                case 9: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL9, game);
+                break;   
+                case 10: ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL10, game);
+                break;
+                default:
+                ScreenHandler.getInstance().showScreen(ScreenEnum.GAME_WON, game);
+            }
         }
 
 	    if (getLost())

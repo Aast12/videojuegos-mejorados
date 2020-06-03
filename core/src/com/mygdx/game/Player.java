@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-
 public class Player extends Entity {
 
     private double acceleration; // velocidad aumentada por el dash
@@ -57,24 +56,21 @@ public class Player extends Entity {
         isDashing = false;
         lastHit = System.nanoTime();
 
-        int spritesheetRows = 4;
-        int spritesheetCols = 4;
-
         walkSheet = new Texture(Gdx.files.internal("main_spritesheet.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, 
-				walkSheet.getWidth() / spritesheetCols,
-                walkSheet.getHeight() / spritesheetRows);
+				walkSheet.getWidth() / 4,
+                walkSheet.getHeight() / 4);
 
         // Asignación del hitbox con el tamaño de la sprite
         // La spritesheet tiene 4 frames por fila y columna, sin separación
-        hitbox.width = walkSheet.getWidth() / spritesheetCols;
-        hitbox.height = walkSheet.getHeight() / spritesheetRows;
+        hitbox.width = walkSheet.getWidth() / 4;
+        hitbox.height = walkSheet.getHeight() / 4;
 
         // Asignacion de animaciones
         walkAnimation = new Vector<Animation<TextureRegion>>();
-        for (int i = 0; i < spritesheetRows; i++) {
+        for (int i = 0; i < 4; i++) {
             TextureRegion[] walkFrames = new TextureRegion[4];
-            for (int j = 0; j < spritesheetCols; j++) {
+            for (int j = 0; j < 4; j++) {
                 walkFrames[j] = tmp[i][j];
             }
             walkAnimation.add(new Animation<TextureRegion>(0.25f, walkFrames));
@@ -129,13 +125,6 @@ public class Player extends Entity {
             isDashing = false;
             acceleration = 0;
         }
-
-        if ( dashes < 3 && !isDashing && System.nanoTime() - dashTime > 2 * timeUnit) {
-            dashes++;
-            dashTime = System.nanoTime();
-            level.regenDash.play((float) 0.3);
-        }
-
         if (gelShield > 0 && System.nanoTime() - gelTime > timeUnit ) {
             gelTime = System.nanoTime();
             gelShield -= 5;

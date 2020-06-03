@@ -94,7 +94,7 @@ public class MainMenu implements Screen {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game);
+                    ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL2, game);
                     return true;	
                 }
             }

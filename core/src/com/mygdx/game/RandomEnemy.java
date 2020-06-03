@@ -139,7 +139,7 @@ public class RandomEnemy extends Enemy {
 		moveRandom();	
 		hitbox.x = x;
 		hitbox.y = y;
-		covidBox.tick(x - covidOffsetX, y - covidOffsetY);
+		covidBox.tick(x-covidOffset, y-covidOffset);
 	}
 	
 }
