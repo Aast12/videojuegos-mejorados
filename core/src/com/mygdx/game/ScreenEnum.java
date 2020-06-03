@@ -41,21 +41,21 @@ public enum ScreenEnum {
             switch(lvl){
                 case 1: time = 80; map = "maps/alam_level1.tmx";
                 break;
-                case 2: time = 40; map = "mapTest.tmx";
+                case 2: time = 80; map = "maps/alam_level1.tmx";
                 break;
-                case 3: time = 40; map = "mapTest.tmx";
+                case 3: time = 80; map = "maps/E1map.tmx";
                 break;
-                case 4: time = 40; map = "mapTest.tmx";
+                case 4: time = 80; map = "maps/E2map.tmx";
                 break;
                 case 5: time = 80; map = "KMap.tmx";
                 break;
-                case 6: time = 40; map = "mapTest.tmx";
+                case 6: time = 80; map = "maps/E2map.tmx";
                 break;
-                case 7: time = 40; map = "mapTest.tmx";
+                case 7: time = 80; map = "maps/DMap1.tmx";
                 break;
-                case 8: time = 40; map = "mapTest.tmx";
+                case 8: time = 80; map = "maps/DMap2.tmx";
                 break;
-                case 9: time = 40; map = "mapTest.tmx";
+                case 9: time = 80; map = "maps/DMap3.tmx";
                 break;
                 case 10: time = 80; map = "mapv3.tmx";
             }
