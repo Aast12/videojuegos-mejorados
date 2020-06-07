@@ -81,10 +81,9 @@ public class GameOver implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
             {
+                game.globals.totalScore = game.dataManager.getTotalScore();
 		int level = game.dataManager.getCurrLevel();
-		if (level == -1);
-			level = 1;
-                ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL, game, level);
+                ScreenHandler.getInstance().showScreen(ScreenEnum.LEVEL_OVERLAY, game, game.dataManager.getCurrLevel());
                 return true;
             }
         });
